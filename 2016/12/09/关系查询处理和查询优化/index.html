@@ -1,0 +1,1124 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="关系数据库系统的查询处理查询处理时关系数据库管理系统执行查询语句的过程，其任务是把用户提交给关系数据库管理系统的查询语句转换为高效的查询执行计划。">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关系查询处理和查询优化">
+<meta property="og:url" content="http://zlw.poker/2016/12/09/关系查询处理和查询优化/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="关系数据库系统的查询处理查询处理时关系数据库管理系统执行查询语句的过程，其任务是把用户提交给关系数据库管理系统的查询语句转换为高效的查询执行计划。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%85%B3%E7%B3%BB%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86%E5%92%8C%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%961.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:55:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关系查询处理和查询优化">
+<meta name="twitter:description" content="关系数据库系统的查询处理查询处理时关系数据库管理系统执行查询语句的过程，其任务是把用户提交给关系数据库管理系统的查询语句转换为高效的查询执行计划。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%85%B3%E7%B3%BB%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86%E5%92%8C%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%961.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/09/关系查询处理和查询优化/"/>
+
+
+  <title> 关系查询处理和查询优化 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                关系查询处理和查询优化
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-09T10:02:19+08:00" content="2016-12-09">
+              2016-12-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/数据库系统概论/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库系统概论</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/09/关系查询处理和查询优化/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/09/关系查询处理和查询优化/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关系数据库系统的查询处理"><a href="#关系数据库系统的查询处理" class="headerlink" title="关系数据库系统的查询处理"></a>关系数据库系统的查询处理</h1><p>查询处理时关系数据库管理系统执行查询语句的过程，其任务是把用户提交给关系数据库管理系统的查询语句转换为高效的查询执行计划。<a id="more"></a></p>
+<h2 id="查询处理步骤"><a href="#查询处理步骤" class="headerlink" title="查询处理步骤"></a>查询处理步骤</h2><p>关系数据库管理系统查询处理阶段：查询分析、查询检查、查询优化和查询执行。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E5%85%B3%E7%B3%BB%E6%9F%A5%E8%AF%A2%E5%A4%84%E7%90%86%E5%92%8C%E6%9F%A5%E8%AF%A2%E4%BC%98%E5%8C%961.PNG" alt="关系查询处理和查询优化1"></p>
+<h2 id="实现查询操作的算法示例"><a href="#实现查询操作的算法示例" class="headerlink" title="实现查询操作的算法示例"></a>实现查询操作的算法示例</h2><p>选择操作的实现<br>选择操作典型实现方法：</p>
+<ul>
+<li>全表扫描方法 (Table Scan)<ul>
+<li>对查询的基本表顺序扫描，逐一检查每个元组是否满足选择条件，把满足条件的元组作为结果输出 </li>
+<li>适合小表，不适合大表</li>
+</ul>
+</li>
+<li>索引扫描方法 (Index Scan)<ul>
+<li>适合于选择条件中的属性上有索引(例如B+树索引或Hash索引) </li>
+<li>通过索引先找到满足条件的元组主码或元组指针，再通过元组指针直接在查询的基本表中找到元组</li>
+</ul>
+</li>
+</ul>
+<p>连接操作的实现</p>
+<ul>
+<li>连接操作是查询处理中最耗时的操作之一 </li>
+<li>等值连接(或自然连接)最常用的实现算法 <ul>
+<li>嵌套循环算法(nested loop join) </li>
+<li>排序-合并算法(sort-merge join 或merge join)</li>
+<li>索引连接(index join)算法 </li>
+<li>Hash Join算法 </li>
+</ul>
+</li>
+</ul>
+<h1 id="关系数据库系统的查询优化"><a href="#关系数据库系统的查询优化" class="headerlink" title="关系数据库系统的查询优化"></a>关系数据库系统的查询优化</h1><p>查询优化在关系数据库系统中有着非常重要的地位。关系数据库系统和非过程化的SQL之所以能够取得巨大成功，关键是得益于查询优化技术的发展。关系查询优化是影响关系数据库管理系统性能的关键因素。</p>
+<h2 id="查询优化概述"><a href="#查询优化概述" class="headerlink" title="查询优化概述"></a>查询优化概述</h2><p>查询优化分类</p>
+<ul>
+<li>代数优化</li>
+<li>物理优化</li>
+</ul>
+<p>查询优化的优点</p>
+<ul>
+<li>用户不必考虑如何最好地表达查询以获得较好的效率</li>
+<li>系统可以比用户程序的“优化”做得更好 <ul>
+<li>优化器可以从数据字典中获取许多统计信息，而用户程序则难以获得这些信息。</li>
+<li>如果数据库的物理统计信息改变了，系统可以自动对查询重新优化以选择相适应的执行计划。在非关系系统中必须重写程序，而重写程序在实际应用中往往是不太可能的。</li>
+<li>优化器可以考虑数百种不同的执行计划，程序员一般只能考虑有限的几种可能性。</li>
+<li>优化器中包括了很多复杂的优化技术，这些优化技术往往只有最好的程序员才能掌握。系统的自动优化相当于使得所有人都拥有这些优化技术。</li>
+</ul>
+</li>
+</ul>
+<p>关系数据库管理系统通过某种代价模型计算出各种查询执行策略的执行代价，然后选取代价最小的执行方案。</p>
+<p>查询优化的总目标</p>
+<ul>
+<li>选择有效的策略</li>
+<li>求得给定关系表达式的值</li>
+<li>使得查询代价最小(实际上是较小) </li>
+</ul>
+<h1 id="代数优化"><a href="#代数优化" class="headerlink" title="代数优化"></a>代数优化</h1><h2 id="关系代数表达式等价变换规则"><a href="#关系代数表达式等价变换规则" class="headerlink" title="关系代数表达式等价变换规则"></a>关系代数表达式等价变换规则</h2><p>代数优化策略：通过对关系代数表达式的等价变换来提高查询效率</p>
+<p>关系代数表达式的等价：指用相同的关系代替两个表达式中相应的关系所得到的结果是相同的</p>
+<p>常用的等价变换规则：</p>
+<ol>
+<li>连接、笛卡尔积交换律<br>设E1和E2是关系代数表达式，F是连接运算的条件，则有<ul>
+<li>$E_1\times E_2\equiv E_2\times E_1$</li>
+<li>$E_1\bowtie E_2\equiv E_2\bowtie E_1$</li>
+<li>$E_1\underset F{\bowtie}E_2\equiv E_2\underset F{\bowtie}E_1$</li>
+</ul>
+</li>
+<li>连接、笛卡尔积的结合律<br>设E1，E2，E3是关系代数表达式，F1和F2是连接运算的条件，则有<ul>
+<li>$(E_1\times E_2)\times E_3\equiv E_1\times(E_2\times E_3)$</li>
+<li>$(E_1\bowtie E_2)\bowtie E_3\equiv E_1\bowtie (E_2\bowtie E_3)$</li>
+<li>$(E_1\underset {F_1}{\bowtie}E_2)\underset{F_2}{\bowtie}E_3\equiv E_1\underset {F_1}{\bowtie}(E_2\underset{F_2}{\bowtie}E_3)$</li>
+</ul>
+</li>
+<li>投影的串接定律<br>$${\Pi}_{A_1,A_2,…,A_n}({\Pi}_{B_1,B_2,…,B_m}(E))\equiv{\Pi}_{A_1,A_2,…,A_n}(E)$$<br>这里，E是关系代数表达式，$A_i(i=1,2,…,n)$、$B_j(j=1,2,…,m)$是属性名，且$\lbrace A_1,A_2,…,A_n\rbrace$构成$\lbrace B_1,B_2,…,B_m\rbrace$的子集。</li>
+<li>选择的串接定律<br>$${\sigma}_{F_1}({\sigma}_{F_2}(E))\equiv{\sigma}_{F_1\wedge F_2}(E)$$<br>这里，E是关系代数表达式，F1、F2是选择条件。</li>
+<li>选择与投影操作的交换律<br>$${\sigma}_F({\Pi}_{A_1,A_2,…,A_n}(E))\equiv{\Pi}_{A_1,A_2,…,A_n}({\sigma}_F(E))$$<br>这里，选择条件F只涉及属性A1,A2,…,An。</li>
+<li>选择与笛卡尔积的交换律<ul>
+<li>如果F中涉及的属性都是E1中的属性，则${\sigma}_F(E_1\times E_2)\equiv{\sigma}_F(E_1)\times E_2$</li>
+<li>如果$F=F_1\wedge F_2$，并且F1只涉及E1中的属性，F2只涉及E2中的属性，则有上面的等价变换规则1、4、6可推出${\sigma}_F(E_1\times E_2)\equiv{\sigma}_{F_1}(E_1)\times{\sigma}_{F_2}(E_2)$</li>
+<li>如果F1只涉及E1中的属性，F2涉及E1和E2两者的属性，则仍有${\sigma}_F(E_1\times E_2)\equiv{\sigma}_{F_2}({\sigma}_{F_1}(E_1)\times E_2)$</li>
+</ul>
+</li>
+<li>选择与并的分配律<br>设$E=E_1\cup E_2$，E1、E2有相同的属性名，则<br>$${\sigma}_F(E_1\cup E_2)\equiv {\sigma}_F(E_1)\cup {\sigma}_F(E_2)$$</li>
+<li>选择与差运算的分配律<br>若E1与E2有相同的属性名，则<br>$${\sigma}_F(E_1-E_2)\equiv{\sigma}_F(E_1)-{\sigma}_F(E_2)$$</li>
+<li>选择对自然连接的分配律<br>$${\sigma}_F(E_1\bowtie E_2)\equiv {\sigma}_F(E_1)\bowtie{\sigma}_F(E_2)$$<br>F只涉及E1与E2的公共属性。</li>
+<li>投影与笛卡尔积的分配律<br>设E1和E2是两个关系表达式，$A_1,A_2,…,A_n$是E1的属性，$B_1,B_2,…,B_m$是E2的属性，则<br>$${\Pi}_{A_1,A_2,…,A_n,B_1,B_2,…,B_m}(E_1\times E_2)\equiv{\Pi}_{A_1,A_2,…,A_n}(E_1)\times{\Pi}_{B_1,B_2,…,B_m}(E_2)$$</li>
+<li>投影与并的分配律<br>设E1和E2有相同的属性名，则<br>$${\Pi}_{A_1,A_2,…,A_n}(E_1\cup E_2)\equiv{\Pi}_{A_1,A_2,…,A_n}(E_1)\cup{\Pi}_{A_1,A_2,…,A_n}(E_2)$$</li>
+</ol>
+<h2 id="查询树的启发式优化"><a href="#查询树的启发式优化" class="headerlink" title="查询树的启发式优化"></a>查询树的启发式优化</h2><p>典型的启发式规则</p>
+<ul>
+<li>选择运算应尽可能先做</li>
+<li>把投影运算和选择运算同时进行</li>
+<li>把投影同其前或其后的双目运算结合起来，没有必要为了去掉某些字段而扫描一遍关系。</li>
+<li>把某些选择同在它前面要执行的笛卡尔积结合起来成为一个连接运算，连接特别是等值连接运算要比同样关系上的笛卡尔积省很多时间。 </li>
+<li>找出公共子表达式</li>
+</ul>
+<h1 id="物理优化"><a href="#物理优化" class="headerlink" title="物理优化"></a>物理优化</h1><p>物理优化就是要选择高效合理的操作算法或存取路径，求得优化的查询计划，达到查询优化的目标。</p>
+<p>物理优化方法</p>
+<ul>
+<li>基于规则的启发式优化</li>
+<li>基于代价估算的优化</li>
+<li>两者结合的优化方法</li>
+</ul>
+<h2 id="基于启发式规则的存取路径选择优化"><a href="#基于启发式规则的存取路径选择优化" class="headerlink" title="基于启发式规则的存取路径选择优化"></a>基于启发式规则的存取路径选择优化</h2><p>选择操作的启发式规则</p>
+<ul>
+<li>对于小关系，使用全表顺序扫描，即使选择列上有索引 </li>
+<li>对于大关系，启发式规则有：<ul>
+<li>对于选择条件是“主码＝值”的查询<ul>
+<li>查询结果最多是一个元组，可以选择主码索引</li>
+<li>一般的关系数据库管理系统会自动建立主码索引</li>
+</ul>
+</li>
+<li>对于选择条件是“非主属性＝值”的查询，并且选择列上有索引<ul>
+<li>要估算查询结果的元组数目</li>
+<li>如果比例较小(&lt;10%)可以使用索引扫描方法</li>
+<li>否则还是使用全表顺序扫描</li>
+</ul>
+</li>
+<li>对于选择条件是属性上的非等值查询或者范围查询，并且选择列上有索引<ul>
+<li>要估算查询结果的元组数目<br>如果比例较小(&lt;10%)可以使用索引扫描方法<br>否则还是使用全表顺序扫描 </li>
+</ul>
+</li>
+<li>对于用AND连接的合取选择条件<ul>
+<li>如果有涉及这些属性的组合索引<br>优先采用组合索引扫描方法</li>
+<li>如果某些属性上有一般的索引，可以用索引扫描方法<br>通过分别查找满足每个条件的指针，求指针的交集<br>通过索引查找满足部分条件的元组，然后在扫描这些元组时判断是否满足剩余条件</li>
+<li>其他情况：使用全表顺序扫描</li>
+</ul>
+</li>
+<li>对于用OR连接的析取选择条件，一般使用全表顺序扫描</li>
+</ul>
+</li>
+</ul>
+<p>连接操作的启发式规则</p>
+<ul>
+<li>如果2个表都已经按照连接属性排序<ul>
+<li>选用排序-合并算法</li>
+</ul>
+</li>
+<li>如果一个表在连接属性上有索引<ul>
+<li>选用索引连接算法</li>
+</ul>
+</li>
+<li>如果上面2个规则都不适用，其中一个表较小<ul>
+<li>选用Hash join算法</li>
+</ul>
+</li>
+<li>可以选用嵌套循环方法，并选择其中较小的表，确切地讲是占用的块数(b)较少的表，作为外表(外循环的表)</li>
+</ul>
+<h2 id="基于代价的优化"><a href="#基于代价的优化" class="headerlink" title="基于代价的优化"></a>基于代价的优化</h2><p>统计信息</p>
+<ul>
+<li>基于代价的优化方法要计算查询的各种不同执行方案的执行代价，它与数据库的状态密切相关 </li>
+<li>优化器需要的统计信息 <ul>
+<li>对每个基本表<ul>
+<li>该表的元组总数(N)</li>
+<li>元组长度(l)</li>
+<li>占用的块数(B)</li>
+<li>占用的溢出块数(BO)</li>
+</ul>
+</li>
+<li>对基表的每个列<ul>
+<li>该列不同值的个数(m)</li>
+<li>列最大值</li>
+<li>最小值</li>
+<li>列上是否已经建立了索引</li>
+<li>哪种索引(B+树索引、Hash索引、聚集索引)</li>
+<li>可以计算选择率(f)</li>
+</ul>
+</li>
+<li>对索引<ul>
+<li>索引的层数(L)</li>
+<li>不同索引值的个数</li>
+<li>索引的选择基数S(有S个元组具有某个索引值)</li>
+<li>索引的叶结点数(Y) </li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>代价估算示例 </p>
+<ul>
+<li>全表扫描算法的代价估算公式<ul>
+<li>如果基本表大小为B块，全表扫描算法的代价 cost＝B</li>
+<li>如果选择条件是“码＝值”，那么平均搜索代价 cost＝B/2</li>
+</ul>
+</li>
+<li>索引扫描算法的代价估算公式<ul>
+<li>如果选择条件是“码＝值”<ul>
+<li>则采用该表的主索引</li>
+<li>若为B+树，层数为L，需要存取B+树中从根结点到叶结点L块，再加上基本表中该元组所在的那一块，所以cost=L+1</li>
+</ul>
+</li>
+<li>如果选择条件涉及非码属性<ul>
+<li>若为B+树索引，选择条件是相等比较，S是索引的选择基数(有S个元组满足条件)</li>
+<li>满足条件的元组可能会保存在不同的块上，所以(最坏的情况)cost=L+S </li>
+</ul>
+</li>
+<li>如果比较条件是＞，＞＝，＜，＜＝操作<ul>
+<li>假设有一半的元组满足条件</li>
+<li>就要存取一半的叶结点</li>
+<li>通过索引访问一半的表存储块</li>
+<li>cost=L+Y/2+B/2</li>
+<li>如果可以获得更准确的选择基数，可以进一步修正Y/2与B/2</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>嵌套循环连接算法的代价估算公式<ul>
+<li>嵌套循环连接算法的代价<br>cost＝Br+BrBs/(K-1)</li>
+<li>如果需要把连接结果写回磁盘<br>cost＝Br+Br Bs/(K-1)+(Frs<em>Nr</em>Ns)/Mrs<ul>
+<li>其中Frs为连接选择性(join selectivity)，表示连接结果元组数的比例</li>
+<li>Mrs是存放连接结果的块因子，表示每块中可以存放的结果元组数目</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>排序-合并连接算法的代价估算公式<ul>
+<li>如果连接表已经按照连接属性排好序，则<br>cost＝Br+Bs+(Frs<em>Nr</em>Ns)/Mrs</li>
+<li>如果必须对文件排序<ul>
+<li>还需要在代价函数中加上排序的代价</li>
+<li>对于包含B个块的文件排序的代价大约是(2<em>B)+(2</em>B*${\log}_2 B$)</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<blockquote>
+<p>《数据库系统概论（第5版）》王珊 萨师煊 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/08/数据库编程/" rel="next" title="数据库编程">
+                <i class="fa fa-chevron-left"></i> 数据库编程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/09/数据库恢复技术/" rel="prev" title="数据库恢复技术">
+                数据库恢复技术 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/09/关系查询处理和查询优化/"
+           data-title="关系查询处理和查询优化" data-url="http://zlw.poker/2016/12/09/关系查询处理和查询优化/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系数据库系统的查询处理"><span class="nav-number">1.</span> <span class="nav-text">关系数据库系统的查询处理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查询处理步骤"><span class="nav-number">1.1.</span> <span class="nav-text">查询处理步骤</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现查询操作的算法示例"><span class="nav-number">1.2.</span> <span class="nav-text">实现查询操作的算法示例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关系数据库系统的查询优化"><span class="nav-number">2.</span> <span class="nav-text">关系数据库系统的查询优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#查询优化概述"><span class="nav-number">2.1.</span> <span class="nav-text">查询优化概述</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#代数优化"><span class="nav-number">3.</span> <span class="nav-text">代数优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关系代数表达式等价变换规则"><span class="nav-number">3.1.</span> <span class="nav-text">关系代数表达式等价变换规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询树的启发式优化"><span class="nav-number">3.2.</span> <span class="nav-text">查询树的启发式优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#物理优化"><span class="nav-number">4.</span> <span class="nav-text">物理优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基于启发式规则的存取路径选择优化"><span class="nav-number">4.1.</span> <span class="nav-text">基于启发式规则的存取路径选择优化</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基于代价的优化"><span class="nav-number">4.2.</span> <span class="nav-text">基于代价的优化</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+#container{
+		margin: 0 auto;
+		width: 1002px;
+}
+
+#header{
+		height: 128px;
+		background: url(../images/top_bg.jpg) no-repeat;
+}
+
+#nav li{
+		float: left;
+		display: block;
+		width: 90px;
+}
+
+#nav li a{
+		line-height: 37px;
+		font-size: 16px;
+		font-family: "微软雅黑";
+		color: grey;
+		display: block;
+		width: 90px;
+		height: 37px;
+		text-align: center;
+		border-right: 2px solid black;
+}
+
+#nav li a:hover{
+		color: white;
+		background-image: url(../images/nav_on.gif);
+}
+
+#banner{
+		margin: 6px 0;
+}
+
+#main{
+		height: 480px;
+}
+
+#lside{
+		height: 480px;
+		width: 694px;
+		border: 1px solid #eee;
+		float: left;
+}
+
+.subtitle{
+		height: 37px;
+		background-color: grey;
+		background-image: url(../images/index_main_top_bg.gif);
+}
+
+.subtitle img{
+		float: left;
+		margin: 5px 0 0 10px;
+}
+
+.subtitle h1{
+		line-height: 37px;
+		float: left;
+		font-size: 16px;
+		font-family: '微软雅黑' , SimHei , sans-serif;
+		margin-left: 10px;
+}
+
+.subtitle a{
+		line-height: 37px;
+		float: right;
+		font-size: 12px;
+		font-family: "微软雅黑";
+		color: #888;
+}
+
+.four{
+		width: 326px;
+		height: 200px;
+		background-color: #eee;
+		margin: 10px;
+		float: left;
+		_display: inline;
+}
+
+.four h2{
+		font-size: 16px;
+		font-family: "微软雅黑" , SimHei , sans-serif;
+		margin: 6px 0 6px 10px;
+		color: #a0a0a0;
+}
+
+.four img{
+		float: left;
+		background-color: white;
+		padding: 5px;
+}
+
+.four ul{
+		float: left;
+		margin-left: 10px;
+}
+
+.four ul li{
+		background: url(../images/service_intro_bg.gif) no-repeat;
+		padding-left: 10px;
+		height: 20px;
+}
+
+.four ul li a{
+		color: #888;
+}
+
+.four ul li a:visited{
+		color: #808080;
+}
+
+.four ul li a:hover{
+		color: #ff832c;
+}
+
+#rside{
+		width: 294px;
+		border: 1px solid #eee;
+		background: white;
+		float: right;
+}
+
+#art{
+		background: #eee;
+		margin-top: 1px;
+		padding-top: 10px;
+}
+
+#art li a{
+		line-height: 29px;
+		display: block;
+		background: url(../images/article_head.gif) no-repeat;
+		height: 29px;
+		padding-left: 30px;
+		color: #888;
+}
+
+#art li a:hover{
+		background: url(../images/article_on_bg.gif);
+		color: #ff832c;
+}
+
+#contact{
+		margin-top: 1px;
+		height: 250px;
+		background-color: #eee;
+}
+
+#contact p{
+		padding-top: 25px;
+		padding-left: 20px;
+		font-size: 15px;
+		font-family: "微软雅黑" , SimHei , sans-serif;
+		color: #888;
+		display: block;
+}
+
+
+
+#footer{
+		height: 120px;
+		clear: both;
+		margin-top: 15px;
+}
+
+#footer ul{
+		height: 40px;
+		background: #eee;
+		padding-left: 10px;
+}
+
+#footer ul li{
+		float: left;
+		margin-right: 10px;
+		margin-top: 15px;
+}
+
+#footer ul li a{
+		color: #888;
+}
+
+#footer ul li a:hover{
+		color: #ff832c;
+}
+
+#footer address{
+		font-size: 12px;
+		font-family: "微软雅黑" , sans-serif;
+		margin-top: 10px;
+}

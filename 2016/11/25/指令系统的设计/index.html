@@ -1,0 +1,1353 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机系统结构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="指令系统是计算机系统结构的主要内容，是软硬件交界面的主要部分。">
+<meta name="keywords" content="计算机系统结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指令系统的设计">
+<meta property="og:url" content="http://zlw.poker/2016/11/25/指令系统的设计/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="指令系统是计算机系统结构的主要内容，是软硬件交界面的主要部分。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A11.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A12.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A13.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A14.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A15.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A16.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A17.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A18.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A19.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:52:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="指令系统的设计">
+<meta name="twitter:description" content="指令系统是计算机系统结构的主要内容，是软硬件交界面的主要部分。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A11.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/25/指令系统的设计/"/>
+
+
+  <title> 指令系统的设计 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                指令系统的设计
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-25T23:15:24+08:00" content="2016-11-25">
+              2016-11-25
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/计算机系统结构教程/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统结构教程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/25/指令系统的设计/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/25/指令系统的设计/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>指令系统是计算机系统结构的主要内容，是软硬件交界面的主要部分。<br><a id="more"></a></p>
+<h1 id="指令系统结构的分类"><a href="#指令系统结构的分类" class="headerlink" title="指令系统结构的分类"></a>指令系统结构的分类</h1><p>区别不同指令系统结构的<strong>主要因素：CPU中用来存储操作数的存储单元的类型</strong>。<br>CPU中用来存放操作数的存储单元主要有三种：堆栈、累加器、通用寄存器组。据此，可以把指令系统的结构分为堆栈型结构、累加器型结构以及通用寄存器型结构。<br>在通用寄存器型结构中，根据操作数的来源不同，又可以进一步分为寄存器-存储器型结构（简称RM结构）和寄存器-寄存器型结构（RR结构）。RM结构的操作数可以来自存储器，而RR结构的操作数则都是来自通用寄存器组的。由于在RR结构中，只有load指令和store指令能够访问存储器，所有也称为load-store结构。<br>对于不同类型的结构，指令系统中操作数的位置、个数以及操作数的给出方式（显式或隐式）是不同的。<strong>显式给出是用指令字中的操作数字段给出的</strong>，<strong>隐式给出则是使用事先约定好了的单元</strong>。在堆栈型结构中，操作数都是隐式的，即堆栈的栈顶和次栈顶中的数据，运算后的结果写入栈顶。在这种结构中，只能通过push/pop指令访问存储器。在累加器型结构中，其一个操作数是隐式的，即累加器，另一个操作数则是显式给出的，是一个存储器单元。运算结果送回累加器。在通用寄存器型结构中，所有操作数都是显式给出的，它们或者来自通用寄存器组，或者有一个操作数来自存储器。运算结果写入通用寄存器组。<br>例如Z=X+Y在四种类型的指令系统结构上的代码：</p>
+<table>
+<thead>
+<tr>
+<th>堆栈型</th>
+<th>累加器型</th>
+<th>通用寄存器型（RM型）</th>
+<th>通用寄存器型（RR型）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>push X</td>
+<td>load X</td>
+<td>load R1,X</td>
+<td>load R1,X</td>
+</tr>
+<tr>
+<td>push Y</td>
+<td>add Y</td>
+<td>add R1,Y</td>
+<td>load R2,Y</td>
+</tr>
+<tr>
+<td>add</td>
+<td>store Z</td>
+<td>store R1,Z</td>
+<td>add R3,R1,R2</td>
+</tr>
+<tr>
+<td>pop Z</td>
+<td></td>
+<td></td>
+<td>store R3,Z</td>
+</tr>
+</tbody>
+</table>
+<p>堆栈型和累加器型计算机的优点是指令字比较短，程序占用的控件比较小。但是，它们都有着难以克服的缺点。在堆栈型机器中，不能随机地访问堆栈，难以生成有效的代码，而且对栈顶的访问是个瓶颈。而在累加器型机器中，由于只有一个中间结果暂存区（累加器），所以需要频繁地访问存储器。<br>现在大多数计算机采用了通用寄存器型结构。通用寄存器型结构在灵活性和提高性能方面有明显的优势，主要体现在：</p>
+<ul>
+<li>寄存器的访问速度比存储器快很多；</li>
+<li>对编译器而言，能更加容易、有效地分配和使用寄存器；</li>
+<li>寄存器可以用来存放变量：<br>1.由于寄存器比存储器快，所以将变量分配给寄存器能加快程序的执行速度；<br>2.能够减少对存储器的访问；<br>3.可以用更少的地址位（相对于存储器地址）来对寄存器进行寻址，从而有效地减少程序的目标代码所占用的空间。</li>
+</ul>
+<p>还可以根据ALU指令的操作数的两个特征来对通用寄存器结构进行进一步的细分：</p>
+<ul>
+<li>一个是ALU指令的操作数：<br>1.有三个操作数的指令：包含两个源操作数和一个目的操作数。<br>2.有两个操作数的指令：其中一个操作数既可以是源操作数，又可以作为目的操作数。</li>
+<li>另一个特征是ALU指令中存储器操作数的个数：它可以是0~3中的某一个值，为0表示没有存储器操作数。</li>
+</ul>
+<p>基于上述ALU指令的两个特性及其组合，可以得到5种组合：</p>
+<table>
+<thead>
+<tr>
+<th>ALU指令中存储器操作数的个数</th>
+<th>ALU指令中操作数的最多个数</th>
+<th>结构类型</th>
+<th>机器实例</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>3</td>
+<td>RR</td>
+<td>MIPS,SPARC,Alpha,PowerPC,ARM</td>
+</tr>
+<tr>
+<td>1</td>
+<td>2</td>
+<td>RM</td>
+<td>IBM360/370,Intel 80×86,Motorola 68000</td>
+</tr>
+<tr>
+<td>1</td>
+<td>3</td>
+<td>RM</td>
+<td>IBM360/370</td>
+</tr>
+<tr>
+<td>2</td>
+<td>2</td>
+<td>MM</td>
+<td>VAX</td>
+</tr>
+<tr>
+<td>3</td>
+<td>3</td>
+<td>MM</td>
+<td>VAX</td>
+</tr>
+</tbody>
+</table>
+<p>通用寄存器型结构进一步细分为三种类型：寄存器-寄存器型（RR型）、寄存器-存储器型（RM型）和存储器-存储器型（MM型）。优缺点如下表（表中(m,n)表示指令的n个操作数中有m个存储器操作数）：</p>
+<table>
+<thead>
+<tr>
+<th>指令系统结构类型</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>寄存器-寄存器型（0,3）</td>
+<td>指令字长固定，指令结构简洁，是一种简单的代码生成模型，各种指令的执行时钟周期数相近</td>
+<td>与指令中含存储器操作数的指令系统结构相比，指令条数多，目标代码不够紧凑，因而程序占用的空间比较大</td>
+</tr>
+<tr>
+<td>寄存器-存储器型（1,2）</td>
+<td>可以在ALU指令中直接对存储器操作数进行引用，而不必先用load指令进行加载。容易对指令进行编码，目标代码比较紧凑</td>
+<td>指令中的两个操作数不对称。在一条指令中同时对寄存器操作数和存储器操作数进行编码，有可能限制指令所能够表示的寄存器个数。指令的执行时钟周期数因操作数的来源（寄存器或存储器）不同而差别比较大</td>
+</tr>
+<tr>
+<td>存储器-存储器型（2,2）或（3,3）</td>
+<td>目标代码最紧凑，不需要设置寄存器来保存变量</td>
+<td>指令字长变化很大，特别是3操作数指令。而且每条指令完成的工作也差别很大。对存储器的频繁访问会使存储器成为瓶颈。这种类型的指令系统结构现在已不用了</td>
+</tr>
+</tbody>
+</table>
+<h1 id="寻址方式"><a href="#寻址方式" class="headerlink" title="寻址方式"></a>寻址方式</h1><p>寻址方式是指指令系统如何形成所要访问的数据的地址。</p>
+<ul>
+<li>寻址方式可以指明指令中的操作数是一个常数、一个寄存器操作数或者是一个存储器操作数。</li>
+<li>对于存储器操作数来说，由寻址方式确定的存储器地址称为有效地址。 </li>
+</ul>
+<p>一些操作数寻址方式（左箭头代表赋值操作，Mem表示存储器，Regs表示寄存器组）：</p>
+<table>
+<thead>
+<tr>
+<th>寻址方式</th>
+<th>指令实例</th>
+<th>含义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>寄存器寻址</td>
+<td>ADD R1,R2</td>
+<td>Regs[R1]←Regs[R1]＋Regs[R2]</td>
+</tr>
+<tr>
+<td>立即数寻址</td>
+<td>ADD R3,#6</td>
+<td>Regs[R3]←Regs[R3]＋6</td>
+</tr>
+<tr>
+<td>偏移寻址</td>
+<td>ADD R3,120(R2)</td>
+<td>Regs[R3]←Regs[R3]＋Mem[120+Regs[R2]]</td>
+</tr>
+<tr>
+<td>寄存器间接寻址</td>
+<td>ADD R4,(R2)</td>
+<td>Regs[R4]←Regs[R4]＋Mem[Regs[R2]]</td>
+</tr>
+<tr>
+<td>索引寻址</td>
+<td>ADD R4,(R2+R3)</td>
+<td>Regs[R4]←Regs[R4]＋Mem[Regs[R2]+Regs[R3]]</td>
+</tr>
+<tr>
+<td>直接寻址或绝对寻址</td>
+<td>ADD R4,(1010)</td>
+<td>Regs[R4]←Regs[R4]＋Mem[1010]</td>
+</tr>
+<tr>
+<td>存储器间接寻址</td>
+<td>ADD R2,@(R4)</td>
+<td>Regs[R2]←Regs[R2]＋Mem[Mem[Regs[R4]]]</td>
+</tr>
+<tr>
+<td>自增寻址</td>
+<td>ADD R1,(R2)+</td>
+<td>Regs[R1]←Regs[R1]＋Mem[Regs[R2]]，Regs[R2]←Regs[R2]＋d</td>
+</tr>
+<tr>
+<td>自减寻址</td>
+<td>ADD R1,-(R2)</td>
+<td>Regs[R2]←Regs[R2]－d，Regs[R1]←Regs[R1]+Mem[Regs[R2]]</td>
+</tr>
+<tr>
+<td>缩放寻址</td>
+<td>ADD R1,80(R2)[R3]</td>
+<td>Regs[R1]←Regs[R1]＋Mem[80＋Regs[R2]＋Regs[R3]*d]</td>
+</tr>
+</tbody>
+</table>
+<p>采用多种寻址方式可以显著地减少程序的指令条数，但可能增加计算机的实现复杂度以及指令的CPI。<br>各种寻址方式的使用情况统计结果：<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A11.PNG" alt="指令系统的设计1"><br>立即数寻址方式主要用于ALU指令、比较指令和用于给寄存器装入常数等。<br>表示寻址方式的方法有两种：</p>
+<ul>
+<li>一种是隐含在指令的操作码中；<br>适合：处理机采用load-store结构，寻址方式只有很少几种。</li>
+<li>一种是在指令字中设置专门的寻址字段，用以直接指出寻址方式。<br>特点：灵活，操作码短，但需要设置专门的寻址方式字段，而且操作码和寻址方式字段合起来所需要的总位数可能会比隐含方法的总位数多。<br>适合：处理机具有多种寻址方式，且指令有多个操作数。</li>
+</ul>
+<p>一个需要注意的问题：关于物理地址空间的信息存放。如何在存储器中存放这些不同宽度的信息呢？以IBM370为例：</p>
+<ul>
+<li>信息有字节、半字（双字节）、单字（4字节）和双字（8字节）等宽度。</li>
+<li>主存宽度为8个字节。采用按字节编址，各类信息都是用该信息的首字节地址来寻址。 </li>
+</ul>
+<p>允许它们任意存储：</p>
+<ul>
+<li>很可能会出现一个信息跨存储字边界而存储于两个存储单元中。<br>信息宽度不超过主存宽度的信息必须存放在一个存储字内，不能跨边界：</li>
+<li>必须做到：信息在主存中存放的起始地址必须是该信息宽度（字节数）的整数倍（信息存储的整数边界概念）</li>
+<li>满足以下条件：<br>1.字节信息的起始地址为：×…××××<br>2.半字信息的起始地址为：×…×××０<br>3.单字信息的起始地址为：×…××００<br>4.双字信息的起始地址为：×…×０００</li>
+<li>存在存储空间会浪费 ，但保证访问速度。</li>
+</ul>
+<h1 id="指令系统的设计和优化"><a href="#指令系统的设计和优化" class="headerlink" title="指令系统的设计和优化"></a>指令系统的设计和优化</h1><h2 id="指令系统设计的基本原则"><a href="#指令系统设计的基本原则" class="headerlink" title="指令系统设计的基本原则"></a>指令系统设计的基本原则</h2><p>指令系统的设计：</p>
+<ul>
+<li>首先考虑所应实现的基本功能，确定哪些基本功能应该由硬件实现，哪些功能由软件实现比较合适。</li>
+<li>包括<br>1.指令的功能设计<br>2.指令的格式设计</li>
+</ul>
+<p>在确定哪些基本功能用硬件来实现时，主要考虑3个因素：速度、成本、灵活性。</p>
+<ul>
+<li>硬件实现的特点：速度快、成本高、灵活性差。</li>
+<li>软件实现的特点：速度慢、价格便宜、灵活性好。</li>
+</ul>
+<p>对指令系统的基本要求：完整性、规整性、正交性、高效率和兼容性。</p>
+<ul>
+<li>完整性：在一个有限可用的存储空间内，对于任何可解的问题，编制计算程序时，指令系统所提供的指令足够使用。</li>
+<li>规整性：主要包括对称性和均匀性。<br>1.对称性：所有与指令系统有关的存储单元的使用、操作码的设置等都是对称的。<br>2.均匀性：指对于各种不同的操作数类型、字长、操作种类和数据存储单元，指令的设置都要同等对待。</li>
+<li>正交性：在指令中各个不同含义的字段，如操作类型、数据类型、寻址方式字段等，在编码时应互不相关、相互独立。 </li>
+<li>高效率：指指令的执行速度快、使用频度高。</li>
+<li>兼容性：主要是要实现向后兼容，指令系统可以增加新指令，但不能删除指令或更改指令的功能。</li>
+</ul>
+<p>在设计系统时，有两种截然不同的设计策略，因而产生了两类不同的计算机系统：</p>
+<ul>
+<li>CISC（复杂指令系统计算机）：增强指令功能，把越来越多的功能交由硬件来实现，并且指令的数量也是越来越多。</li>
+<li>RISC（精简指令系统计算机）：尽可能地把指令系统简化，不仅指令的条数少，而且指令的功能也比较简单。 </li>
+</ul>
+<h2 id="控制指令"><a href="#控制指令" class="headerlink" title="控制指令"></a>控制指令</h2><p>控制指令是用来控制指令流的。</p>
+<ul>
+<li>跳转：当指令是无条件改变控制流时，称之为跳转指令。</li>
+<li>分支：当控制指令是有条件改变控制流时，则称之为分支指令。 </li>
+</ul>
+<p>能够改变控制流的指令：</p>
+<ul>
+<li>跳转</li>
+<li>分支</li>
+<li>过程调用</li>
+<li>过程返回</li>
+</ul>
+<p>控制指令的使用频度：</p>
+<table>
+<thead>
+<tr>
+<th>指令类型</th>
+<th>使用频度（整型平均/%）</th>
+<th>使用频度（浮点平均/%）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>调用/返回</td>
+<td>19</td>
+<td>8</td>
+</tr>
+<tr>
+<td>跳转</td>
+<td>6</td>
+<td>10</td>
+</tr>
+<tr>
+<td>分支</td>
+<td>75</td>
+<td>82</td>
+</tr>
+</tbody>
+</table>
+<p>改变控制流的大部分指令是分支指令（条件转移）。<br>表示分支条件的方法及其优缺点：</p>
+<table>
+<thead>
+<tr>
+<th>名称</th>
+<th>检测分支条件的方法</th>
+<th>优点</th>
+<th>缺点</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>条件码（CC）</td>
+<td>检测由ALU操作设置的一些特殊的位（即CC）</td>
+<td>可以自由设置分支条件</td>
+<td>条件码是增设的状态，而且它限制了指令的执行顺序，因为它们要保证条件码能顺利地传送给分支指令</td>
+</tr>
+<tr>
+<td>条件寄存器</td>
+<td>比较指令把比较结果放入任何一个寄存器，检测时是就检测该寄存器</td>
+<td>简单</td>
+<td>占用一个寄存器</td>
+</tr>
+<tr>
+<td>比较与分支</td>
+<td>比较操作是分支指令的一部分，通常这种比较是受到一定限制的</td>
+<td>用一条指令（而不是两条）就能实现分支</td>
+<td>当采用流水方式时，该指令的操作可能太多，在一拍内做不完</td>
+</tr>
+</tbody>
+</table>
+<p>转移目标指令的表示</p>
+<ul>
+<li>最常用的方法：是在指令中提供一个偏移量，由该偏移量和程序计数器（PC）的值相加而得出目标地址。这种寻址方式叫做PC相对寻址。</li>
+<li>优点：<br>1.有效减少表示该目标地址所需要的位数。<br>2.位置无关（代码可被装载到主存的任意位置执行）。</li>
+<li>关键：确定偏移量字段的长度。</li>
+</ul>
+<p>过程调用和返回</p>
+<ul>
+<li>除了要改变控制流之外，可能还要保存机器状态。至少也得保存返回地址（放在专用的链接寄存器或堆栈中）。</li>
+<li>过去有些指令系统结构提供了专门的保存机制来保存许多寄存器的内容。</li>
+<li>现在较新的指令系统结构则要求由编译器生成load和store指令来保存或恢复寄存器的内容。 </li>
+</ul>
+<h2 id="指令操作码的优化"><a href="#指令操作码的优化" class="headerlink" title="指令操作码的优化"></a>指令操作码的优化</h2><ul>
+<li>指令由两部分组成：操作码、地址码</li>
+<li>指令格式的设计：确定指令字的编码方式，包括操作码字段和地址码字段的编码和表示方式。</li>
+<li>指令格式的优化：如何用最短的位数来表示指令的操作信息和地址信息。 </li>
+</ul>
+<h3 id="赫夫曼编码"><a href="#赫夫曼编码" class="headerlink" title="赫夫曼编码"></a>赫夫曼编码</h3><ul>
+<li>基本思想：当各种事件发生的概率不均等时，可以对发生概率最高的事件用最短的位数（时间）来表示（处理），而对于出现概率较低的事件，则可以用较长的位数（时间）来表示（处理），从而使总的平均位数（时间）缩短。</li>
+<li>构造哈夫曼树的方法：将各事件按其使用频度从小到大依次排列。每次从中选择两个频度值最小的结点，将其合并成一个新的结点，并把新结点画在所选结点的上面，然后用两条边把新节点分别与那两个节点相连。新节点的频度是所选两个节点的频度值的和。把新节点与其他剩余未结合的节点一起，再以上面的步骤进行处理，反复进行，直到全部节点都结合完毕、形成根节点为止。</li>
+<li>操作码优化的程度可以用信息熵来衡量。H=-∑PiLog2Pi，它表示用二进制编码表示n个码点时，理论上的最短平均编码长度。</li>
+<li>优缺点：可以减少操作码的平均位数，但所获得的编码是变长度的，不规整，不利于硬件处理。</li>
+</ul>
+<h3 id="等长扩展码"><a href="#等长扩展码" class="headerlink" title="等长扩展码"></a>等长扩展码</h3><p>在早期的计算机上，为了便于分级译码，一般都采用等长扩展码。</p>
+<h3 id="定长操作码"><a href="#定长操作码" class="headerlink" title="定长操作码"></a>定长操作码</h3><ul>
+<li>固定长度的操作码：所有指令的操作码都是同一的长度（如8位）。</li>
+<li>保证操作码的译码速度、减少译码的复杂度。</li>
+<li>以程序的存储空间为代价来换取硬件实现上的好处。</li>
+</ul>
+<h2 id="指令字格式的优化"><a href="#指令字格式的优化" class="headerlink" title="指令字格式的优化"></a>指令字格式的优化</h2><p>如果指令字的宽度固定，地址码的长度和个数固定，则操作码的缩短并不能带来好处，只是使指令字中出现空白浪费。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A12.PNG" alt="指令系统的设计2"><br>采用地址个数可变和/或地址码长度可变的方案</p>
+<ul>
+<li>利用操作码缩短所带来的好处。</li>
+<li>最常用的操作码最短，其地址字段个数最多。能够使指令的功能增强，从总体上减少所需的指令条数。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A13.PNG" alt="指令系统的设计"></li>
+</ul>
+<p>考虑因素</p>
+<ul>
+<li>计算机中寄存器的个数和寻址方式的数目对机器的指令字长有很大的影响；</li>
+<li>指令字的平均长度增加了，程序的平均长度也就增加了； </li>
+<li>在指令系统的设计中，要在指令字长与寄存器的个数以及寻址方式的个数之间进行折中。</li>
+</ul>
+<p>指令系统的3种编码格式：可变长度编码格式、固定长度编码格式、混合型编码格式。</p>
+<ul>
+<li>可变长度编码格式<br>1.当指令系统的寻址方式和操作种类很多时，这种编码格式是最好的。<br>2.用最少的二进制位来表示目标代码。<br>3.可能会使各条指令的字长和执行时间相差很大。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A14.PNG" alt="指令系统的设计4"></li>
+<li>固定长度编码格式<br>1.将操作类型和寻址方式一起编码到操作码中。<br>2.当寻址方式和操作类型非常少时，这种编码格式非常好。<br>3.可以有效地降低译码的复杂度，提高译码的速度。<br>4.大部分RISC的指令系统均采用这种编码格式。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A15.PNG" alt="指令系统的设计5"></li>
+<li>混合型编码格式<br>1.提供若干种固定的指令字长。<br>2.以期达到既能够减少目标代码长度又能降低译码复杂度的目标。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A16.PNG" alt="指令系统的设计6"></li>
+</ul>
+<h1 id="指令系统的发展和改进"><a href="#指令系统的发展和改进" class="headerlink" title="指令系统的发展和改进"></a>指令系统的发展和改进</h1><h2 id="沿CISC方向发展和改进指令系统"><a href="#沿CISC方向发展和改进指令系统" class="headerlink" title="沿CISC方向发展和改进指令系统"></a>沿CISC方向发展和改进指令系统</h2><ul>
+<li>CISC指令系统的一大特点：指令数量多、功能多样</li>
+<li>增强指令功能主要是从以下3个方面着手：<br> 1.面向目标程序增强指令功能<br> 2.面向高级语言的优化实现来改进指令系统<br> 3.面向操作系统的优化实现来改进指令系统</li>
+</ul>
+<h3 id="面向目标程序增强指令功能"><a href="#面向目标程序增强指令功能" class="headerlink" title="面向目标程序增强指令功能"></a>面向目标程序增强指令功能</h3><ul>
+<li>对大量的目标程序及其执行情况进行统计分析，找出那些使用频度高、执行时间长的指令或指令串。对于使用频度高的指令，用硬件加快其执行；对于使用频度高的指令串，用一条新的指令来替代。</li>
+<li>既能减少目标程序的执行时间，也能有效地缩短程序的长度。</li>
+<li>可以从以下几个方面来改进：<br>1.增强运算型指令的功能<br>2.增强数据传送指令的功能<br>3.增强程序控制指令的功能</li>
+</ul>
+<h3 id="面向高级语言的优化实现来改进指令系统"><a href="#面向高级语言的优化实现来改进指令系统" class="headerlink" title="面向高级语言的优化实现来改进指令系统"></a>面向高级语言的优化实现来改进指令系统</h3><p>面向高级语言的优化实现来改进指令系统（缩小高级语言与机器语言的语义差距）<br>高级语言与一般的机器语言的语义差距非常大，为高级语言程序的编译带来了一些问题。<br>（1）编译器本身比较复杂；<br>（2）编译生成的目标代码比较难以达到很好的优化。 </p>
+<ul>
+<li>增强对高级语言和编译器的支持<br>1.对高级语言中使用频度高、执行时间长的语句，增强有关指令的功能，加快这些指令的执行速度，或者增加专门的指令，可以达到减少目标程序的执行时间和减少目标程序长度的目的。<br>2.增强系统结构的规整性，减少系统结构中的各种例外情况。</li>
+<li>高级语言计算机 （一种比较激进的方法）<br>1.间接执行高级语言机器：高级语言作为机器的汇编语言。<br>2.直接执行高级语言的机器：直接把高级语言作为机器语言。</li>
+<li>采用“比较简单的系统结构＋软件”的做法能够在较低成本和复杂度的前提下，提供更高的性能和灵活性。 </li>
+</ul>
+<h3 id="面向操作系统的优化实现来改进指令系统"><a href="#面向操作系统的优化实现来改进指令系统" class="headerlink" title="面向操作系统的优化实现来改进指令系统"></a>面向操作系统的优化实现来改进指令系统</h3><ul>
+<li>操作系统和计算机系统结构是紧密联系的，操作系统的实现在很大程度上取决于系统结构的支持。</li>
+<li>指令系统对操作系统的支持主要有：<br>1.处理机工作状态和访问方式的切换；<br>2.进程的管理和切换；<br>3.存储管理和信息保护；<br>4.进程的同步与互斥，信号灯的管理等。<br> 支持操作系统的有些指令属于特权指令，一般用户程序是不能使用的。 </li>
+</ul>
+<h2 id="沿RISC方向发展和改进指令系统"><a href="#沿RISC方向发展和改进指令系统" class="headerlink" title="沿RISC方向发展和改进指令系统"></a>沿RISC方向发展和改进指令系统</h2><p>CISC指令系统结构存在的问题：</p>
+<ul>
+<li>各种指令的使用频度相差悬殊，许多指令很少用到。</li>
+<li>指令系统庞大，指令条数很多，许多指令的功能又很复杂。<br>1.占用了大量的芯片面积（如占用CPU芯片总面积的一半以上），给VLSI设计造成很大的困难；<br>2.增加了研制时间和成本，容易造成设计错误。</li>
+<li>许多指令由于操作繁杂，其CPI值比较大，执行速度慢。采用这些复杂指令有可能使整个程序的执行时间反而增加。</li>
+<li>由于指令功能复杂，规整性不好，不利于采用流水技术来提高性能。 </li>
+</ul>
+<p>设计RISC机器遵循的原则：</p>
+<ul>
+<li>指令条数少、指令功能简单。只选取使用频度很高的指令，在此基础上补充一些最有用的指令；</li>
+<li>采用简单而又统一的指令格式，并减少寻址方式；指令字长都为32位或64位；</li>
+<li>指令的执行在单个机器周期内完成；(采用流水线机制)</li>
+<li>只有load和store指令才能访问存储器，其它指令的操作都是在寄存器之间进行；（即采用load-store结构）</li>
+<li>大多数指令都采用硬连逻辑来实现；</li>
+<li>强调优化编译器的作用，为高级语言程序生成优化的代码；</li>
+<li>充分利用流水技术来提高性能。</li>
+</ul>
+<h1 id="操作数的类型和大小"><a href="#操作数的类型和大小" class="headerlink" title="操作数的类型和大小"></a>操作数的类型和大小</h1><p>表示操作数类型的方法有两种</p>
+<ul>
+<li>由指令中的操作码指定操作数的类型。</li>
+<li>给数据加上标识，由数据本身给出操作数类型。<br>1.优点：简化指令系统，可由硬件自动实现一致性检查和类型转换，缩小了机器语言与高级语言的语义差距，简化编译器等。<br>2.缺点：由于需要在执行过程中动态检测标志符，动态开销比较大，所以采用这种方案的机器很少见。</li>
+</ul>
+<p>操作数的大小：操作数的位数或字节数。<br>主要的大小：字节（8位）、半字（16位）、字（32位）、和双字（64位）。</p>
+<ul>
+<li>字符：用ASCII码表示，为一个字节大小。</li>
+<li>整数：用二进制补码表示，其大小可以是字节、半字或单字。</li>
+<li>浮点操作数：单精度浮点数（1个字）、双精度浮点数（双字）。一般都采用IEEE 754浮点标准。</li>
+<li>十进制操作数类型<br>1.压缩十进制或二进制编码十进制（BCD码）：用4位二进制编码表示数字0～9，并将两个十进制数字合并到一个字节中存储。<br>2.非压缩十进制：将十进制数直接用字符串来表示。</li>
+</ul>
+<h1 id="MIPS指令系统结构"><a href="#MIPS指令系统结构" class="headerlink" title="MIPS指令系统结构"></a>MIPS指令系统结构</h1><p>介绍MIPS64的一个子集，简称为MIPS。</p>
+<h2 id="MIPS的寄存器"><a href="#MIPS的寄存器" class="headerlink" title="MIPS的寄存器"></a>MIPS的寄存器</h2><p>1.32个64位通用寄存器（GPRs）</p>
+<ul>
+<li>R0，R1，…，R31</li>
+<li>也称为整数寄存器</li>
+<li>R0的值永远是0</li>
+</ul>
+<p>2.32个64位浮点数寄存器（FPRs）</p>
+<ul>
+<li>F0，F1，…，F31</li>
+<li>用来存放32个单精度浮点数（32位），也可以用来存放32个双精度浮点数（64位）。</li>
+<li>存储单精度浮点数（32位）时，只用到FPR的一半，其另一半没用。</li>
+</ul>
+<p>3.一些特殊寄存器</p>
+<ul>
+<li>它们可以与通用寄存器交换数据。</li>
+<li>例如浮点状态寄存器：用来保存有关浮点操作结果的信息。</li>
+</ul>
+<h2 id="MIPS的数据表示"><a href="#MIPS的数据表示" class="headerlink" title="MIPS的数据表示"></a>MIPS的数据表示</h2><p>1.MIPS的数据表示</p>
+<ul>
+<li>整数<br>字节（8位）   半字（16位）<br>字（32位）    双字（64位）</li>
+<li>浮点数<br>单精度浮点数（32位）  双精度浮点数（64位）</li>
+</ul>
+<p>2.字节、半字或者字在装入64位寄存器时，用零扩展或者用符号位扩展来填充该寄存器的剩余部分。装入以后，对它们将按照64位整数的方式进行运算。</p>
+<h2 id="MIPS的数据寻址方式"><a href="#MIPS的数据寻址方式" class="headerlink" title="MIPS的数据寻址方式"></a>MIPS的数据寻址方式</h2><p>1.立即数寻址与偏移量寻址；立即数字段和偏移量字段都是16位的。<br>2.寄存器间接寻址是通过把0作为偏移量来实现的；<br>3.16位绝对寻址是通过把R0（其值永远为0）作为基址寄存器来完成的；<br>4.MIPS的存储器是按字节寻址的，地址为64位；<br>5.所有存储器访问都必须是边界对齐的。</p>
+<h2 id="MIPS的指令格式"><a href="#MIPS的指令格式" class="headerlink" title="MIPS的指令格式"></a>MIPS的指令格式</h2><p>1.寻址方式编码到操作码中<br>2.所有的指令都是32位的<br>3.操作码占6位<br>4.3种指令格式：3种格式中，同名字段的位置固定不变。 </p>
+<ul>
+<li>I类指令<br>①包括所有的load和store指令，立即数指令，分支指令，寄存器跳转指令，寄存器链接跳转指令。<br>②立即数字段为16位，用于提供立即数或偏移量。<br>③load指令<br>   访存有效地址：Regs[rs]＋immediate<br>   从存储器取来的数据放入寄存器rt<br>④store指令<br>   访存有效地址：Regs[rs]＋immediate<br>   要存入存储器的数据放在寄存器rt中<br>⑤立即数指令<br>   Regs[rt] ← Regs[rs] op immediate<br>⑥分支指令<br>   转移目标地址：Regs[rs]＋immediate，rt无用<br>⑦寄存器跳转、寄存器跳转并链接<br>   转移目标地址为Regs[rs]<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A17.PNG" alt="指令系统的设计7"></li>
+<li>R类指令<br>①包括ALU指令，专用寄存器读/写指令，move指令等。<br>②ALU指令<br>  Regs[rd]← Regs[rs] funct Regs[rt]<br>  funct为具体的运算操作编码<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A18.PNG" alt="指令系统的设计8"></li>
+<li>J类指令<br>①包括跳转指令，跳转并链接指令，自陷指令，异常返回指令。<br>②在这类指令中，指令字的低26位是偏移量，它与PC值相加形成跳转的地址。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%8C%87%E4%BB%A4%E7%B3%BB%E7%BB%9F%E7%9A%84%E8%AE%BE%E8%AE%A19.PNG" alt="指令系统的设计9"></li>
+</ul>
+<h2 id="MIPS的操作"><a href="#MIPS的操作" class="headerlink" title="MIPS的操作"></a>MIPS的操作</h2><p>1.MIPS指令可以分为四大类</p>
+<ul>
+<li>load和store</li>
+<li>ALU操作</li>
+<li>分支与跳转</li>
+<li>浮点操作</li>
+</ul>
+<p>2.符号的意义 </p>
+<ul>
+<li>x←ny：从y传送n位到x</li>
+<li>x，y←z：把z传送到x和y </li>
+<li>下标：表示字段中具体的位；<br>①对于指令和数据，按从最高位到最低位（即从左到右）的顺序依次进行编号，最高位为第0位，次高位为第1位，依此类推。<br>②下标可以是一个数字，也可以是一个范围。<br>　　　　例如：Regs[R4]0：寄存器R4的符号位<br>  　　　　Regs[R4]56-63：R4的最低字节</li>
+<li>Mem：表示主存；<br>按字节寻址，可以传输任意个字节。</li>
+<li>上标：用于表示对字段进行复制的次数。<br>例如：0 32：一个32位长的全0字段</li>
+<li>符号##：用于两个字段的拼接，并且可以出现在数据传送的任何一边。</li>
+</ul>
+<h2 id="MIPS的控制指令"><a href="#MIPS的控制指令" class="headerlink" title="MIPS的控制指令"></a>MIPS的控制指令</h2><p>由一组跳转和一组分支指令来实现控制流的改变。</p>
+<h2 id="MIPS的浮点操作"><a href="#MIPS的浮点操作" class="headerlink" title="MIPS的浮点操作"></a>MIPS的浮点操作</h2><p>浮点指令对浮点寄存器中的数据进行操作，并由操作码指出操作数是单精度还是双精度的。<br>浮点操作包括加、减、乘、除，分别有单精度和双精度指令。</p>
+<blockquote>
+<p>《计算机系统结构教程（第2版）》张晨曦 王志英 等 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统结构/" rel="tag">#计算机系统结构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/23/关系数据库标准语言SQL（二）/" rel="next" title="关系数据库标准语言SQL（二）">
+                <i class="fa fa-chevron-left"></i> 关系数据库标准语言SQL（二）
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/27/数据库安全性/" rel="prev" title="数据库安全性">
+                数据库安全性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/25/指令系统的设计/"
+           data-title="指令系统的设计" data-url="http://zlw.poker/2016/11/25/指令系统的设计/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#指令系统结构的分类"><span class="nav-number">1.</span> <span class="nav-text">指令系统结构的分类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#寻址方式"><span class="nav-number">2.</span> <span class="nav-text">寻址方式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令系统的设计和优化"><span class="nav-number">3.</span> <span class="nav-text">指令系统的设计和优化</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#指令系统设计的基本原则"><span class="nav-number">3.1.</span> <span class="nav-text">指令系统设计的基本原则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#控制指令"><span class="nav-number">3.2.</span> <span class="nav-text">控制指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令操作码的优化"><span class="nav-number">3.3.</span> <span class="nav-text">指令操作码的优化</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#赫夫曼编码"><span class="nav-number">3.3.1.</span> <span class="nav-text">赫夫曼编码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#等长扩展码"><span class="nav-number">3.3.2.</span> <span class="nav-text">等长扩展码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#定长操作码"><span class="nav-number">3.3.3.</span> <span class="nav-text">定长操作码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#指令字格式的优化"><span class="nav-number">3.4.</span> <span class="nav-text">指令字格式的优化</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令系统的发展和改进"><span class="nav-number">4.</span> <span class="nav-text">指令系统的发展和改进</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#沿CISC方向发展和改进指令系统"><span class="nav-number">4.1.</span> <span class="nav-text">沿CISC方向发展和改进指令系统</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#面向目标程序增强指令功能"><span class="nav-number">4.1.1.</span> <span class="nav-text">面向目标程序增强指令功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向高级语言的优化实现来改进指令系统"><span class="nav-number">4.1.2.</span> <span class="nav-text">面向高级语言的优化实现来改进指令系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#面向操作系统的优化实现来改进指令系统"><span class="nav-number">4.1.3.</span> <span class="nav-text">面向操作系统的优化实现来改进指令系统</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#沿RISC方向发展和改进指令系统"><span class="nav-number">4.2.</span> <span class="nav-text">沿RISC方向发展和改进指令系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#操作数的类型和大小"><span class="nav-number">5.</span> <span class="nav-text">操作数的类型和大小</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#MIPS指令系统结构"><span class="nav-number">6.</span> <span class="nav-text">MIPS指令系统结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#MIPS的寄存器"><span class="nav-number">6.1.</span> <span class="nav-text">MIPS的寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MIPS的数据表示"><span class="nav-number">6.2.</span> <span class="nav-text">MIPS的数据表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MIPS的数据寻址方式"><span class="nav-number">6.3.</span> <span class="nav-text">MIPS的数据寻址方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MIPS的指令格式"><span class="nav-number">6.4.</span> <span class="nav-text">MIPS的指令格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MIPS的操作"><span class="nav-number">6.5.</span> <span class="nav-text">MIPS的操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MIPS的控制指令"><span class="nav-number">6.6.</span> <span class="nav-text">MIPS的控制指令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MIPS的浮点操作"><span class="nav-number">6.7.</span> <span class="nav-text">MIPS的浮点操作</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

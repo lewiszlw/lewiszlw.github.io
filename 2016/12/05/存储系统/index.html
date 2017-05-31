@@ -1,0 +1,1087 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机系统结构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="存储系统的层次结构存储系统的层次结构概述存储系统的性能直接影响到整个计算机系统的性能。如何以合理的价格，设计容量和速度都满足计算机系统要求的存储器系统，始终是计算机系统结构设计中的关键问题之一。">
+<meta name="keywords" content="计算机系统结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="存储系统">
+<meta property="og:url" content="http://zlw.poker/2016/12/05/存储系统/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="存储系统的层次结构存储系统的层次结构概述存储系统的性能直接影响到整个计算机系统的性能。如何以合理的价格，设计容量和速度都满足计算机系统要求的存储器系统，始终是计算机系统结构设计中的关键问题之一。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F1.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F2.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F3.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F4.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:54:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="存储系统">
+<meta name="twitter:description" content="存储系统的层次结构存储系统的层次结构概述存储系统的性能直接影响到整个计算机系统的性能。如何以合理的价格，设计容量和速度都满足计算机系统要求的存储器系统，始终是计算机系统结构设计中的关键问题之一。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/05/存储系统/"/>
+
+
+  <title> 存储系统 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                存储系统
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-05T18:55:42+08:00" content="2016-12-05">
+              2016-12-05
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/计算机系统结构教程/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统结构教程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/05/存储系统/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/05/存储系统/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="存储系统的层次结构"><a href="#存储系统的层次结构" class="headerlink" title="存储系统的层次结构"></a>存储系统的层次结构</h1><h2 id="存储系统的层次结构概述"><a href="#存储系统的层次结构概述" class="headerlink" title="存储系统的层次结构概述"></a>存储系统的层次结构概述</h2><p>存储系统的性能直接影响到整个计算机系统的性能。如何以合理的价格，设计容量和速度都满足计算机系统要求的存储器系统，始终是计算机系统结构设计中的关键问题之一。<br><a id="more"></a><br>人们对这三个指标的要求：容量大、速度快、价格低。</p>
+<p>三个要求是相互矛盾的</p>
+<ul>
+<li>速度越快，每位价格就越高；</li>
+<li>容量越大，每位价格就越低；</li>
+<li>容量越大，速度越慢。</li>
+</ul>
+<p>解决方法：采用多种存储器技术，构成多级存储层次结构。</p>
+<ul>
+<li>程序访问的局部性原理：对于绝大多数程序来说，程序所访问的指令和数据在地址上不是均匀分布的，而是相对簇聚的。</li>
+<li>程序访问的局部性包含两个方面 <ul>
+<li>时间局部性：程序马上将要用到的信息很可能就是现在正在使用的信息。</li>
+<li>空间局部性：程序马上将要用到的信息很可能与现在正在使用的信息在存储空间上是相邻的。 </li>
+</ul>
+</li>
+</ul>
+<h2 id="存储系统的性能参数"><a href="#存储系统的性能参数" class="headerlink" title="存储系统的性能参数"></a>存储系统的性能参数</h2><p>下面仅考虑由M1和M2构成的两级存储层次：</p>
+<ul>
+<li>M1的参数：S1，T1，C1</li>
+<li>M2的参数：S2，T2，C2</li>
+</ul>
+<p>存储容量S<br>一般来说，整个存储系统的容量即是第二级存储器M2的容量，即S=S2。</p>
+<p>每位价格C<br>$$C=\frac{C_1S_1+C_2S_2}{S_1+S_2}$$<br>当$S_1&lt;&lt;S_2$时，$C\approx C_2$。</p>
+<p>命中率H</p>
+<ul>
+<li>命中率：CPU访问存储系统时，在M1中找到所需信息的概率。<br>$$H=\frac{N_1}{N_1+N_2}$$<ul>
+<li>N1 ── 访问M1的次数</li>
+<li>N2 ── 访问M2的次数</li>
+</ul>
+</li>
+<li>不命中率 ：F＝1－H</li>
+</ul>
+<p>平均访问时间TA<br>分两种情况来考虑CPU的一次访存：</p>
+<ul>
+<li>当命中时，访问时间即为T1（命中时间）</li>
+<li>当不命中时，情况比较复杂。<br>不命中时的访问时间为：$T_2+T_B+T_1=T_1+T_M$<br> 其中$T_M=T_2+T_B$<ul>
+<li>不命中开销TM：从向M2发出访问请求到把整个数据块调入M1中所需的时间。</li>
+<li>传送一个信息块所需的时间为TB。 </li>
+</ul>
+</li>
+</ul>
+<p>考虑到命中和不命中的概率分别为H和1-H，故该存储系统的平均访存时间为<br>$$T_A=HT_1+(1-H)(T_1+T_M)=T_1+(1-H)T_M$$<br>或<br>$$T_A=T_1+FT_M$$</p>
+<h2 id="三级存储系统"><a href="#三级存储系统" class="headerlink" title="三级存储系统"></a>三级存储系统</h2><p>三级存储系统</p>
+<ul>
+<li>Cache（高速缓冲存储器）</li>
+<li>主存储器</li>
+<li>磁盘存储器（辅存）</li>
+</ul>
+<p>可以看成是由“Cache—主存”层次和“主存—辅存”层次构成的系统。<br>从主存的角度来看</p>
+<ul>
+<li>“Cache－主存”层次：弥补主存速度的不足</li>
+<li>“主存－辅存”层次： 弥补主存容量的不足</li>
+</ul>
+<p>“Cache-主存”和“主存-辅存”层次的区别</p>
+<table>
+<thead>
+<tr>
+<th>比较项目</th>
+<th>“Cache-主存”层次</th>
+<th>“主存-辅存”层次</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>目的</td>
+<td>为了弥补主存速度的不足</td>
+<td>为了弥补主存容量的不足</td>
+</tr>
+<tr>
+<td>存储管理的实现</td>
+<td>全部由专用硬件实现</td>
+<td>主要由软件实现</td>
+</tr>
+<tr>
+<td>访问速度的比值（第一级比第二级）</td>
+<td>几比一</td>
+<td>几万比一</td>
+</tr>
+<tr>
+<td>典型的块（页）大小</td>
+<td>几十个到几百个字节</td>
+<td>几千个以上字节</td>
+</tr>
+<tr>
+<td>CPU对第二级的访问方式</td>
+<td>可直接访问</td>
+<td>均通过第一级</td>
+</tr>
+<tr>
+<td>不命中时CPU是否切换</td>
+<td>不切换</td>
+<td>切换到其他进程</td>
+</tr>
+</tbody>
+</table>
+<h1 id="Cache的基本知识"><a href="#Cache的基本知识" class="headerlink" title="Cache的基本知识"></a>Cache的基本知识</h1><h2 id="基本结构和原理"><a href="#基本结构和原理" class="headerlink" title="基本结构和原理"></a>基本结构和原理</h2><p>Cache和主存分块</p>
+<ul>
+<li>Cache是按块进行管理的。Cache和主存均被分割成大小相同的块。信息以块为单位调入Cache。相应地，CPU的访存地址被分割成两部分：块地址和块内位移。<ul>
+<li>主存块地址（块号）用于查找该块在Cache中的位置。</li>
+<li>块内位移用于确定所访问的数据在该块中的位置。</li>
+</ul>
+</li>
+</ul>
+<p>Cache的基本工作原理示意图<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F1.PNG" alt="存储系统1"></p>
+<h2 id="映像规则"><a href="#映像规则" class="headerlink" title="映像规则"></a>映像规则</h2><p>映像规则有以下三种：</p>
+<ol>
+<li>全相联映象 <ul>
+<li>全相联：主存中的任一块可以被放置到Cache中的任意一个位置。　　　　　　　　</li>
+<li>对比：阅览室位置 ── 随便坐</li>
+<li>特点：空间利用率最高，冲突概率最低，实现最复杂。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F2.PNG" alt="存储系统2"></li>
+</ul>
+</li>
+<li>直接映象 <ul>
+<li>直接映象：主存中的每一块只能被放置到Cache中唯一的一个位置。（循环分配）</li>
+<li>对比：阅览室位置 ── 只有一个位置可以坐</li>
+<li>特点：空间利用率最低，冲突概率最高，实现最简单。</li>
+<li>对于主存的第i 块，若它映象到Cache的第j 块，则:j＝i mod (M )  （M为Cache的块数）</li>
+<li>设M=2m，则当表示为二进制数时，j实际上就是i的低m位<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F3.PNG" alt="存储系统3"></li>
+</ul>
+</li>
+<li>组相联映象 <ul>
+<li>组相联：主存中的每一块可以被放置到Cache中唯一的一个组中的任何一个位置。</li>
+<li>组相联是直接映象和全相联的一种折衷<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E5%AD%98%E5%82%A8%E7%B3%BB%E7%BB%9F4.PNG" alt="存储系统4"></li>
+<li>组的选择常采用位选择算法<ul>
+<li>若主存第i 块映象到第k 组，则:<br>k＝i mod（G） （G为Cache的组数）</li>
+<li>设$G=2^g$，则当表示为二进制数时，k 实际上就是i 的低 g 位</li>
+<li>低g位以及直接映象中的低m位通常称为索引。</li>
+</ul>
+</li>
+<li>n路组相联：每组中有n个块(n＝M/G )。<br>　　n 称为相联度。<br>　 相联度越高，Cache空间的利用率就越高，块冲突概率就越低，不命中率也就越低。 </li>
+</ul>
+</li>
+</ol>
+<h2 id="查找方法"><a href="#查找方法" class="headerlink" title="查找方法"></a>查找方法</h2><ol>
+<li>通过查找目录表来实现<ul>
+<li>目录表的结构<ul>
+<li>主存块的块地址的高位部分，称为标识 。</li>
+<li>每个主存块能唯一地由其标识来确定</li>
+</ul>
+</li>
+<li>只需查找候选位置所对应的目录表项</li>
+</ul>
+</li>
+<li>并行查找与顺序查找<br>提高性能的重要思想：主候选位置(MRU块)（前瞻执行）</li>
+</ol>
+<p>Cache的容量与索引、相联度、块大小之间的关系为<br>$$Cache的容量=2^{index}\times 相联度 \times 块大小$$</p>
+<h2 id="替换算法"><a href="#替换算法" class="headerlink" title="替换算法"></a>替换算法</h2><p>直接映像Cache中的替换很简单，因为只有一个块，别无选择。而在组相联和全相联Cache中，则有多个块供选择。<br>主要的替换算法有以下三种：</p>
+<ul>
+<li>随机法<br>优点：实现简单</li>
+<li>先进先出法</li>
+<li>最近最少使用法<ul>
+<li>选择近期最少被访问的块作为被替换的块。（实现比较困难）</li>
+<li>实际上：选择最久没有被访问过的块作为被替换的块。 </li>
+<li>优点：命中率较高</li>
+</ul>
+</li>
+</ul>
+<h2 id="写策略"><a href="#写策略" class="headerlink" title="写策略"></a>写策略</h2><p>“写”操作必须在确认是命中后才可进行<br>“写”访问有可能导致Cache和主存内容的不一致</p>
+<p>两种写策略<br>写策略是区分不同Cache设计方案的一个重要标志。</p>
+<ul>
+<li>写直达法（也称为存直达法）<br>执行“写”操作时，不仅写入Cache，而且也写入下一级存储器。</li>
+<li>写回法（也称为拷回法）<br>执行“写”操作时，只写入Cache。仅当Cache中相应的块被替换时，才写回主存。 (设置“修改位”)</li>
+</ul>
+<p>两种写策略的比较</p>
+<ul>
+<li>写回法的优点：速度快，所使用的存储器带宽较低。</li>
+<li>写直达法的优点：易于实现，一致性好。</li>
+</ul>
+<p>“写”操作时的调块</p>
+<ul>
+<li>按写分配(写时取)<br>写不命中时，先把所写单元所在的块调入Cache，再行写入。</li>
+<li>不按写分配(绕写法)<br>写不命中时，直接写入下一级存储器而不调块。</li>
+</ul>
+<p>写策略与调块</p>
+<ul>
+<li>写回法 ── 按写分配</li>
+<li>写直达法 ── 不按写分配</li>
+</ul>
+<blockquote>
+<p>《计算机系统结构教程（第2版）》张晨曦 王志英 等 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统结构/" rel="tag">#计算机系统结构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/04/指令级并行及其开发——硬件方法/" rel="next" title="指令级并行及其开发——硬件方法">
+                <i class="fa fa-chevron-left"></i> 指令级并行及其开发——硬件方法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/06/数据库设计/" rel="prev" title="数据库设计">
+                数据库设计 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/05/存储系统/"
+           data-title="存储系统" data-url="http://zlw.poker/2016/12/05/存储系统/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#存储系统的层次结构"><span class="nav-number">1.</span> <span class="nav-text">存储系统的层次结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#存储系统的层次结构概述"><span class="nav-number">1.1.</span> <span class="nav-text">存储系统的层次结构概述</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存储系统的性能参数"><span class="nav-number">1.2.</span> <span class="nav-text">存储系统的性能参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三级存储系统"><span class="nav-number">1.3.</span> <span class="nav-text">三级存储系统</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Cache的基本知识"><span class="nav-number">2.</span> <span class="nav-text">Cache的基本知识</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本结构和原理"><span class="nav-number">2.1.</span> <span class="nav-text">基本结构和原理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#映像规则"><span class="nav-number">2.2.</span> <span class="nav-text">映像规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找方法"><span class="nav-number">2.3.</span> <span class="nav-text">查找方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#替换算法"><span class="nav-number">2.4.</span> <span class="nav-text">替换算法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#写策略"><span class="nav-number">2.5.</span> <span class="nav-text">写策略</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

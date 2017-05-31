@@ -1,0 +1,1388 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="数据库安全性概述数据库的安全性是指保护数据库以防止不合法的使用所造成的数据泄漏、更改或破坏。">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库安全性">
+<meta property="og:url" content="http://zlw.poker/2016/11/27/数据库安全性/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="数据库安全性概述数据库的安全性是指保护数据库以防止不合法的使用所造成的数据泄漏、更改或破坏。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A71.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A72.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A73.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A74.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:53:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库安全性">
+<meta name="twitter:description" content="数据库安全性概述数据库的安全性是指保护数据库以防止不合法的使用所造成的数据泄漏、更改或破坏。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A71.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/27/数据库安全性/"/>
+
+
+  <title> 数据库安全性 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据库安全性
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-27T21:32:25+08:00" content="2016-11-27">
+              2016-11-27
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/数据库系统概论/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库系统概论</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/27/数据库安全性/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/27/数据库安全性/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="数据库安全性概述"><a href="#数据库安全性概述" class="headerlink" title="数据库安全性概述"></a>数据库安全性概述</h1><p>数据库的安全性是指保护数据库以防止不合法的使用所造成的数据泄漏、更改或破坏。<br><a id="more"></a></p>
+<h2 id="数据库的不安全因素"><a href="#数据库的不安全因素" class="headerlink" title="数据库的不安全因素"></a>数据库的不安全因素</h2><ol>
+<li>非授权用户对数据库的恶意存取和破坏</li>
+<li>数据库中重要或敏感的数据被泄露</li>
+<li>安全环境的脆弱性</li>
+</ol>
+<h2 id="安全标准简介"><a href="#安全标准简介" class="headerlink" title="安全标准简介"></a>安全标准简介</h2><p><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A71.PNG" alt="数据库安全性1"><br>TCSEC/TDI标准的基本内容</p>
+<ol>
+<li><p>TCSEC/TDI，从四个方面来描述安全性级别划分的指标</p>
+<ul>
+<li>安全策略</li>
+<li>责任</li>
+<li>保证</li>
+<li>文档</li>
+</ul>
+</li>
+<li><p>TCSEC/TDI安全级别划分</p>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>安全级别</th>
+<th>定义</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>A1</td>
+<td>验证设计</td>
+</tr>
+<tr>
+<td>B3</td>
+<td>安全域</td>
+</tr>
+<tr>
+<td>B2</td>
+<td>结构化保护</td>
+</tr>
+<tr>
+<td>B1</td>
+<td>标记安全保护</td>
+</tr>
+<tr>
+<td>C2</td>
+<td>受控的存取保护</td>
+</tr>
+<tr>
+<td>C1</td>
+<td>自主安全保护</td>
+</tr>
+<tr>
+<td>D</td>
+<td>最小保护</td>
+</tr>
+</tbody>
+</table>
+<p>CC评估保证级（EAL）划分 </p>
+<table>
+<thead>
+<tr>
+<th>评估保证级</th>
+<th>定义</th>
+<th>TCSEC安全级别（近似相当）</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>EAL1</td>
+<td>功能测试</td>
+<td></td>
+</tr>
+<tr>
+<td>EAL2</td>
+<td>结构测试</td>
+<td>C1</td>
+</tr>
+<tr>
+<td>EAL3</td>
+<td>系统地测试和检查</td>
+<td>C2</td>
+</tr>
+<tr>
+<td>EAL4</td>
+<td>系统地设计、测试和复查</td>
+<td>B1</td>
+</tr>
+<tr>
+<td>EAL5</td>
+<td>半形式化设计和测试</td>
+<td>B2</td>
+</tr>
+<tr>
+<td>EAL6</td>
+<td>半形式化验证的设计和测试</td>
+<td>B3</td>
+</tr>
+<tr>
+<td>EAL7</td>
+<td>形式化验证的设计和测试</td>
+<td>A1</td>
+</tr>
+</tbody>
+</table>
+<h1 id="数据库安全性控制"><a href="#数据库安全性控制" class="headerlink" title="数据库安全性控制"></a>数据库安全性控制</h1><p>非法使用数据库的情况</p>
+<ul>
+<li>编写合法程序绕过DBMS及其授权机制</li>
+<li>直接或编写应用程序执行非授权操作</li>
+<li>通过多次合法查询数据库从中推导出一些保密数据</li>
+</ul>
+<p>计算机系统中，安全措施是一级一级层层设置的<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A72.PNG" alt="数据库安全性2"></p>
+<p>数据库管理系统安全性控制模型<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A73.PNG" alt="数据库安全性3"></p>
+<p>数据库安全性控制的常用方法</p>
+<ul>
+<li>用户标识和鉴定</li>
+<li>存取控制</li>
+<li>视图</li>
+<li>审计</li>
+<li>密码存储</li>
+</ul>
+<h2 id="用户身份鉴别"><a href="#用户身份鉴别" class="headerlink" title="用户身份鉴别"></a>用户身份鉴别</h2><p>用户身份鉴别</p>
+<ul>
+<li>系统提供的最外层安全保护措施</li>
+<li>用户标识：由用户名和用户标识号组成（用户标识号在系统整个生命周期内唯一）</li>
+</ul>
+<p>用户身份鉴别的方法</p>
+<ol>
+<li>静态口令鉴别<br>静态口令一般由用户自己设定，这些口令是静态不变的</li>
+<li>动态口令鉴别<br>口令是动态变化的，每次鉴别时均需使用动态产生的新口令登录数据库管理系统，即采用一次一密的方法</li>
+<li>生物特征鉴别<br>通过生物特征进行认证的技术，生物特征如指纹、虹膜和掌纹等</li>
+<li>智能卡鉴别<br>智能卡是一种不可复制的硬件，内置集成电路的芯片，具有硬件加密功能</li>
+</ol>
+<h2 id="存取控制"><a href="#存取控制" class="headerlink" title="存取控制"></a>存取控制</h2><p>存取控制机制组成</p>
+<ul>
+<li>定义用户权限：定义用户可以在哪些数据库对象上进行哪些类型的操作，定义存取权限称为授权 </li>
+<li>合法权限检查 </li>
+</ul>
+<p>用户权限定义和合法权检查机制一起组成了DBMS的安全子系统。</p>
+<p>常用存取控制方法</p>
+<ul>
+<li>自主存取控制（Discretionary Access Control，简称DAC）<ul>
+<li>C2级</li>
+<li>用户对不同的数据对象有不同的存取权限</li>
+<li>不同的用户对同一对象也有不同的权限</li>
+<li>用户还可将其拥有的存取权限转授给其他用户</li>
+</ul>
+</li>
+<li>强制存取控制（Mandatory Access Control，简称 MAC）<ul>
+<li>B1级</li>
+<li>每一个数据对象被标以一定的密级</li>
+<li>每一个用户也被授予某一个级别的许可证</li>
+<li>对于任意一个对象，只有具有合法许可证的用户才可以存取</li>
+</ul>
+</li>
+</ul>
+<h2 id="自主存取控制方法"><a href="#自主存取控制方法" class="headerlink" title="自主存取控制方法"></a>自主存取控制方法</h2><ol>
+<li>通过 SQL 的GRANT 语句和REVOKE 语句实现</li>
+<li>用户权限组成<ul>
+<li>数据对象</li>
+<li>操作类型</li>
+</ul>
+</li>
+<li>数据对象<ul>
+<li>数据</li>
+<li>数据库模式</li>
+</ul>
+</li>
+<li>关系数据库系统中的存取权限</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>对象类型</th>
+<th>对象</th>
+<th>操作类型</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>数据库模式</td>
+<td>模式</td>
+<td>CREATE SCHEMA</td>
+</tr>
+<tr>
+<td>数据库模式</td>
+<td>基本表</td>
+<td>CREATE TABLE,ALTER TABLE</td>
+</tr>
+<tr>
+<td>数据库模式</td>
+<td>视图</td>
+<td>CREATE VIEW</td>
+</tr>
+<tr>
+<td>数据库模式</td>
+<td>索引</td>
+<td>CREATE INDEX</td>
+</tr>
+<tr>
+<td>数据</td>
+<td>基本表和视图</td>
+<td>SELECT,INSERT,UPDATE,DELETE,REFERENCES,ALL PRIVILEGES</td>
+</tr>
+<tr>
+<td>数据</td>
+<td>属性列</td>
+<td>SELECT,INSERT,UPDATE,REFERENCES,ALL PRIVILEGES</td>
+</tr>
+</tbody>
+</table>
+<h2 id="授权：授予与回收"><a href="#授权：授予与回收" class="headerlink" title="授权：授予与回收"></a>授权：授予与回收</h2><ol>
+<li><p>GRANT</p>
+<ul>
+<li><p>GRANT语句的一般格式：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GRANT</span> &lt;权限&gt;[,&lt;权限&gt;]... </div><div class="line"><span class="keyword">ON</span> &lt;对象类型&gt; &lt;对象名&gt;,&lt;对象类型&gt; &lt;对象名&gt;,...</div><div class="line"><span class="keyword">TO</span> &lt;用户&gt;[,&lt;用户&gt;]...</div><div class="line">[<span class="keyword">WITH</span> <span class="keyword">GRANT</span> <span class="keyword">OPTION</span>];</div></pre></td></tr></table></figure>
+</li>
+<li><p>发出GRANT：</p>
+<ul>
+<li>DBA</li>
+<li>数据库对象创建者（即属主Owner）</li>
+<li>拥有该权限的用户</li>
+</ul>
+</li>
+<li><p>接受权限的用户 </p>
+<ul>
+<li>一个或多个具体用户</li>
+<li>PUBLIC（全体用户）  </li>
+</ul>
+</li>
+<li><p>WITH GRANT OPTION子句:</p>
+<ul>
+<li>指定：可以再授予</li>
+<li>没有指定：不能传播</li>
+<li>不能循环授权，即被授权者不能把权限再授回给授权者或其祖先</li>
+</ul>
+</li>
+<li><p>例如：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GRANT</span> <span class="keyword">SELECT</span>   <span class="comment">/*把查询Student表的权限授给用户U1*/</span></div><div class="line"><span class="keyword">ON</span> <span class="keyword">TABLE</span> Student</div><div class="line"><span class="keyword">TO</span> U1;</div><div class="line"></div><div class="line"><span class="keyword">GRANT</span> ALL <span class="keyword">PRIVILEGES</span>   <span class="comment">/*把对Student表和Course表的全部操作权限授予所有用户*/</span></div><div class="line"><span class="keyword">ON</span> <span class="keyword">TABLE</span> Student,Course</div><div class="line"><span class="keyword">TO</span> <span class="keyword">PUBLIC</span>;</div><div class="line"></div><div class="line"><span class="keyword">GRANT</span> <span class="keyword">UPDATE</span>(Sno),<span class="keyword">SELECT</span>  <span class="comment">/*把查询Student表和修改学生学号的权限授给用户U4*/</span></div><div class="line"><span class="keyword">ON</span> <span class="keyword">TABLE</span> Student</div><div class="line"><span class="keyword">TO</span> U4;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+</li>
+<li><p>REVOKE<br>REVOKE语句的一般格式为：</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">REVOKE</span> &lt;权限&gt;[,&lt;权限&gt;]... </div><div class="line"><span class="keyword">ON</span> &lt;对象类型&gt; &lt;对象名&gt;,&lt;对象类型&gt; &lt;对象名&gt;,...</div><div class="line"><span class="keyword">FROM</span> &lt;用户&gt;[,&lt;用户&gt;]...;</div></pre></td></tr></table></figure>
+</li>
+<li><p>SQL灵活的授权机制</p>
+<ul>
+<li>DBA：<ul>
+<li>拥有所有对象的所有权限</li>
+<li>不同的权限授予不同的用户</li>
+</ul>
+</li>
+<li>用户：<ul>
+<li>拥有自己建立的对象的全部的操作权限</li>
+<li>GRANT：授予其他用户</li>
+</ul>
+</li>
+<li>被授权的用户<ul>
+<li>“继续授权”许可：再授予</li>
+</ul>
+</li>
+<li>所有授予出去的权力在必要时又都可用REVOKE语句收回</li>
+</ul>
+</li>
+<li><p>创建数据库模式的权限 </p>
+<ul>
+<li>DBA在创建用户时实现</li>
+<li><p>CREATE USER语句格式</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">USER</span> &lt;username&gt; [<span class="keyword">WITH</span>] [DBA|<span class="keyword">RESOURCE</span>|<span class="keyword">CONNECT</span>];</div></pre></td></tr></table></figure>
+</li>
+<li><p>对CREATE USER语句说明</p>
+<ul>
+<li>只有系统的超级用户才有权创建一个新的数据库用户</li>
+<li>新创建的数据库用户有三种权限：CONNECT、RESOURCE和DBA</li>
+<li>CREATE USER命令中如果没有指定创建的新用户的权限，默认该用户拥有CONNECT权限</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th>拥有的权限</th>
+<th>CREATE USER</th>
+<th>CREATE SCHEMA</th>
+<th>CREATE TABLE</th>
+<th>登录数据库，执行数据查询和操纵</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DBA</td>
+<td>可以</td>
+<td>可以</td>
+<td>可以</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>RESOURCE</td>
+<td>不可以</td>
+<td>不可以</td>
+<td>可以</td>
+<td>可以</td>
+</tr>
+<tr>
+<td>CONNECT</td>
+<td>不可以</td>
+<td>不可以</td>
+<td>不可以</td>
+<td>可以，但必须拥有相应权限</td>
+</tr>
+</tbody>
+</table>
+<h2 id="数据库角色"><a href="#数据库角色" class="headerlink" title="数据库角色"></a>数据库角色</h2><p>数据库角色：被命名的一组与数据库操作相关的权限。</p>
+<ul>
+<li>角色是权限的集合 </li>
+<li>可以为一组具有相同权限的用户创建一个角色</li>
+<li>简化授权的过程</li>
+</ul>
+<p>语句格式</p>
+<ol>
+<li><p>角色的创建</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">ROLE</span> &lt;角色名&gt;</div></pre></td></tr></table></figure>
+</li>
+<li><p>给角色授权 </p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GRANT</span> &lt;权限&gt;,&lt;权限&gt;,... </div><div class="line"><span class="keyword">ON</span> &lt;对象类型&gt;对象名  </div><div class="line"><span class="keyword">TO</span> &lt;角色&gt;,&lt;角色&gt;,...</div></pre></td></tr></table></figure>
+</li>
+<li><p>将一个角色授予其他的角色或用户</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">GRANT</span> &lt;角色<span class="number">1</span>&gt;,&lt;角色<span class="number">2</span>&gt;,...</div><div class="line"><span class="keyword">TO</span>  &lt;角色<span class="number">3</span>&gt;[,&lt;用户<span class="number">1</span>&gt;],... </div><div class="line">[<span class="keyword">WITH</span> <span class="keyword">ADMIN</span> <span class="keyword">OPTION</span>]</div></pre></td></tr></table></figure>
+<p>如果指定了WITH ADMIN OPTION子句，被授予角色或用户可以再授予其他角色。</p>
+</li>
+<li>角色权限的收回 <figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">REVOKE</span> &lt;权限&gt;,&lt;权限&gt;,...</div><div class="line"><span class="keyword">ON</span> &lt;对象类型&gt; &lt;对象名&gt;</div><div class="line"><span class="keyword">FROM</span> &lt;角色&gt;,&lt;角色&gt;,...</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="强制存取控制方法"><a href="#强制存取控制方法" class="headerlink" title="强制存取控制方法"></a>强制存取控制方法</h2><p>自主存取控制缺点</p>
+<ul>
+<li>可能存在数据的“无意泄露”</li>
+<li>原因：这种机制仅仅通过对数据的存取权限来进行安全控制，而数据本身并无安全性标记</li>
+<li>解决：对系统控制下的所有主客体实施强制存取控制策略</li>
+</ul>
+<p>在强制存取控制中，数据库管理系统所管理的全部实体被分为主体和客体两大类</p>
+<ul>
+<li><p>主体是系统中的活动实体</p>
+<ul>
+<li>数据库管理系统所管理的实际用户</li>
+<li>代表用户的各进程</li>
+</ul>
+</li>
+<li><p>客体是系统中的被动实体，受主体操纵</p>
+<ul>
+<li>文件、基本表、索引、视图</li>
+</ul>
+</li>
+</ul>
+<p>敏感度标记（Label）</p>
+<ul>
+<li>对于主体和客体，DBMS为它们每个实例（值）指派一个敏感度标记（Label）</li>
+<li>敏感度标记分成若干级别<ol>
+<li>绝密（Top Secret，TS）</li>
+<li>机密（Secret，S）</li>
+<li>可信（Confidential，C）</li>
+<li>公开（Public，P）</li>
+<li>TS&gt;=S&gt;=C&gt;=P</li>
+</ol>
+</li>
+</ul>
+<p>主体的敏感度标记称为许可证级别（Clearance Level）<br>客体的敏感度标记称为密级（Classification Level）</p>
+<p>强制存取控制规则</p>
+<ol>
+<li>仅当主体的许可证级别大于或等于客体的密级时，该主体才能读取相应的客体</li>
+<li>仅当主体的许可证级别小于或等于客体的密级时，该主体才能写相应的客体<br>解释：如果违反规则2，就有可能把数据的密级从高流向低，造成数据的泄露。</li>
+</ol>
+<p>强制存取控制是对数据本身进行密级标记，无论数据如何复制，标记与数据是一个不可分的整体，只有符合密级标记要求的用户才可以操纵数据，从而提供了更高级别的安全性。</p>
+<p>DAC+MAC安全检查示意图<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%AE%89%E5%85%A8%E6%80%A74.PNG" alt="数据库安全性4"><br>先进行自主存取控制检查，通过自主存取控制检查的数据对象再由系统进行强制存取控制检查，只有通过强制存取控制检查的数据对象方可存取。</p>
+<h1 id="视图机制"><a href="#视图机制" class="headerlink" title="视图机制"></a>视图机制</h1><ul>
+<li>把要保密的数据对无权存取这些数据的用户隐藏起来，对数据提供一定程度的安全保护 </li>
+<li>间接实现了支持存取谓词的用户权限定义</li>
+</ul>
+<h1 id="审计"><a href="#审计" class="headerlink" title="审计"></a>审计</h1><p>什么是审计</p>
+<ul>
+<li>审计日志（Audit Log）<br>将用户对数据库的所有操作记录在上面</li>
+<li>DBA利用审计日志<br>找出非法存取数据的人、时间和内容</li>
+<li>C2以上安全级别的DBMS必须具有审计功能</li>
+</ul>
+<p>审计事件</p>
+<ul>
+<li>服务器事件<br>审计数据库服务器发生的事件，包含启动、停止、配置文件的重新加载。</li>
+<li>系统权限<br>对系统拥有的结构或模式对象进行操作的审计<br>要求该操作的权限是通过系统权限获得的</li>
+<li>语句事件<br>对SQL语句，如DDL、DML、DQL及DCL语句的审计</li>
+<li>模式对象事件<br>对特定模式对象上进行的SELECT或DML操作的审计</li>
+</ul>
+<p>审计功能</p>
+<ul>
+<li>基本功能<br>提供多种审计查阅方式提供多种审计查阅方式</li>
+<li>多套审计规则：一般在初始化设定</li>
+<li>提供审计分析和报表功能</li>
+<li>审计日志管理功能<br>防止审计员误删审计记录，审计日志必须先转储后删除<br>对转储的审计记录文件提供完整性和保密性保护<br>只允许审计员查阅和转储审计记录，不允许任何用户新增和修改审计记录等</li>
+<li>提供查询审计设置及审计记录信息的专门视图</li>
+</ul>
+<p>AUDIT语句和NOAUDIT语句</p>
+<ul>
+<li>AUDIT语句：设置审计功能 </li>
+<li>NOAUDIT语句：取消审计功能 </li>
+<li>例如：<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">AUDIT <span class="keyword">ALTER</span>,<span class="keyword">UPDATE</span>  <span class="comment">/*对修改SC表结构或修改SC表数据的操作进行审计*/</span></div><div class="line"><span class="keyword">ON</span> SC;</div><div class="line"></div><div class="line">NOAUDIT <span class="keyword">ALTER</span>,<span class="keyword">UPDATE</span></div><div class="line"><span class="keyword">ON</span> SC;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>审计一般可以分为用户级审计和系统级审计</p>
+<ul>
+<li>用户级审计<ul>
+<li>任何用户可设置的审计</li>
+<li>主要是用户针对自己创建的数据库表和视图进行审计</li>
+</ul>
+</li>
+<li>系统级审计<ul>
+<li>只能由数据库管理员设置</li>
+<li>监测成功或失败的登录要求、监测授权和收回操作以及其他数据库级权限下的操作</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据加密"><a href="#数据加密" class="headerlink" title="数据加密"></a>数据加密</h1><p>数据加密</p>
+<ul>
+<li>防止数据库中数据在存储和传输中失密的有效手段</li>
+</ul>
+<p>加密的基本思想</p>
+<ul>
+<li>根据一定的算法将原始数据—明文（Plain text）变换为不可直接识别的格式­—密文（Cipher text）</li>
+</ul>
+<p>加密方法</p>
+<ul>
+<li>存储加密</li>
+<li>传输加密</li>
+</ul>
+<p>存储加密</p>
+<ul>
+<li>透明存储加密<ul>
+<li>内核级加密保护方式，对用户完全透明</li>
+<li>将数据在写到磁盘时对数据进行加密，授权用户读取数据时再对其进行解密</li>
+<li>数据库的应用程序不需要做任何修改，只需在创建表语句中说明需加密的字段即可<br>内核级加密方法: 性能较好，安全完备性较高</li>
+</ul>
+</li>
+<li>非透明存储加密<ul>
+<li>通过多个加密函数实现</li>
+</ul>
+</li>
+</ul>
+<p>传输加密</p>
+<ul>
+<li>链路加密<ul>
+<li>在链路层进行加密</li>
+<li>传输信息由报头和报文两部分组成</li>
+<li>报文和报头均加密</li>
+</ul>
+</li>
+<li>端到端加密<ul>
+<li>在发送端加密，接收端解密</li>
+<li>只加密报文不加密报头</li>
+<li>所需密码设备数量相对较少，容易被非法监听者发现并从中获取敏感信息</li>
+</ul>
+</li>
+</ul>
+<h1 id="其他安全性保护"><a href="#其他安全性保护" class="headerlink" title="其他安全性保护"></a>其他安全性保护</h1><p>推理控制</p>
+<ul>
+<li>处理强制存取控制未解决的问题</li>
+<li>避免用户利用能够访问的数据推知更高密级的数据</li>
+<li>常用方法<ul>
+<li>基于函数依赖的推理控制</li>
+<li>基于敏感关联的推理控制</li>
+</ul>
+</li>
+</ul>
+<p>隐蔽信道</p>
+<ul>
+<li>处理强制存取控制未解决的问题</li>
+</ul>
+<p>数据隐私保护</p>
+<ul>
+<li>描述个人控制其不愿他人知道或他人不便知道的个人数据的能力</li>
+<li>范围很广：数据收集、数据存储、数据处理和数据发布等各个阶段</li>
+</ul>
+<blockquote>
+<p>《数据库系统概论（第5版）》王珊 萨师煊 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/25/指令系统的设计/" rel="next" title="指令系统的设计">
+                <i class="fa fa-chevron-left"></i> 指令系统的设计
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/28/数据库完整性/" rel="prev" title="数据库完整性">
+                数据库完整性 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/27/数据库安全性/"
+           data-title="数据库安全性" data-url="http://zlw.poker/2016/11/27/数据库安全性/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库安全性概述"><span class="nav-number">1.</span> <span class="nav-text">数据库安全性概述</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库的不安全因素"><span class="nav-number">1.1.</span> <span class="nav-text">数据库的不安全因素</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安全标准简介"><span class="nav-number">1.2.</span> <span class="nav-text">安全标准简介</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库安全性控制"><span class="nav-number">2.</span> <span class="nav-text">数据库安全性控制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户身份鉴别"><span class="nav-number">2.1.</span> <span class="nav-text">用户身份鉴别</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#存取控制"><span class="nav-number">2.2.</span> <span class="nav-text">存取控制</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自主存取控制方法"><span class="nav-number">2.3.</span> <span class="nav-text">自主存取控制方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#授权：授予与回收"><span class="nav-number">2.4.</span> <span class="nav-text">授权：授予与回收</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库角色"><span class="nav-number">2.5.</span> <span class="nav-text">数据库角色</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#强制存取控制方法"><span class="nav-number">2.6.</span> <span class="nav-text">强制存取控制方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#视图机制"><span class="nav-number">3.</span> <span class="nav-text">视图机制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#审计"><span class="nav-number">4.</span> <span class="nav-text">审计</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据加密"><span class="nav-number">5.</span> <span class="nav-text">数据加密</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#其他安全性保护"><span class="nav-number">6.</span> <span class="nav-text">其他安全性保护</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

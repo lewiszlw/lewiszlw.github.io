@@ -1,0 +1,16 @@
+#div1{
+		width:150px;
+		height:150px;
+		background-color:#000;
+		color:#fff;
+		margin:0 auto;
+}
+#div1.div2{
+		width:150px;
+		height:150px;
+		background-color:#888888;
+		color:red;
+		margin:0 auto;
+		border:10px solid red;
+		cursor:crosshair;
+}

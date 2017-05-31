@@ -1,0 +1,935 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="关系数据结构及形式化定义关系关系模型的数据结构非常简单，只包含单一的数据结构——关系。在用户看来，关系模型中数据的逻辑结构是一张扁平的二维表。">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关系数据库">
+<meta property="og:url" content="http://zlw.poker/2016/11/20/关系数据库/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="关系数据结构及形式化定义关系关系模型的数据结构非常简单，只包含单一的数据结构——关系。在用户看来，关系模型中数据的逻辑结构是一张扁平的二维表。">
+<meta property="og:updated_time" content="2017-01-04T05:52:28.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关系数据库">
+<meta name="twitter:description" content="关系数据结构及形式化定义关系关系模型的数据结构非常简单，只包含单一的数据结构——关系。在用户看来，关系模型中数据的逻辑结构是一张扁平的二维表。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/20/关系数据库/"/>
+
+
+  <title> 关系数据库 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                关系数据库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-20T23:12:10+08:00" content="2016-11-20">
+              2016-11-20
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/数据库系统概论/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库系统概论</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/20/关系数据库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/20/关系数据库/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="关系数据结构及形式化定义"><a href="#关系数据结构及形式化定义" class="headerlink" title="关系数据结构及形式化定义"></a>关系数据结构及形式化定义</h1><h2 id="关系"><a href="#关系" class="headerlink" title="关系"></a>关系</h2><p>关系模型的数据结构非常简单，只包含单一的数据结构——关系。在用户看来，关系模型中数据的逻辑结构是一张扁平的二维表。<br><a id="more"></a></p>
+<h3 id="域"><a href="#域" class="headerlink" title="域"></a>域</h3><p><strong>域（domain）</strong>是一组具有相同数据类型的值的集合。例如，自然数、长度小于25字节的字符串集合、{男，女}等都可以是域。</p>
+<h3 id="笛卡尔积"><a href="#笛卡尔积" class="headerlink" title="笛卡尔积"></a>笛卡尔积</h3><p>给定一组域D1，D2，…，Dn，允许其中某些域是相同的，D1，D2，…，Dn的笛卡尔积为D1×D2×…×Dn={(d1,d2,…,dn)|di∈Di,i=1,2,…,n}。其中，每一个元素(d1,d2,…,dn)叫作一个n元组，或简称元组。元组中的每一个值di叫作一个<strong>分量</strong>。<br>一个域允许的不同取值个数称为这个域的<strong>基数</strong>。</p>
+<h3 id="关系-1"><a href="#关系-1" class="headerlink" title="关系"></a>关系</h3><p>D1×D2×…×Dn的子集叫做在域D1，D2，…，Dn上的<strong>关系</strong>，表示为R(D1，D2，…，Dn)。这里R表示关系的名字，n是关系的<strong>目</strong>或<strong>度</strong>。<br>若关系中的某一属性组的值能唯一地标识一个元组，而其子集不能，则称该属性组为<strong>候选码</strong>。若一个关系有多个候选码，则选定其中一个为主码。候选码的诸属性称为主属性。不包含在任何候选码中的属性称为非主属性或非码属性。<br>关系可以有三种类型：基本关系（又称基本表或基表）、查询表和视图表。其中，基本表是实际存在的表，它是实际存储数据的逻辑表示；查询表是查询结果对应的表；视图表是由基本表或其他视图表导出的表，是虚表，不对应实际存储的数据。<br>基本关系具有以下6条性质：<br>1.列是同质的，即每一列中的分量是同一类型的数据，来自同一个域。<br>2.不同的列可出自同一个域，称其中的每一列为一个属性，不同的属性要给予不同的属性名。<br>3.列的顺序无所谓，即列的次序可以任意交换。<br>4.任意两个元组的候选码不能取相同的值。<br>5.行的顺序无所谓，即行的次序可以任意交换。<br>6.分量必须取原子值，即每一个分量都必须是不可分的数据项。</p>
+<h2 id="关系模式"><a href="#关系模式" class="headerlink" title="关系模式"></a>关系模式</h2><p>关系的描述称为<strong>关系模式</strong>。它可以形式化地表示为R(U,D,DOM,F)。其中R为关系名，U为组成该关系的属性名集合，D为U中属性所来自的域，DOM为属性向域的映像集合，F为属性间数据的依赖关系集合。域名及属性向域的映像常常直接说明为属性的类型、长度。</p>
+<h2 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h2><p>关系数据库的型也称为关系数据库模式，是对关系数据库的描述。<br>关系数据库的值是这些关系模式在某一时刻对应的关系的集合，通常就成为关系数据库。</p>
+<h2 id="关系模型的存储结构"><a href="#关系模型的存储结构" class="headerlink" title="关系模型的存储结构"></a>关系模型的存储结构</h2><p>在关系数据库的物理组织中，有的关系数据库管理系统中一个表对应一个操作系统文件，将物理数据组织交给操作系统完成；有的关系数据库管理系统从操作系统那里申请若干个大的文件，自己划分文件空间，组织表、索引等存储结构，并进行存储管理。</p>
+<h1 id="关系操作"><a href="#关系操作" class="headerlink" title="关系操作"></a>关系操作</h1><h2 id="基本的关系操作"><a href="#基本的关系操作" class="headerlink" title="基本的关系操作"></a>基本的关系操作</h2><p>关系模型中常用的关系操作包括查询操作和插入、删除、修改操作两大部分。查询操作又可以分为选择、投影、连接、除、并、差、交、笛卡尔积等。其中选择、投影、并、差、笛卡尔积是5中基本操作。<br>关系操作的特点是集合操作方式，即操作的对象和结果都是集合。</p>
+<h2 id="关系数据语言的分类"><a href="#关系数据语言的分类" class="headerlink" title="关系数据语言的分类"></a>关系数据语言的分类</h2><p>早期的关系操作能力通常用代数方式或逻辑方式来表示，分别称为<strong>关系代数</strong>和<strong>关系演算</strong>。关系代数用关系的运算来表达查询要求，关系演算则用谓词来表达查询要求。关系演算又可按谓词变元的基本对象是元组变量还是域变量分为<strong>元组关系演算</strong>和<strong>域关系演算</strong>。<br>另外，还有一种介于关系代数和关系演算之间的<strong>结构化查询语言（Structured Query Language,SQL）</strong>，是集查询、数据定义语言、数据操纵语言和数据控制语言于一体的关系数据语言。<br>因此关系数据语言可以分为三类：关系代数语言、关系演算语言（元组关系演算语言、域关系演算语言）、具有关系代数和关系演算双重特定的语言（例如SQL）。</p>
+<h1 id="关系的完整性"><a href="#关系的完整性" class="headerlink" title="关系的完整性"></a>关系的完整性</h1><p>关系模型中有三类完整性约束：<strong>实体完整性</strong>、<strong>参照完整性</strong>和<strong>用户定义的完整性</strong>。其中实体完整性和参照完整性是关系模型必须满足的完整性约束条件，被称作是<strong>关系的两个不变性</strong>，应该由关系系统自动支持。</p>
+<h2 id="实体完整性"><a href="#实体完整性" class="headerlink" title="实体完整性"></a>实体完整性</h2><p>实体完整性规则：若属性（指一个或一组属性）A是基本关系R的主属性，则A不能取空值。所谓空值就是“不知道”或“不存在”或“无意义”的值。<br>对于实体完整性规则说明如下：</p>
+<ul>
+<li>实体完整性规则是针对基本关系而言的。一个基本表通常对应现实世界的一个实体集。</li>
+<li>现实世界中的实体是可区分，即它们具有某种唯一性标识。</li>
+<li>相应地，关系模型中以主码作为唯一性标识。</li>
+<li>主码中的属性即主属性不能取空值。</li>
+</ul>
+<h2 id="参照完整性"><a href="#参照完整性" class="headerlink" title="参照完整性"></a>参照完整性</h2><p>设F是基本关系R的一个或一组属性，但不是关系R的码，Ks是基本关系S的主码。如果F和Ks相对应，则称F是R的外码，并称基本关系R为参照关系，基本关系S为被参照关系或目标关系。<br>参照完整性规则：若属性（或属性组）F是基本关系R的外码，它与基本关系S的主码Ks相对应（基本关系R和S不一定是不同的关系），则对于R中每个元组在F上的值必须：</p>
+<ul>
+<li>或者取空值（F的每个属性值均为空值）；</li>
+<li>或者等于S中某个元组的主码值。</li>
+</ul>
+<h2 id="用户定义的完整性"><a href="#用户定义的完整性" class="headerlink" title="用户定义的完整性"></a>用户定义的完整性</h2><p>不同的关系数据库系统根据其应用环境的不同，往往还需要一些特殊的约束条件。</p>
+<h1 id="关系代数"><a href="#关系代数" class="headerlink" title="关系代数"></a>关系代数</h1><p>关系代数是一种抽象的查询语言，它用对关系的运算来表达查询。关系代数的运算按运算符的不同可分为传统的集合运算和专门的关系运算两类。</p>
+<h2 id="传统的集合运算"><a href="#传统的集合运算" class="headerlink" title="传统的集合运算"></a>传统的集合运算</h2><p>传统的集合运算是二目运算，包括并、差、交、笛卡尔积4种运算。</p>
+<h2 id="专门的关系运算"><a href="#专门的关系运算" class="headerlink" title="专门的关系运算"></a>专门的关系运算</h2><p>专门的关系运算包括选择、投影、连接、除运算等。</p>
+<h3 id="选择"><a href="#选择" class="headerlink" title="选择"></a>选择</h3><p>选择又称为限制。它是在关系R中选择满足给定条件的诸元组，记作σF(R)={t|t∈R∧F(t)=’真’}。其中F表示选择条件，它是一个逻辑表达式，取逻辑值“真”或“假”。</p>
+<h3 id="投影"><a href="#投影" class="headerlink" title="投影"></a>投影</h3><p>关系R上的投影是从R中选择出若干属性列组成新的关系。记作∏A(R)={t[A]|t∈R}。其中A为R中的属性列。</p>
+<h3 id="连接"><a href="#连接" class="headerlink" title="连接"></a>连接</h3><p>连接也称为θ连接。它是从两个关系的笛卡尔积中选取属性间满足一定条件的元组。连接运算中有两种最为重要也最为常用的连接，一种是<strong>等值连接</strong>，另一种是<strong>自然连接</strong>。θ为“=”的连接运算称为等值连接，它是从关系R和S的笛卡尔积中选取A、B属性值相等的那些元组。自然连接是一种特殊的等值连接，它要求两个关系中进行比较的分量必须是同名的属性组，并且在结果中把重复的属性列去掉。<br>两个关系R和S在做自然连接时，选择两个关系在公共属性上值相等的元组构成新的关系。此时，关系R中某些元组有可能在S中不存在公共属性上值相等的元组，从而造成R中这些元组在操作时被舍弃了，同样，S中某些元组也可能被舍弃。这些被舍弃的元组称为<strong>悬浮元组</strong>。<br>如果把悬浮元组也保存在结果关系中，而在其他属性上填空值NULL，那么这种连接就叫做<strong>外连接</strong>；如果只保留左边关系R中的悬浮元组就叫做<strong>左外连接</strong>；如果只保留右边关系S中的悬浮元组就叫做<strong>右外连接</strong>。</p>
+<h3 id="除运算"><a href="#除运算" class="headerlink" title="除运算"></a>除运算</h3><p>设关系R除以关系S的结果为关系T，则T包含所有在R但不在S中的属性及其值，且T的元组与S的元组的所有组合都在R中。</p>
+<p>在8种关系代数运算，其中并、差、笛卡尔积、选择、投影这5种运算为基本的运算。其他3种运算均可以用这5中基本运算来表达。</p>
+<blockquote>
+<p>《数据库系统概论（第5版）》王珊 萨师煊 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/18/数据库绪论/" rel="next" title="数据库绪论">
+                <i class="fa fa-chevron-left"></i> 数据库绪论
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/21/计算机系统结构的基础知识/" rel="prev" title="计算机系统结构的基础知识">
+                计算机系统结构的基础知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/20/关系数据库/"
+           data-title="关系数据库" data-url="http://zlw.poker/2016/11/20/关系数据库/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#关系数据结构及形式化定义"><span class="nav-number">1.</span> <span class="nav-text">关系数据结构及形式化定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#关系"><span class="nav-number">1.1.</span> <span class="nav-text">关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#域"><span class="nav-number">1.1.1.</span> <span class="nav-text">域</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#笛卡尔积"><span class="nav-number">1.1.2.</span> <span class="nav-text">笛卡尔积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关系-1"><span class="nav-number">1.1.3.</span> <span class="nav-text">关系</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关系模式"><span class="nav-number">1.2.</span> <span class="nav-text">关系模式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关系数据库"><span class="nav-number">1.3.</span> <span class="nav-text">关系数据库</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关系模型的存储结构"><span class="nav-number">1.4.</span> <span class="nav-text">关系模型的存储结构</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关系操作"><span class="nav-number">2.</span> <span class="nav-text">关系操作</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本的关系操作"><span class="nav-number">2.1.</span> <span class="nav-text">基本的关系操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#关系数据语言的分类"><span class="nav-number">2.2.</span> <span class="nav-text">关系数据语言的分类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关系的完整性"><span class="nav-number">3.</span> <span class="nav-text">关系的完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实体完整性"><span class="nav-number">3.1.</span> <span class="nav-text">实体完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参照完整性"><span class="nav-number">3.2.</span> <span class="nav-text">参照完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用户定义的完整性"><span class="nav-number">3.3.</span> <span class="nav-text">用户定义的完整性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#关系代数"><span class="nav-number">4.</span> <span class="nav-text">关系代数</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#传统的集合运算"><span class="nav-number">4.1.</span> <span class="nav-text">传统的集合运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#专门的关系运算"><span class="nav-number">4.2.</span> <span class="nav-text">专门的关系运算</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#选择"><span class="nav-number">4.2.1.</span> <span class="nav-text">选择</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#投影"><span class="nav-number">4.2.2.</span> <span class="nav-text">投影</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#连接"><span class="nav-number">4.2.3.</span> <span class="nav-text">连接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#除运算"><span class="nav-number">4.2.4.</span> <span class="nav-text">除运算</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

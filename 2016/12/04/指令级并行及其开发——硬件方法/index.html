@@ -1,0 +1,1199 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机系统结构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="指令级并行（Instruction-Level Parallelism,ILP）：指指令之间存在的一种并行性，利用它，计算机可以并行执行两条或两条以上的指令。">
+<meta name="keywords" content="计算机系统结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="指令级并行及其开发——硬件方法">
+<meta property="og:url" content="http://zlw.poker/2016/12/04/指令级并行及其开发——硬件方法/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="指令级并行（Instruction-Level Parallelism,ILP）：指指令之间存在的一种并行性，利用它，计算机可以并行执行两条或两条以上的指令。">
+<meta property="og:updated_time" content="2017-01-04T05:54:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="指令级并行及其开发——硬件方法">
+<meta name="twitter:description" content="指令级并行（Instruction-Level Parallelism,ILP）：指指令之间存在的一种并行性，利用它，计算机可以并行执行两条或两条以上的指令。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/04/指令级并行及其开发——硬件方法/"/>
+
+
+  <title> 指令级并行及其开发——硬件方法 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                指令级并行及其开发——硬件方法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-04T20:36:53+08:00" content="2016-12-04">
+              2016-12-04
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/计算机系统结构教程/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统结构教程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/04/指令级并行及其开发——硬件方法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/04/指令级并行及其开发——硬件方法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>指令级并行（Instruction-Level Parallelism,ILP）：指指令之间存在的一种并行性，利用它，计算机可以并行执行两条或两条以上的指令。<br><a id="more"></a><br>开发ILP的途径有两种</p>
+<ul>
+<li>资源重复，重复设置多个处理部件，让它们同时执行相邻或相近的多条指令；</li>
+<li>采用流水线技术，使指令重叠并行执行。 </li>
+</ul>
+<h1 id="指令级并行的概念"><a href="#指令级并行的概念" class="headerlink" title="指令级并行的概念"></a>指令级并行的概念</h1><p>开发ILP的方法可以分为两大类</p>
+<ul>
+<li>主要基于硬件的动态开发方法</li>
+<li>基于软件的静态开发方法</li>
+</ul>
+<p>流水线处理机的实际CPI</p>
+<ul>
+<li>理想流水线的CPI加上各类停顿的时钟周期数：<br>$CPI_{流水线}=CPI_{理想}+停顿_{结构冲突}+停顿_{数据冲突}+停顿_{控制冲突}$</li>
+<li>理想CPI是衡量流水线最高性能的一个指标。</li>
+<li>IPC：Instructions Per Cycle（每个时钟周期完成的指令条数）</li>
+</ul>
+<p>基本程序块</p>
+<ul>
+<li>基本程序块：一串连续的代码除了入口和出口以外，没有其他的分支指令和转入点 。</li>
+<li>程序平均每4～7条指令就会有一个分支。</li>
+</ul>
+<p>循环级并行：使一个循环中的不同循环体并行执行。</p>
+<ul>
+<li>开发循环的不同叠代之间存在的并行性<br>最常见、最基本</li>
+<li>是指令级并行研究的重点之一</li>
+</ul>
+<p>最基本的开发循环级并行的技术</p>
+<ul>
+<li>循环展开（loop unrolling）技术</li>
+<li>采用向量指令和向量数据表示</li>
+</ul>
+<h1 id="相关与指令级并行"><a href="#相关与指令级并行" class="headerlink" title="相关与指令级并行"></a>相关与指令级并行</h1><p>相关与流水线冲突</p>
+<ul>
+<li>相关有三种类型：<br>数据相关、名相关、控制相关</li>
+<li>流水线冲突是指对于具体的流水线来说，由于相关的存在，使得指令流中的下一条指令不能在指定的时钟周期执行。<br>流水线冲突有三种类型：结构冲突、数据冲突、控制冲突</li>
+<li>相关是程序固有的一种属性，它反映了程序中指令之间的相互依赖关系。</li>
+<li>具体的一次相关是否会导致实际冲突的发生以及该冲突会带来多长的停顿，则是流水线的属性。</li>
+</ul>
+<p>可以从两个方面来解决相关问题：</p>
+<ul>
+<li>保持相关，但避免发生冲突。<br>指令调度 </li>
+<li>通过代码变换，消除相关。</li>
+</ul>
+<p>程序顺序：由原来程序确定的在完全串行方式下指令的执行顺序。<br>只有在可能会导致错误的情况下，才保持程序顺序。 </p>
+<p>控制相关并不是一个必须严格保持的关键属性。</p>
+<p>对于正确地执行程序来说，必须保持的最关键的两个属性是：数据流和异常行为。</p>
+<ul>
+<li>保持异常行为是指：无论怎么改变指令的执行顺序，都不能改变程序中异常的发生情况。<ul>
+<li>即原来程序中是怎么发生的，改变执行顺序后还是怎么发生。</li>
+<li>弱化为：指令执行顺序的改变不能导致程序中发生新的异常。</li>
+</ul>
+</li>
+<li>数据流：指数据值从其产生者指令到其消费者指令的实际流动。<ul>
+<li>分支指令使得数据流具有动态性，因为一条指令有可能数据相关于多条先前的指令。</li>
+<li>分支指令的执行结果决定了哪条指令真正是所需数据的产生者。 </li>
+</ul>
+</li>
+<li>有时，不遵守控制相关既不影响异常行为，也不改变数据流。<ul>
+<li>可以大胆地进行指令调度，把失败分支中的指令调度到分支指令之前。 </li>
+</ul>
+</li>
+</ul>
+<h1 id="指令的动态调度"><a href="#指令的动态调度" class="headerlink" title="指令的动态调度"></a>指令的动态调度</h1><p>静态调度</p>
+<ul>
+<li>依靠编译器对代码进行静态调度，以减少相关和冲突。</li>
+<li>它不是在程序执行的过程中、而是在编译期间进行代码调度和优化。</li>
+<li>通过把相关的指令拉开距离来减少可能产生的停顿。</li>
+</ul>
+<p>动态调度</p>
+<ul>
+<li>在程序的执行过程中，依靠专门硬件对代码进行调度，减少数据相关导致的停顿。</li>
+<li>优点：<ul>
+<li>能够处理一些在编译时情况不明的相关（比如涉及到存储器访问的相关），并简化了编译器；</li>
+<li>能够使本来是面向某一流水线优化编译的代码在其它的流水线（动态调度）上也能高效地执行。</li>
+</ul>
+</li>
+<li>以硬件复杂性的显著增加为代价</li>
+</ul>
+<h2 id="动态调度的基本思想"><a href="#动态调度的基本思想" class="headerlink" title="动态调度的基本思想"></a>动态调度的基本思想</h2><p>到目前为止我们所使用流水线的最大的局限性:</p>
+<ul>
+<li>指令是按序流出和按序执行的</li>
+<li>为了使上述指令序列中的SUB.D指令能继续执行下去，必须把指令流出的工作拆分为两步：<ul>
+<li>检测结构冲突</li>
+<li>等待数据冲突消失<br>只要检测到没有结构冲突，就可以让指令流出。并且流出后的指令一旦其操作数就绪就可以立即执行。 </li>
+</ul>
+</li>
+</ul>
+<p>乱序执行</p>
+<ul>
+<li>指令的执行顺序与程序顺序不相同</li>
+<li>指令的完成也是乱序完成的<br>即指令的完成顺序与程序顺序不相同。 </li>
+</ul>
+<p>为了支持乱序执行，我们将5段流水线的译码阶段再分为两个阶段：</p>
+<ul>
+<li>流出（Issue，IS）：指令译码，检查是否存在结构冲突。（in-order issue)</li>
+<li>读操作数（Read Operands，RO）：等待数据冲突消失，然后读操作数</li>
+</ul>
+<p>动态调度的流水线支持多条指令同时处于执行当中。</p>
+<ul>
+<li>要求：具有多个功能部件、或者功能部件流水化、或者兼而有之。</li>
+<li>我们假设具有多个功能部件。</li>
+</ul>
+<p>指令乱序完成带来的最大问题：异常处理比较复杂（精确异常处理、不精确异常处理） </p>
+<ul>
+<li>动态调度的处理机要保持正确的异常行为<br>对于一条会产生异常的指令来说，只有当处理机确切地知道该指令将被执行时，才允许它产生异常。 </li>
+<li>即使保持了正确的异常行为，动态调度处理机仍可能发生不精确异常。 </li>
+<li>不精确异常：当执行指令i导致发生异常时，处理机的现场（状态）与严格按程序顺序执行时指令i的现场不同。<ul>
+<li>发生不精确异常的原因：因为当发生异常（设为指令i）时：<br>流水线可能已经执行完按程序顺序是位于指令i之后的指令；<br>流水线可能还没完成按程序顺序是指令i之前的指令。</li>
+<li>不精确异常使得在异常处理后难以接着继续执行程序。</li>
+</ul>
+</li>
+<li>精确异常：如果发生异常时，处理机的现场跟严格按程序顺序执行时指令i的现场相同。</li>
+</ul>
+<p>记分牌算法和Tomasulo算法是两种比较典型的动态调度算法。</p>
+<h2 id="记分牌动态调度算法"><a href="#记分牌动态调度算法" class="headerlink" title="记分牌动态调度算法"></a>记分牌动态调度算法</h2><h3 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h3><ul>
+<li>记分牌的目标：在没有结构冲突时，尽可能早地执行没有数据冲突的指令，实现每个时钟周期执行一条指令。 </li>
+<li>要发挥指令乱序执行的好处，必须有多条指令同时处于执行阶段。 </li>
+<li>采用了记分牌的MIPS处理器的基本结构 <ul>
+<li>每条指令都要经过记分牌。</li>
+<li>记分牌负责相关检测并控制指令的流出和执行。 </li>
+</ul>
+</li>
+<li>每条指令的执行过程分为4段 （主要考虑浮点操作 ）<ul>
+<li>流出<br>如果当前流出指令所需的功能部件空闲，并且所有其他正在执行的指令的目的寄存器与该指令的不同，记分牌就向功能部件流出该指令，并修改记分牌内部的记录表。<br>解决了WAW冲突</li>
+<li>读操作数<br>记分牌监测源操作数的可用性，如果数据可用，它就通知功能部件从寄存器中读出源操作数并开始执行。<br>动态地解决了RAW冲突，并导致指令可能乱序开始执行。 </li>
+<li>执行<br>取到操作数后，功能部件开始执行。当产生出结果后，就通知记分牌它已经完成执行。<br>在浮点流水线中，这一段可能要占用多个时钟周期。</li>
+<li>写结果<br>记分牌一旦知道执行部件完成了执行，就检测是否存在WAR冲突。如果不存在，或者原有的WAR冲突已消失，记分牌就通知功能部件把结果写入目的寄存器，并释放该指令使用的所有资源。 </li>
+</ul>
+</li>
+<li>如果检测到WAR冲突，就不允许该指令将结果写到目的寄存器。这发生在以下情况：<ul>
+<li>前面的某条指令（按顺序流出）还没有读取操作数；而且：其中某个源操作数寄存器与本指令的目的寄存器相同。</li>
+<li>在这种情况下，记分牌必须等待，直到该冲突消失。    </li>
+</ul>
+</li>
+<li>记分牌中记录的信息由3部分构成<ul>
+<li>指令状态表：记录正在执行的各条指令已经进入到了哪一段。</li>
+<li>功能部件状态表：记录各个功能部件的状态。每个功能部件有一项，每一项由以下9个字段组成：<br>Busy：忙标志，指出功能部件是否忙。初值为“no”；<br>Op：该功能部件正在执行或将要执行的操作；<br>Fi：目的寄存器编号；<br>Fj，Fk：源寄存器编号；<br>Qj，Qk：指出向源寄存器Fj、Fk写数据的功能部件 ；<br>Rj，Rk：标志位，为“yes”表示Fj，Fk中的操作数就绪且还未被取走。否则就被置为“no”。</li>
+<li>结果寄存器状态表Result：每个寄存器在该表中有一项，用于指出哪个功能部件（编号）将把结果写入该寄存器。<br>如果当前正在运行的指令都不以它为目的寄存器，则其相应项置为“no”。<br>Result各项的初值为“no”（全0）。</li>
+</ul>
+</li>
+</ul>
+<h3 id="具体算法"><a href="#具体算法" class="headerlink" title="具体算法"></a>具体算法</h3><p>约定：</p>
+<ul>
+<li>FU：表示当前指令所要用的功能部件；</li>
+<li>D：目的寄存器的名称；</li>
+<li>S1、S2：源操作数寄存器的名称；</li>
+<li>Op：要进行的操作；</li>
+<li>Fj[FU]：功能部件FU的Fj字段（其他字段依此类推）；</li>
+<li>Result[D]：结果寄存器状态表中与寄存器D相对应的内容。其中存放的是将把结果写入寄存器D的功能部件的名称。 </li>
+</ul>
+<p>（1）指令流出<br>进入条件：<br>not Busy[FU] &amp; not Result[D]；// 功能部件空闲且没有<br>                                 //写后写（WAW）冲突。<br>计分牌内容修改：<br>Busy[FU]←yes；           // 把当前指令的相关信息填入功能部件状态表。功能部件状态表中各字段的含义见前面。<br>Op[FU]←Op；              // 记录操作码。<br>Fi[FU]←D；                 // 记录目的寄存器编号。<br>Fj[FU]←S1；         // 记录第一个源寄存器编号。<br>Fk[FU]←S2；             // 记录第二个源寄存器编号。<br>Qj[FU]←Result[S1]；    // 记录将产生第一个源操作数的部件。<br>Qk[FU]←Result[S2]；    // 记录将产生第二个源操作数的部件。<br>Rj[FU]←not Qj[FU]；    // 置第一个源操作数是否可用的标志。如果Qj[FU]为“no”，就表示没有操作部件要写S1，数据可用。置Rj[FU]为“yes”。否则置Rj[FU]为“no”。<br>Rk[FU]←not Qk[FU]；// 置第二个源操作数是否可用的标志。<br>Result[D]←FU；    // D是当前指令的目的寄存器。功能部件FU将把结果写入D。<br>（2）读操作数<br>进入条件：<br>Rj[FU] &amp; Rk[FU]；// 两个源操作数都已就绪。<br>计分牌内容修改：<br>Rj[FU]←no；       // 已经读走了就绪的第一个源操作数。<br>Rk[FU]←no；     // 已经读走了就绪的第二个源操作数。<br>Qj[FU]←0；      // 不再等待其他FU的计算结果。<br>Qk[FU]←0；<br>（3）执行<br>结束条件：<br>功能部件操作结束。<br>（4）写结果<br>进入条件：<br>$\forall f((Fj[f]\neq Fi[FU] or Rj[f]=no)$or$(Fk[f]\neq Fi[FU] or Rk[f]=no))$;  // 不存在WAR冲突。<br>计分牌内容修改：<br>$\forall f(if Qj[f]=FU then Rj[f]\leftarrow yes)$;    // 如果有指令在等待该结果（作为第一源操作数），则将其Rj置为“yes”，表示数据可用。<br>$\forall f(if Qk[f]=FU then Rk[f]\leftarrow yes)$;  // 如果有指令在等待该结果（作为第二源操作数），则将其Rk置为“yes”，表示数据可用。<br>Result(Fi[FU])←0；    // 释放目的寄存器Fi[FU]。<br>Busy[FU]=no；    // 释放功能部件FU。</p>
+<p>记分牌的性能受限于以下几个方面：</p>
+<ul>
+<li>程序代码中可开发的并行性，即是否存在可以并行执行的不相关的指令。</li>
+<li>分牌的容量。<br>记分牌的容量决定了流水线能在多大范围内寻找不相关指令。流水线中可以同时容纳的指令数量称为指令窗口。</li>
+<li>功能部件的数目和种类。<br>功能部件的总数决定了结构冲突的严重程度。</li>
+<li>反相关和输出相关。<br>它们引起计分牌中WAR和WAW冲突 。</li>
+</ul>
+<h2 id="Tomasulo算法"><a href="#Tomasulo算法" class="headerlink" title="Tomasulo算法"></a>Tomasulo算法</h2><h3 id="基本思想-1"><a href="#基本思想-1" class="headerlink" title="基本思想"></a>基本思想</h3><p>核心思想</p>
+<ul>
+<li>记录和检测指令相关，操作数一旦就绪就立即执行，把发生RAW冲突的可能性减少到最小；</li>
+<li>通过寄存器换名来消除WAR冲突和WAW冲突。</li>
+</ul>
+<p>基于Tomasulo算法的MIPS处理器浮点部件的基本结构</p>
+<ul>
+<li>保留站（reservation station）<br>每个保留站中保存一条已经流出并等待到本功能部件执行的指令（相关信息）。<br>包括：操作码、操作数以及用于检测和解决冲突的信息。<br>在一条指令流出到保留站的时候，如果该指令的源操作数已经在寄存器中就绪，则将之取到该保留站中。<br>如果操作数还没有计算出来，则在该保留站中记录将产生这个操作数的保留站的标识。<ul>
+<li>浮点加法器有3个保留站：ADD1，ADD2，ADD3</li>
+<li>浮点乘法器有两个保留站：MULT1，MULT2 </li>
+<li>每个保留站都有一个标识字段，唯一地标识了该保留站。 </li>
+</ul>
+</li>
+<li>公共数据总线CDB （一条重要的数据通路）<ul>
+<li>所有功能部件的计算结果都是送到CDB上，由它把这些结果直接送到（播送到）各个需要该结果的地方。</li>
+<li>在具有多个执行部件且采用多流出（即每个时钟周期流出多条指令）的流水线中，需要采用多条CDB。</li>
+</ul>
+</li>
+<li>load缓冲器和store缓冲器 <ul>
+<li>存放读/写存储器的数据或地址 </li>
+<li>load缓冲器的作用有3个：<br>存放用于计算有效地址的分量；<br>记录正在进行的load访存，等待存储器的响应；<br>保存已经完成了的load的结果（即从存储器取来的数据），等待CDB传输。</li>
+<li>store缓冲器的作用有3个：<br>存放用于计算有效地址的分量；<br>保存正在进行的store访存的目标地址，该store正在等待存储数据的到达；<br>保存该store的地址和数据，直到存储部件接收。</li>
+</ul>
+</li>
+<li>浮点寄存器FP<ul>
+<li>共有16个浮点寄存器：F0，F2，F4，…，F30。</li>
+<li>它们通过一对总线连接到功能部件，并通过CDB连接到store缓冲器。</li>
+</ul>
+</li>
+<li>指令队列<ul>
+<li>指令部件送来的指令放入指令队列</li>
+<li>指令队列中的指令按先进先出的顺序流出</li>
+</ul>
+</li>
+<li>运算部件<ul>
+<li>浮点加法器完成加法和减法操作</li>
+<li>浮点乘法器完成乘法和除法操作</li>
+</ul>
+</li>
+</ul>
+<p>在Tomasulo算法中，寄存器换名是通过保留站和流出逻辑来共同完成的。</p>
+<ul>
+<li>当指令流出时，如果其操作数还没有计算出来，则将该指令中相应的寄存器号换名为将产生这个操作数的保留站的标识。</li>
+<li>指令流出到保留站后，其操作数寄存器号或者换成了数据本身（如果该数据已经就绪），或者换成了保留站的标识，不再与寄存器有关系。 </li>
+</ul>
+<p>Tomasulo算法具有以下两个特点：</p>
+<ul>
+<li>冲突检测和指令执行控制是分布的。<br>每个功能部件的保留站中的信息决定了什么时候指令可以在该功能部件开始执行。</li>
+<li>计算结果通过CDB直接从产生它的保留站传送到所有需要它的功能部件，而不用经过寄存器。</li>
+</ul>
+<p>指令执行的步骤<br>使用Tomasulo算法的流水线需3段：</p>
+<ul>
+<li>流出：从指令队列的头部取一条指令。<ul>
+<li>如果该指令的操作所要求的保留站有空闲的，就把该指令送到该保留站（设为r）。<br>如果其操作数在寄存器中已经就绪，就将这些操作数送入保留站r。<br>如果其操作数还没有就绪，就把将产生该操作数的保留站的标识送入保留站r。<br>一旦被记录的保留站完成计算，它将直接把数据送给保留站r。<br>（寄存器换名和对操作数进行缓冲，消除WAR冲突）</li>
+<li>完成对目标寄存器的预约工作<br>（消除了WAW冲突）</li>
+<li>如果没有空闲的保留站，指令就不能流出。<br>（发生了结构冲突） </li>
+</ul>
+</li>
+<li>执行 <ul>
+<li>当两个操作数都就绪后，本保留站就用相应的功能部件开始执行指令规定的操作。 </li>
+<li>load和store指令的执行需要两个步骤：<br>计算有效地址（要等到基地址寄存器就绪）<br>把有效地址放入load或store缓冲器</li>
+</ul>
+</li>
+<li>写结果 <ul>
+<li>功能部件计算完毕后，就将计算结果放到CDB上，所有等待该计算结果的寄存器和保留站（包括store缓冲器）都同时从CDB上获得所需要的数据。 </li>
+</ul>
+</li>
+</ul>
+<p>每个保留站有以下7个字段：</p>
+<ul>
+<li>Op：要对源操作数进行的操作</li>
+<li>Qj，Qk：将产生源操作数的保留站号<ul>
+<li>等于0表示操作数已经就绪且在Vj或Vk中，或者不需要操作数。</li>
+</ul>
+</li>
+<li>Vj，Vk：源操作数的值<ul>
+<li>对于每一个操作数来说，V或Q字段只有一个有效。</li>
+<li>对于load来说，Vk字段用于保存偏移量。</li>
+</ul>
+</li>
+<li>Busy：为“yes”表示本保留站或缓冲单元“忙”</li>
+<li>A：仅load和store缓冲器有该字段。开始是存放指令中的立即数字段，地址计算后存放有效地址。 </li>
+<li>Qi：寄存器状态表<ul>
+<li>每个寄存器在该表中有对应的一项，用于存放将把结果写入该寄存器的保留站的站号。</li>
+<li>为0表示当前没有正在执行的指令要写入该寄存器，也即该寄存器中的内容就绪。</li>
+</ul>
+</li>
+</ul>
+<p>Tomasulo算法具有两个主要的优点：</p>
+<ul>
+<li>冲突检测逻辑是分布的（通过保留站和CDB实现）<br>如果有多条指令已经获得了一个操作数，并同时在等待同一运算结果，那么这个结果一产生，就可以通过CDB同时播送给所有这些指令，使它们可以同时执行。</li>
+<li>消除了WAW冲突和WAR冲突导致的停顿<br>使用保留站进行寄存器换名，并且在操作数一旦就绪就将之放入保留站。     </li>
+</ul>
+<h3 id="具体算法-1"><a href="#具体算法-1" class="headerlink" title="具体算法"></a>具体算法</h3><p>各符号的意义 </p>
+<ul>
+<li>r：分配给当前指令的保留站或者缓冲器单元编号；</li>
+<li>rd：目标寄存器编号；                </li>
+<li>rs、rt：操作数寄存器编号；</li>
+<li>imm：符号扩展后的立即数；            </li>
+<li>RS：保留站；</li>
+<li>result：浮点部件或load缓冲器返回的结果； </li>
+<li>Qi：寄存器状态表；</li>
+<li>Regs[ ]：寄存器组；</li>
+<li>与rs对应的保留站字段：Vj，Qj</li>
+<li>与rt对应的保留站字段：Vk，Qk</li>
+<li>Qi、Qj、Qk的内容或者为0，或者是一个大于0的整数。<ul>
+<li>Qi为0表示相应寄存器中的数据就绪。</li>
+<li>Qj、Qk为0表示保留站或缓冲器单元中的Vj或Vk字段中的数据就绪。</li>
+<li>当它们为正整数时，表示相应的寄存器、保留站或缓冲器单元正在等待结果。</li>
+</ul>
+</li>
+</ul>
+<ol>
+<li>指令流出<ul>
+<li>浮点运算指令<br>进入条件：有空闲保留站（设为r）<br>操作和状态表内容修改：<br>if（Qi[rs] ≠ 0）    // 检测第一操作数是否就绪<br>{RS[r].Qj←Qi[rs]} //第一操作数没有就绪，进行寄存器换名，即把将产生该操作数的保留站的编号放入当前保留站的Qj。该编号是一个大于0的整数。<br>else{RS[r].Vj←Regs[rs]; //第一操作数就绪。把寄存器rs中的操作数取到当前保留站的Vj。<br>RS[r].Qj←0};           //置Qj为0，表示当前保留站的Vj中的操作数就绪 。<br>if（Qi[rt] ≠ 0）    // 检测第二操作数是否就绪<br> {RS[r].Qk←Qi[rt]}     //第二操作数没有就绪，进行寄存器换名，即把将产生该操作数的保留站的编号放入当前保留站的Qk。该编号是一个大于0的整数。<br>else{RS[r].Vk←Regs[rt];  //第二操作数就绪。把寄存器rt中的操作数取到当前保留站的Vk。<br>RS[r].Qk←0};        // 置Qk为0，表示当前保留站的Vk中的操作数就绪。<br>RS[r].Busy←yes;    //置当前保留站为“忙”<br>RS[r].Op←Op;      //设置操作码<br>Qi[rd]←r;    // 把当前保留站的编号r放入rd所对应的寄存器状态表项，以便rd将来接收结果。 </li>
+<li>load和store指令<br>进入条件：缓冲器有空闲单元（设为r）<br>操作和状态表内容修改：<br>if （Qi[rs] ≠ 0）    // 检测第一操作数是否就绪<br>{RS[r].Qj←Qi[rs]}      //第一操作数没有就绪，进行寄存器换名，即把将产生该操作数的保留站的编号存入当前缓冲器单元的Qj。<br>else<br>   {RS[r].Vj←Regs[rs];    // 第一操作数就绪，把寄存器rs中的操作数取到当前缓冲器单元的Vj<br>RS[r].Qj←0};    // 置Qj为0，表示当前缓冲器单元的Vj中的操作数就绪。<br>RS[r].Busy←yes;    // 置当前缓冲器单元为“忙”<br>RS[r].A←Imm;    // 把符号位扩展后的偏移量放入当前缓冲器单元的A<br>对于load指令：<br>Qi[rt]←r;    // 把当前缓冲器单元的编号r放入load指令的目标寄存器rt所对应的寄存器状态表项，以便rt将来接收所取的数据。<br>对于store指令：<br>if（Qi[rt] ≠ 0）    // 检测要存储的数据是否就绪<br>   {RS[r].Qk←Qi[rt]}     //该数据尚未就绪，进行寄存器换名，即把将产生该数据的保留站的编号放入当前缓冲器单元的Qk。<br>else<br>   {RS[r].Vk←Regs[rt];    // 该数据就绪，把它从寄存器rt取到store缓冲器单元的Vk<br>RS[r].Qk←0};         // 置Qk为0，表示当前缓冲器单元的Vk中的数据就绪。</li>
+</ul>
+</li>
+<li>执行<ul>
+<li>浮点操作指令 <ul>
+<li>进入条件：（RS[r].Qj = 0）且（RS[r].Qk= 0）；                                           // 两个源操作数就绪</li>
+<li>操作和状态表内容修改：进行计算，产生结果 。</li>
+</ul>
+</li>
+<li>load/store指令<ul>
+<li>进入条件：（RS[r].Qj = 0）且r成为load/store 缓冲队列的头部</li>
+<li>操作和状态表内容修改：<br>RS[r].A←RS[r].Vj + RS[r].A；   //计算有效地址<br>对于load指令，在完成有效地址计算后，还要进行：<br>从Mem[RS[r].A]读取数据；    //从存储器中读取数据</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>写结果 <ul>
+<li>浮点运算指令和load指令<br>进入条件：保留站r执行结束，且CDB就绪。<br>操作和状态表内容修改：<br>   $\forall$x（if（Qi[x] = r）    // 对于任何一个正在等该结果的浮点寄存器x<br>{Regs[x]←result;    // 向该寄存器写入结果<br>Qi[x]←0};         // 把该寄存器的状态置为数据就绪<br>   $\forall$x（if（RS[x].Qj = r）    // 对于任何一个正在等该结果作为第一操作数的保留站x<br>{RS[x].Vj←result；    // 向该保留站的Vj写入结果<br>RS[x].Qj←0;    // 置Qj为0，表示该保留站的Vj中的操作数就绪<br>   $\forall$x（if（RS[x].Qk = r）      // 对于任何一个正在等该结果作为第二操作数的保留站x<br>{RS[x].Vk←result;    // 向该保留站的Vk写入结果<br>RS[x].Qk←0};    // 置Qk为0，表示该保留站的Vk中的操作数就绪。<br>RS[r].Busy←no;        // 释放当前保留站，将之置为空闲状态。</li>
+<li>store指令<br>进入条件：保留站r执行结束，且RS[r].Qk = 0    // 要存储的数据已经就绪<br>操作和状态表内容修改：<br>Mem[RS[r].A]←RS[r].Vk    // 数据写入存储器，地址由store缓冲器单元的A字段给出。<br>RS[r].Busy←no;    //释放当前缓冲器单元，将之置为空闲状态。 </li>
+</ul>
+</li>
+</ol>
+<blockquote>
+<p>《计算机系统结构教程（第2版）》张晨曦 王志英 等 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统结构/" rel="tag">#计算机系统结构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/01/流水线技术/" rel="next" title="流水线技术">
+                <i class="fa fa-chevron-left"></i> 流水线技术
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/05/存储系统/" rel="prev" title="存储系统">
+                存储系统 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/04/指令级并行及其开发——硬件方法/"
+           data-title="指令级并行及其开发——硬件方法" data-url="http://zlw.poker/2016/12/04/指令级并行及其开发——硬件方法/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#指令级并行的概念"><span class="nav-number">1.</span> <span class="nav-text">指令级并行的概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#相关与指令级并行"><span class="nav-number">2.</span> <span class="nav-text">相关与指令级并行</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#指令的动态调度"><span class="nav-number">3.</span> <span class="nav-text">指令的动态调度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#动态调度的基本思想"><span class="nav-number">3.1.</span> <span class="nav-text">动态调度的基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#记分牌动态调度算法"><span class="nav-number">3.2.</span> <span class="nav-text">记分牌动态调度算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本思想"><span class="nav-number">3.2.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体算法"><span class="nav-number">3.2.2.</span> <span class="nav-text">具体算法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tomasulo算法"><span class="nav-number">3.3.</span> <span class="nav-text">Tomasulo算法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基本思想-1"><span class="nav-number">3.3.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#具体算法-1"><span class="nav-number">3.3.2.</span> <span class="nav-text">具体算法</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

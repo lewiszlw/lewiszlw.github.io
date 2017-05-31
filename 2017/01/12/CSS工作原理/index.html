@@ -1,0 +1,1059 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="关于CSS规则如何为HTML添加样式，并解释层叠的工作机制——当元素的同一个样式属性有多种样式值的时候，CSS就要靠层叠机制来决定最终应用哪种样式。">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS工作原理">
+<meta property="og:url" content="http://zlw.poker/2017/01/12/CSS工作原理/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="关于CSS规则如何为HTML添加样式，并解释层叠的工作机制——当元素的同一个样式属性有多种样式值的时候，CSS就要靠层叠机制来决定最终应用哪种样式。">
+<meta property="og:updated_time" content="2017-01-13T07:35:40.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS工作原理">
+<meta name="twitter:description" content="关于CSS规则如何为HTML添加样式，并解释层叠的工作机制——当元素的同一个样式属性有多种样式值的时候，CSS就要靠层叠机制来决定最终应用哪种样式。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2017/01/12/CSS工作原理/"/>
+
+
+  <title> CSS工作原理 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS工作原理
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-01-12T23:14:32+08:00" content="2017-01-12">
+              2017-01-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/CSS设计指南/" itemprop="url" rel="index">
+                    <span itemprop="name">CSS设计指南</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/12/CSS工作原理/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/12/CSS工作原理/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>关于CSS规则如何为HTML添加样式，并解释层叠的工作机制——当元素的同一个样式属性有多种样式值的时候，CSS就要靠层叠机制来决定最终应用哪种样式。<br><a id="more"></a></p>
+<h1 id="剖析CSS规则"><a href="#剖析CSS规则" class="headerlink" title="剖析CSS规则"></a>剖析CSS规则</h1><h2 id="添加CSS样式的方法"><a href="#添加CSS样式的方法" class="headerlink" title="添加CSS样式的方法"></a>添加CSS样式的方法</h2><p>主要有三种：</p>
+<ul>
+<li>行内样式：写在特定HTML标签的style属性里</li>
+<li>嵌入样式：将CSS样式放在HTML文档的head元素中</li>
+<li>链接样式：用link标签引入外部css文件</li>
+</ul>
+<p>另，样式表中链接其他样式的方法：@import url(css/styles2.css)</p>
+<h2 id="CSS规则命名惯例"><a href="#CSS规则命名惯例" class="headerlink" title="CSS规则命名惯例"></a>CSS规则命名惯例</h2><ol>
+<li><p>第一种方法：多个声明包含在一条规则里。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>; <span class="attribute">font-weight</span>:bold;&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>第二种方法：多个选择符组合在一起。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span>,<span class="selector-tag">h2</span>,<span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>; <span class="attribute">font-weight</span>:bold;&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>第三种方法：多条规则应用给一个选择符。</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span>,<span class="selector-tag">h2</span>,<span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>;&#125;</div><div class="line"><span class="selector-tag">h3</span>&#123;<span class="attribute">font-weight</span>: italic;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<p>所有用于选择特定元素的选择符又分三种：</p>
+<ul>
+<li>上下文选择符：基于祖先或同胞元素选择一个元素</li>
+<li>ID和类选择符：基于id和class属性的值选择元素</li>
+<li>属性选择符：基于属性的有无和特征选择元素</li>
+</ul>
+<h1 id="上下文选择符"><a href="#上下文选择符" class="headerlink" title="上下文选择符"></a>上下文选择符</h1><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1 标签2 &#123;声明&#125;</div></pre></td></tr></table></figure></p>
+<p>其中，标签2就是我们想要选择的目标，而且只有在标签1是其祖先元素（不一定是父元素）的情况下才会被选中。</p>
+<h1 id="特殊的上下文选择符"><a href="#特殊的上下文选择符" class="headerlink" title="特殊的上下文选择符"></a>特殊的上下文选择符</h1><h2 id="子选择符"><a href="#子选择符" class="headerlink" title="子选择符"></a>子选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1&gt;标签2</div></pre></td></tr></table></figure></p>
+<p>注意：标签2必须是标签1的子元素。</p>
+<h2 id="紧邻同胞选择符"><a href="#紧邻同胞选择符" class="headerlink" title="紧邻同胞选择符"></a>紧邻同胞选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1+标签2</div></pre></td></tr></table></figure></p>
+<p>标签2必须紧跟在其同胞标签1的后面。</p>
+<h2 id="一般同胞选择符"><a href="#一般同胞选择符" class="headerlink" title="一般同胞选择符"></a>一般同胞选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1~标签2</div></pre></td></tr></table></figure></p>
+<p>标签2必须跟（不一定紧跟）在其同胞标签1后面。</p>
+<h2 id="通用选择符"><a href="#通用选择符" class="headerlink" title="通用选择符"></a>通用选择符</h2><p>通用选择符*是一个通配符，它匹配任何元素。</p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">p *&#123;color:green;&#125;</div></pre></td></tr></table></figure></p>
+<p>会把p包含的所有元素的文本变成绿色。<br>注：所有子元素文本变成绿色，但p标签的文本不变色。</p>
+<p>如果通配符前面没有标签，则表示网页所有元素。</p>
+<h1 id="ID和类选择符"><a href="#ID和类选择符" class="headerlink" title="ID和类选择符"></a>ID和类选择符</h1><h2 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h2><p>body标签中包含的任何HTML元素都可以添加class属性。</p>
+<h3 id="类选择符"><a href="#类选择符" class="headerlink" title="类选择符"></a>类选择符</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.类名</div></pre></td></tr></table></figure></p>
+<h3 id="标签带类选择符"><a href="#标签带类选择符" class="headerlink" title="标签带类选择符"></a>标签带类选择符</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签.类名</div></pre></td></tr></table></figure></p>
+<h3 id="多类选择符"><a href="#多类选择符" class="headerlink" title="多类选择符"></a>多类选择符</h3><p>可以给元素添加多个类：class=”class1 class2”。</p>
+<p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.类名1.类名2</div></pre></td></tr></table></figure></p>
+<blockquote>
+<p>不要乱用类<br>不要像使用ID一样，每个类都指定一个不同的类名，然后再为每个类编写规则。实际上，继承和上下文选择符能让不同的标签共享样式，从而降低你需要编写和维护的CSS量。</p>
+</blockquote>
+<h2 id="ID属性"><a href="#ID属性" class="headerlink" title="ID属性"></a>ID属性</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#ID名&#123;声明&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>用于页内导航的ID：</strong>（俗称锚点）<br>例如下面这个链接，其目标是同一页的另一个位置：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#bio"</span>&gt;</span>Biography<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>若只有“#”，那么点击链接会返回页面顶部。如果没有“#”，浏览器就会尝试加载bio目录下的默认页面了。<br>另外，如果你暂时不知道某个href应该放什么URL，也可以用#作为占位符，但不能把该属性留空。因为href属性值为空的链接的行为跟正常链接不一样。这样团队中其他人将来可以用中间层（比如PHP）变量替换#，以便动态接收来自数据库的URL。</p>
+<h1 id="属性选择符"><a href="#属性选择符" class="headerlink" title="属性选择符"></a>属性选择符</h1><h2 id="属性名选择符"><a href="#属性名选择符" class="headerlink" title="属性名选择符"></a>属性名选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签名[属性名]</div></pre></td></tr></table></figure></p>
+<p>例如：img[title]{border:2px solid blue;}，带有title属性的img标签会被选择。</p>
+<h2 id="属性值选择符"><a href="#属性值选择符" class="headerlink" title="属性值选择符"></a>属性值选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签名[属性名=&quot;属性值&quot;]</div></pre></td></tr></table></figure></p>
+<p>选择任何带有值为属性值的属性名的标签名。</p>
+<h1 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h1><p>伪类分为两种：</p>
+<ul>
+<li>UI伪类，会在HTML元素处于某个状态时（比如鼠标指针位于链接上），为该元素应用CSS样式。</li>
+<li>结构和伪类，会在标记中存在某种结构上的关系时（如某个元素是一组元素中的第一个或最后一个），为相应元素应用CSS样式。</li>
+</ul>
+<p>使用方法：冒号“:”表示伪类，两个冒号“::”表示CSS3新增的伪元素。</p>
+<h2 id="UI伪类"><a href="#UI伪类" class="headerlink" title="UI伪类"></a>UI伪类</h2><ol>
+<li>链接伪类<ul>
+<li>link：默认。</li>
+<li>visited：用户此前点击过这个链接</li>
+<li>hover：鼠标指针正悬停在链接上</li>
+<li>active：链接正在被点击（鼠标在元素上按下，还没有释放）<br>注意：由于这4个伪类的特指度相同，所以必须按照顺序使用。</li>
+</ul>
+</li>
+<li>:focus伪类<br>表单中的文本字段在用户单击它时会获得焦点，然后用户才能在其中输入字符。</li>
+<li>:target伪类<br>例如下面例子，CSS规则：#more_info:target{background:#eee;}，会在用户单击链接转向ID为more_info的元素时，为该元素添加浅灰色背景。<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#more_info"</span>&gt;</span>More Information<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h2</span> <span class="attr">id</span>=<span class="string">"more_info"</span>&gt;</span>This is the information you are looking for.<span class="tag">&lt;<span class="name">h2</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="结构化伪类"><a href="#结构化伪类" class="headerlink" title="结构化伪类"></a>结构化伪类</h2><p>常见的结构化伪类：</p>
+<ol>
+<li>:first-child和:last-child</li>
+<li>:nth-child<br>例如：li:nth-child(3)会选择一组列表项中的每个第三项。<br>注意：是li！！！不是ul！！！</li>
+</ol>
+<h1 id="伪元素"><a href="#伪元素" class="headerlink" title="伪元素"></a>伪元素</h1><p>常见的伪元素：</p>
+<ol>
+<li>::first-letter伪元素<br>例如：p::first-letter{font-size: 300%;}，可以得到段落首字符放大的效果。</li>
+<li>::first-line伪元素<br>可以选中文本段落的第一行。</li>
+<li>::before和::after伪元素<br>用于在特定定元素前面或后面添加特殊内容。<br>例如给<code>&lt;p class=&quot;age&quot;&gt;25&lt;/p&gt;</code>添加一下标签会得到：Age：25 years.<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-class">.age</span><span class="selector-pseudo">::before</span>&#123;<span class="attribute">content</span>:<span class="string">"Age："</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-class">.age</span><span class="selector-pseudo">::after</span>&#123;<span class="attribute">content</span>:<span class="string">" years."</span>;&#125;</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>CSS中的祖先元素会向后代传递一样东西：CSS属性的值。<br>例如：<br><code>`css
+body{font-family: helvetica,arial,sans-serif;}</code><br>文档中的所有元素都会继承这个样式。</p>
+<p>CSS中有很多属性可以继承，比如颜色、字体、字号等。也有很多CSS属性不能继承，因为继承这些属性没有意义，比如边框、外边距等。</p>
+<h1 id="层叠"><a href="#层叠" class="headerlink" title="层叠"></a>层叠</h1><p>层叠，就是层叠样式表中的层叠，是一种样式在文档层次中逐层叠加的过程，目的是让浏览器面对某个标签特定属性值的多个来源，确定最终使用哪个值。</p>
+<h2 id="样式来源"><a href="#样式来源" class="headerlink" title="样式来源"></a>样式来源</h2><p>浏览器层叠各个来源样式的顺序：</p>
+<ul>
+<li>浏览器默认样式表</li>
+<li>用户样式表（比如某些视障用户，他们可以通过用户样式表，强制浏览器加载的所有网站都以更大的字号等显示内容）</li>
+<li>作者链接样式表（按照它们链接到页面的先后顺序）</li>
+<li>作者嵌入样式</li>
+<li>作者行内样式</li>
+</ul>
+<p><strong>浏览器会按照上述顺序依次检查每个来源的样式，并在有定义的情况下，更新对每个标签属性值的设定。整个更新过程结束后，再将每个标签以最终设定的样式显示出来。</strong></p>
+<h2 id="层叠规则"><a href="#层叠规则" class="headerlink" title="层叠规则"></a>层叠规则</h2><ol>
+<li>层叠规则一：找到应用给每个元素和属性的所有声明。<br>浏览器在加载每个页面时，都会据此查到每一条CSS规则，标识出所有收到影响的HTML元素。</li>
+<li>层叠规则二：按照顺序和权重排序。<br>浏览器依次检查5个来源，并设定匹配的属性。如果匹配的属性在下一来源也有定义，则更新该属性的值。</li>
+<li>层叠规则三：按特指度排序。</li>
+<li>层叠规则四：顺序决定权重。<br>如果两条规则都影响某元素的同一个属性，而且它们的特指度也相同，则位置最靠下（或后声明）的规则胜出。</li>
+</ol>
+<h2 id="计算特指度"><a href="#计算特指度" class="headerlink" title="计算特指度"></a>计算特指度</h2><p>利用“I-C-E”公式计算：</p>
+<ol>
+<li>选择符中有一个ID，就在I的位置上加1；</li>
+<li>选择符中有一个类，就在C的位置上加1；</li>
+<li>选择符中有一个元素名，就在E的位置上加1；</li>
+<li>得到一个三位数。</li>
+</ol>
+<p>例如：</p>
+<table>
+<thead>
+<tr>
+<th>选择符</th>
+<th>特指度</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>p</td>
+<td>1</td>
+</tr>
+<tr>
+<td>p.largetext</td>
+<td>11</td>
+</tr>
+<tr>
+<td>p#largetext</td>
+<td>101</td>
+</tr>
+<tr>
+<td>body p#largetext</td>
+<td>102</td>
+</tr>
+<tr>
+<td>body p#largetext ul.mylist</td>
+<td>113</td>
+</tr>
+<tr>
+<td>body p#largetext ul.mylist li</td>
+<td>114</td>
+</tr>
+</tbody>
+</table>
+<p>注意：0-1-12的特指度仍然比0-2-0低。</p>
+<h1 id="规则声明"><a href="#规则声明" class="headerlink" title="规则声明"></a>规则声明</h1><p>声明包括两部分：属性和值。</p>
+<p>值包含三类：</p>
+<ul>
+<li>文本值：例如bold、hidden等。</li>
+<li>数字值：绝对值和相对值。</li>
+<li>颜色值<ul>
+<li>颜色名：red、blue等。</li>
+<li>十六进制颜色：#ff8800等。</li>
+<li>RGB颜色值：rgb(0,255,0)表示纯绿色。</li>
+<li>RGB百分比值：100%,0%,0%表示纯红色。</li>
+<li>HSL（色度，饱和度%，亮度%）</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/10/Linux下用命令行编译Java程序/" rel="next" title="Linux下用命令行编译Java程序">
+                <i class="fa fa-chevron-left"></i> Linux下用命令行编译Java程序
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/13/数据抽象/" rel="prev" title="数据抽象">
+                数据抽象 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/12/CSS工作原理/"
+           data-title="CSS工作原理" data-url="http://zlw.poker/2017/01/12/CSS工作原理/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#剖析CSS规则"><span class="nav-number">1.</span> <span class="nav-text">剖析CSS规则</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#添加CSS样式的方法"><span class="nav-number">1.1.</span> <span class="nav-text">添加CSS样式的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS规则命名惯例"><span class="nav-number">1.2.</span> <span class="nav-text">CSS规则命名惯例</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#上下文选择符"><span class="nav-number">2.</span> <span class="nav-text">上下文选择符</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#特殊的上下文选择符"><span class="nav-number">3.</span> <span class="nav-text">特殊的上下文选择符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#子选择符"><span class="nav-number">3.1.</span> <span class="nav-text">子选择符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#紧邻同胞选择符"><span class="nav-number">3.2.</span> <span class="nav-text">紧邻同胞选择符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一般同胞选择符"><span class="nav-number">3.3.</span> <span class="nav-text">一般同胞选择符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用选择符"><span class="nav-number">3.4.</span> <span class="nav-text">通用选择符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ID和类选择符"><span class="nav-number">4.</span> <span class="nav-text">ID和类选择符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#类属性"><span class="nav-number">4.1.</span> <span class="nav-text">类属性</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#类选择符"><span class="nav-number">4.1.1.</span> <span class="nav-text">类选择符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#标签带类选择符"><span class="nav-number">4.1.2.</span> <span class="nav-text">标签带类选择符</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#多类选择符"><span class="nav-number">4.1.3.</span> <span class="nav-text">多类选择符</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ID属性"><span class="nav-number">4.2.</span> <span class="nav-text">ID属性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#属性选择符"><span class="nav-number">5.</span> <span class="nav-text">属性选择符</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#属性名选择符"><span class="nav-number">5.1.</span> <span class="nav-text">属性名选择符</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#属性值选择符"><span class="nav-number">5.2.</span> <span class="nav-text">属性值选择符</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#伪类"><span class="nav-number">6.</span> <span class="nav-text">伪类</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#UI伪类"><span class="nav-number">6.1.</span> <span class="nav-text">UI伪类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#结构化伪类"><span class="nav-number">6.2.</span> <span class="nav-text">结构化伪类</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#伪元素"><span class="nav-number">7.</span> <span class="nav-text">伪元素</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#继承"><span class="nav-number">8.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#层叠"><span class="nav-number">9.</span> <span class="nav-text">层叠</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#样式来源"><span class="nav-number">9.1.</span> <span class="nav-text">样式来源</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#层叠规则"><span class="nav-number">9.2.</span> <span class="nav-text">层叠规则</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算特指度"><span class="nav-number">9.3.</span> <span class="nav-text">计算特指度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#规则声明"><span class="nav-number">10.</span> <span class="nav-text">规则声明</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

@@ -1,0 +1,1180 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="汇编语言," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="进位记数制与不同基数的数之间的转换二进制数计算机为了便于存储及计算的物理实现，采用了二进制数。">
+<meta name="keywords" content="汇编语言">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编语言程序设计基础知识">
+<meta property="og:url" content="http://zlw.poker/2016/11/28/汇编语言程序设计基础知识/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="进位记数制与不同基数的数之间的转换二进制数计算机为了便于存储及计算的物理实现，采用了二进制数。">
+<meta property="og:updated_time" content="2017-01-04T05:53:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="汇编语言程序设计基础知识">
+<meta name="twitter:description" content="进位记数制与不同基数的数之间的转换二进制数计算机为了便于存储及计算的物理实现，采用了二进制数。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/28/汇编语言程序设计基础知识/"/>
+
+
+  <title> 汇编语言程序设计基础知识 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                汇编语言程序设计基础知识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-28T23:16:47+08:00" content="2016-11-28">
+              2016-11-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/IBM-PC汇编语言程序设计/" itemprop="url" rel="index">
+                    <span itemprop="name">IBM-PC汇编语言程序设计</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/28/汇编语言程序设计基础知识/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/28/汇编语言程序设计基础知识/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="进位记数制与不同基数的数之间的转换"><a href="#进位记数制与不同基数的数之间的转换" class="headerlink" title="进位记数制与不同基数的数之间的转换"></a>进位记数制与不同基数的数之间的转换</h1><h2 id="二进制数"><a href="#二进制数" class="headerlink" title="二进制数"></a>二进制数</h2><p>计算机为了便于存储及计算的物理实现，采用了二进制数。<br><a id="more"></a><br>二进制的基数为2，只有0,1两个数码，并遵循逢2进1的规则，它的各位权是以2的k次方表示的，因此二进制数$a_{n}a_{n-1}\cdots a_{0}\;\cdot\;b_1b_2\cdots b_m$的值是：</p>
+<p>$$a_n\cdot2^n+a_{n-1}\cdot2^{n-1}+\cdots+a_0\cdot2^0+b_1\cdot2^{-1}+b_2\cdot2^{-2}+\cdots+b_m\cdot2^{-m}$$<br>为便于人们阅读及书写，经常使用<strong>八进制数</strong>或<strong>十六进制数</strong>（以$2^n$作为基数）来表示二进制数。它们的基数和数码如下：</p>
+<table>
+<thead>
+<tr>
+<th>进位记数制</th>
+<th>基数</th>
+<th>数码</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>十六进制</td>
+<td>16</td>
+<td>0,1,2,3,4,5,6,7,8,9,A,B,C,D,E,F</td>
+</tr>
+<tr>
+<td>十进制</td>
+<td>10</td>
+<td>0,1,2,3,4,5,6,7,8,9</td>
+</tr>
+<tr>
+<td>八进制</td>
+<td>8</td>
+<td>0,1,2,3,4,5,6,7</td>
+</tr>
+<tr>
+<td>二进制</td>
+<td>2</td>
+<td>0,1</td>
+</tr>
+</tbody>
+</table>
+<p>在计算机里，通常用数字后面跟一个英文字母来表示该数的数制。十进制数一般用D（decimal）、二进制数用B（binary）、八进制数用O（octal）、十六进制数用H（hexadecimal）来表示。例如：117D，111010B。也可以用这些字母的小写形式。</p>
+<h2 id="二进制数和十进制数之间的转换"><a href="#二进制数和十进制数之间的转换" class="headerlink" title="二进制数和十进制数之间的转换"></a>二进制数和十进制数之间的转换</h2><h3 id="二进制数转换为十进制数"><a href="#二进制数转换为十进制数" class="headerlink" title="二进制数转换为十进制数"></a>二进制数转换为十进制数</h3><p>各位二进制数码乘以与其对应的权之和即为该二进制数相对应的十进制数。</p>
+<h3 id="十进制数转换为二进制数"><a href="#十进制数转换为二进制数" class="headerlink" title="十进制数转换为二进制数"></a>十进制数转换为二进制数</h3><ol>
+<li>降幂法<br>首先写出要转换的十进制数，其次写出所有小于该数的各位二进制权值，然后用要转换的十进制数减去与它最相近的二进制权值，如够减则减去并在相应位记以1；如不够减则在相应位记以0并跳过此位；如此不断反复，直到该数为0为止。</li>
+<li>除法<br>把要转换的十进制数的整数部分不断除以2，并记下余数，直到商为0为止。<br>对于被转换的十进制数的小数部分则应不断乘以2，并记下其整数部分，直到结果的小数部分为0为止。</li>
+</ol>
+<h2 id="十六进制数及其与二进制、十进制数之间的转换"><a href="#十六进制数及其与二进制、十进制数之间的转换" class="headerlink" title="十六进制数及其与二进制、十进制数之间的转换"></a>十六进制数及其与二进制、十进制数之间的转换</h2><h3 id="十六进制数的表示"><a href="#十六进制数的表示" class="headerlink" title="十六进制数的表示"></a>十六进制数的表示</h3><p>计算机中存储信息的基本单位为一个二进制位（bit），它可以用来表示0和1两个数码。此外，由于计算机中常用的字符是采用由8位二进制数组成的一个<strong>字节（byte）</strong>来表示的，因此字节也成为计算机中存储信息的单位。计算机的<strong>字长</strong>一般都选为字节的整数倍，如16位、32位、64位等。一个字节由8位组成，它可以用两个<strong>半字节</strong>来表示，所以用十六进制数来表示二进制数是比较方便的。十六进制数的基数和二进制数的关系：</p>
+<table>
+<thead>
+<tr>
+<th>二进制数</th>
+<th>十六进制数</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0000</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0001</td>
+<td>1</td>
+</tr>
+<tr>
+<td>0010</td>
+<td>2</td>
+</tr>
+<tr>
+<td>0011</td>
+<td>3</td>
+</tr>
+<tr>
+<td>0100</td>
+<td>4</td>
+</tr>
+<tr>
+<td>0101</td>
+<td>5</td>
+</tr>
+<tr>
+<td>0110</td>
+<td>6</td>
+</tr>
+<tr>
+<td>0111</td>
+<td>7</td>
+</tr>
+<tr>
+<td>1000</td>
+<td>8</td>
+</tr>
+<tr>
+<td>1001</td>
+<td>9</td>
+</tr>
+<tr>
+<td>1010</td>
+<td>A</td>
+</tr>
+<tr>
+<td>1011</td>
+<td>B</td>
+</tr>
+<tr>
+<td>1100</td>
+<td>C</td>
+</tr>
+<tr>
+<td>1101</td>
+<td>D</td>
+</tr>
+<tr>
+<td>1110</td>
+<td>E</td>
+</tr>
+<tr>
+<td>1111</td>
+<td>F</td>
+</tr>
+</tbody>
+</table>
+<h3 id="十六进制数和二进制数之间的转换"><a href="#十六进制数和二进制数之间的转换" class="headerlink" title="十六进制数和二进制数之间的转换"></a>十六进制数和二进制数之间的转换</h3><ul>
+<li><p>由于十六进制数的基数是2的幂，所以这两种数制之间的转换是十分容易的。一个二进制数，只要把它从低位到高位每4位组成一组，直接用十六进制数来表示就可以了。<br>例如：<br>0011 0101 1011 1111<br>3    5    B     F</p>
+</li>
+<li><p>反之，把十六进制数中的每一位用4位二进制数表示，就形成相应的二进制数了</p>
+</li>
+</ul>
+<h3 id="十六进制数和十进制数之间的转换"><a href="#十六进制数和十进制数之间的转换" class="headerlink" title="十六进制数和十进制数之间的转换"></a>十六进制数和十进制数之间的转换</h3><ul>
+<li>各位十六进制数与其对应权值的乘积之和即为与此十六进制数相对应的十进制数。</li>
+<li>十进制数转换为十六进制数<ul>
+<li>降幂法<br>首先写出要转换的十进制数，其次写出小于该数的各位十六进制权值，然后找出该数中包含多少个最接近他的权值的倍数，这一倍数即对应位的值，用原数减去此倍数与相应位权值的乘积得到一个差值，再用此差值去找低一位的权值的倍数，如此反复直到差值为0为止。</li>
+<li>除法<br>把要转换的十进制数的整数部分不断除以16，并记下余数，直到商为0为止。<br>对于被转换的十进制数的小数部分则应不断乘以16，并记下其整数部分，直到结果的小数部分为0为止。</li>
+</ul>
+</li>
+</ul>
+<h1 id="二进制数和十六进制数运算"><a href="#二进制数和十六进制数运算" class="headerlink" title="二进制数和十六进制数运算"></a>二进制数和十六进制数运算</h1><h2 id="二进制数运算"><a href="#二进制数运算" class="headerlink" title="二进制数运算"></a>二进制数运算</h2><ul>
+<li>加法规则<br>0+0=0<br>0+1=1<br>1+0=1<br>1+1=0（进位1）</li>
+<li>乘法规则<br>0×0=0<br>0×1=0<br>1×0=0<br>1×1=1</li>
+</ul>
+<h2 id="十六进制数运算"><a href="#十六进制数运算" class="headerlink" title="十六进制数运算"></a>十六进制数运算</h2><ul>
+<li>十六进制加法<br>当两个一位数之和S小于16时，与十进制数同样处理；如果两个一位数之和大于或等于16时，则应该用S-16及进位1来取代S。</li>
+<li>十六进制减法<br>与十进制数类似，够减时可直接相减，不够减时服从向高位借1位16的规则。</li>
+<li>十六进制乘法<br>可以用十进制数的乘法规则来计算，但结果必须用十六进制数来表示。</li>
+<li>十六进制除法<br>可以根据其乘法和减法规则处理。</li>
+</ul>
+<p>十六进制数的运算可以采用先把该十六进制数转换为十进制数，经过计算后再把结果转换为十六进制数的方法。</p>
+<h1 id="计算机中数和字符的表示"><a href="#计算机中数和字符的表示" class="headerlink" title="计算机中数和字符的表示"></a>计算机中数和字符的表示</h1><h2 id="数的补码表示"><a href="#数的补码表示" class="headerlink" title="数的补码表示"></a>数的补码表示</h2><p>计算机中的数是用二进制来表示的，数的符号也是用二进制表示的。<br>在机器中，把一个数连同其符号在内数值化表示的数称为<strong>机器数</strong>。一般用最高有效位来表示数的符号，正数用0表示，负数用1表示。机器数可以用不同的码制来表示，常用的有原码、补码和反码表示法。多数机器的整数采用补码表示。</p>
+<ul>
+<li>补码表示法中正数采用符号-绝对值表示，即数的最高有效位为0表示符号为正，数的其余部分则表示数的绝对值。<br>例如，假设机器字长为8，则$[+1]_补=00000001$，$[+127]_补=01111111$。</li>
+<li>表示负数要麻烦一些。负数X用$2^n-|X|$来表示，其中n为机器的字长。另一种简单的方法：先求出该负数相对应的正数的补码表示，然后按位求反，末位加1。<br>例如，机器字长为8，$[-127]_补=2^8-127=10000001$。</li>
+<li>补码表示法的符号扩展（如从8位扩展到16位），正数的符号扩展应该在前面补0，而负数的符号扩展应该在前面补1。</li>
+<li>n位补码表示的数的表数范围：$-2^{n-1}\leq N \leq 2^{n-1}-1$。</li>
+</ul>
+<h2 id="补码的加法和减法"><a href="#补码的加法和减法" class="headerlink" title="补码的加法和减法"></a>补码的加法和减法</h2><p>对一个二进制数按位求反后在末位加1的运算称为求补运算，可以证明补码表示的数具有以下特性：<br>$$[X]_补\overset{求补}{\Rightarrow}[-X]_补\overset{求补}{\Rightarrow}[X]_补$$</p>
+<ul>
+<li>补码的加法规则<br>$$[X+Y]_补=[X]_补+[Y]_补$$</li>
+<li>补码的减法规则<br>$$[X-Y]_补=[X]_补+[-Y]_补$$</li>
+</ul>
+<h2 id="无符号整数"><a href="#无符号整数" class="headerlink" title="无符号整数"></a>无符号整数</h2><p>在某些情况下，要处理的数全是正数，此时再保留符号位就没有任何意义了。我们可以把最高有效位也作为数值处理，这样的数称为无符号整数。在计算机中最常用的无符号整数是表示地址的数。</p>
+<h2 id="字符表示法"><a href="#字符表示法" class="headerlink" title="字符表示法"></a>字符表示法</h2><p>字符包括：</p>
+<ul>
+<li>字母：A、B、…、Z，a、b、…、z；</li>
+<li>数字：0、1、…、9；</li>
+<li>专用字符：+、-、*、/、↑、SP（space空格）…；</li>
+<li>非打印字符：BEL（bell响铃）、LF（line feed换行）、CR（carriage return回车）、…</li>
+</ul>
+<p>这些字符在机器里必须用二进制数来表示。80×86机采用目前最常用的美国信息交换标准码ASCII来表示。</p>
+<h1 id="几种基本的逻辑运算"><a href="#几种基本的逻辑运算" class="headerlink" title="几种基本的逻辑运算"></a>几种基本的逻辑运算</h1><h2 id="“与”运算"><a href="#“与”运算" class="headerlink" title="“与”运算"></a>“与”运算</h2><p>“与”运算又称逻辑乘，可用符号$\cdot$或$\bigwedge$来表示。如A、B两个逻辑变量的“与”运算结果：</p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>$A\bigwedge B$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="“或”运算"><a href="#“或”运算" class="headerlink" title="“或”运算"></a>“或”运算</h2><p>“或”运算又称逻辑加，可用符号+或$\bigvee$来表示。“或”运算规则如下：</p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>$A\bigvee B$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>1</td>
+</tr>
+</tbody>
+</table>
+<h2 id="“非”运算"><a href="#“非”运算" class="headerlink" title="“非”运算"></a>“非”运算</h2><p>“非”运算规则如下：</p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>$\overline A$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<h2 id="“异或”运算"><a href="#“异或”运算" class="headerlink" title="“异或”运算"></a>“异或”运算</h2><p>“异或”运算可以用符号$\forall$来表示。运算规则如下：</p>
+<table>
+<thead>
+<tr>
+<th>A</th>
+<th>B</th>
+<th>$A\forall B$</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>0</td>
+<td>1</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>0</td>
+<td>1</td>
+</tr>
+<tr>
+<td>1</td>
+<td>1</td>
+<td>0</td>
+</tr>
+</tbody>
+</table>
+<p><strong>所有逻辑运算都是按位操作的。</strong></p>
+<blockquote>
+<p>《IBM-PC汇编语言程序设计（第2版）》沈美明 温冬婵 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/汇编语言/" rel="tag">#汇编语言</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/28/数据库完整性/" rel="next" title="数据库完整性">
+                <i class="fa fa-chevron-left"></i> 数据库完整性
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/29/MathJax简介和基本用法/" rel="prev" title="MathJax简介和基本用法">
+                MathJax简介和基本用法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/28/汇编语言程序设计基础知识/"
+           data-title="汇编语言程序设计基础知识" data-url="http://zlw.poker/2016/11/28/汇编语言程序设计基础知识/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#进位记数制与不同基数的数之间的转换"><span class="nav-number">1.</span> <span class="nav-text">进位记数制与不同基数的数之间的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制数"><span class="nav-number">1.1.</span> <span class="nav-text">二进制数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制数和十进制数之间的转换"><span class="nav-number">1.2.</span> <span class="nav-text">二进制数和十进制数之间的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二进制数转换为十进制数"><span class="nav-number">1.2.1.</span> <span class="nav-text">二进制数转换为十进制数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十进制数转换为二进制数"><span class="nav-number">1.2.2.</span> <span class="nav-text">十进制数转换为二进制数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十六进制数及其与二进制、十进制数之间的转换"><span class="nav-number">1.3.</span> <span class="nav-text">十六进制数及其与二进制、十进制数之间的转换</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#十六进制数的表示"><span class="nav-number">1.3.1.</span> <span class="nav-text">十六进制数的表示</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十六进制数和二进制数之间的转换"><span class="nav-number">1.3.2.</span> <span class="nav-text">十六进制数和二进制数之间的转换</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十六进制数和十进制数之间的转换"><span class="nav-number">1.3.3.</span> <span class="nav-text">十六进制数和十进制数之间的转换</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#二进制数和十六进制数运算"><span class="nav-number">2.</span> <span class="nav-text">二进制数和十六进制数运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#二进制数运算"><span class="nav-number">2.1.</span> <span class="nav-text">二进制数运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#十六进制数运算"><span class="nav-number">2.2.</span> <span class="nav-text">十六进制数运算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机中数和字符的表示"><span class="nav-number">3.</span> <span class="nav-text">计算机中数和字符的表示</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数的补码表示"><span class="nav-number">3.1.</span> <span class="nav-text">数的补码表示</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补码的加法和减法"><span class="nav-number">3.2.</span> <span class="nav-text">补码的加法和减法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#无符号整数"><span class="nav-number">3.3.</span> <span class="nav-text">无符号整数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#字符表示法"><span class="nav-number">3.4.</span> <span class="nav-text">字符表示法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#几种基本的逻辑运算"><span class="nav-number">4.</span> <span class="nav-text">几种基本的逻辑运算</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#“与”运算"><span class="nav-number">4.1.</span> <span class="nav-text">“与”运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“或”运算"><span class="nav-number">4.2.</span> <span class="nav-text">“或”运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“非”运算"><span class="nav-number">4.3.</span> <span class="nav-text">“非”运算</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#“异或”运算"><span class="nav-number">4.4.</span> <span class="nav-text">“异或”运算</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

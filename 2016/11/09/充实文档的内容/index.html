@@ -1,0 +1,935 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="不应该做什么理论上，你可以用JavaScript把一些重要的内容添加到网页上。事实上这是一个坏主意，因为这样一来JavaScript就没有任何空间去平稳退化。那些缺乏必要的JavaScript支持的访问者就会永远看不到你的重要内容。至少到现在为止，各大搜素引擎网站的搜索机器人还几乎不支持JavaScript。">
+<meta name="keywords" content="JavaScript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="充实文档的内容">
+<meta property="og:url" content="http://zlw.poker/2016/11/09/充实文档的内容/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="不应该做什么理论上，你可以用JavaScript把一些重要的内容添加到网页上。事实上这是一个坏主意，因为这样一来JavaScript就没有任何空间去平稳退化。那些缺乏必要的JavaScript支持的访问者就会永远看不到你的重要内容。至少到现在为止，各大搜素引擎网站的搜索机器人还几乎不支持JavaScript。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%85%85%E5%AE%9E%E6%96%87%E6%A1%A3%E7%9A%84%E5%86%85%E5%AE%B91.png">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%85%85%E5%AE%9E%E6%96%87%E6%A1%A3%E7%9A%84%E5%86%85%E5%AE%B92.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:51:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="充实文档的内容">
+<meta name="twitter:description" content="不应该做什么理论上，你可以用JavaScript把一些重要的内容添加到网页上。事实上这是一个坏主意，因为这样一来JavaScript就没有任何空间去平稳退化。那些缺乏必要的JavaScript支持的访问者就会永远看不到你的重要内容。至少到现在为止，各大搜素引擎网站的搜索机器人还几乎不支持JavaScript。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E5%85%85%E5%AE%9E%E6%96%87%E6%A1%A3%E7%9A%84%E5%86%85%E5%AE%B91.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/09/充实文档的内容/"/>
+
+
+  <title> 充实文档的内容 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                充实文档的内容
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-09T19:13:42+08:00" content="2016-11-09">
+              2016-11-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/JavaScriptDOM编程艺术/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScriptDOM编程艺术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/09/充实文档的内容/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/09/充实文档的内容/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="不应该做什么"><a href="#不应该做什么" class="headerlink" title="不应该做什么"></a>不应该做什么</h1><p>理论上，你可以用JavaScript把一些重要的内容添加到网页上。事实上这是一个坏主意，因为这样一来JavaScript就没有任何空间去平稳退化。那些缺乏必要的JavaScript支持的访问者就会永远看不到你的重要内容。至少到现在为止，各大搜素引擎网站的搜索机器人还几乎不支持JavaScript。<br><a id="more"></a><br>在<a href="http://zlw.poker/2016/11/02/%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">最佳实践</a>中，我们要牢记下面这两项原则：</p>
+<ul>
+<li>渐进增强。渐进增强原则基于这样一种思想：你应该总是从最核心的部分，也就是从内容开始。应该根据内容使用标记实现良好的结构；然后再逐步加强这些内容。这些增强工作既可以是通过CSS改进呈现效果，也可以是通过DOM添加各种行为。</li>
+<li>平稳退化。渐进增强的实现必然支持平稳退化。如果你按照渐进增强的原则去充实内容，你为内容添加的样式和行为就自然支持平稳退化，那些缺乏必要的CSS和DOM支持的访问者仍可以访问到你的核心内容。</li>
+</ul>
+<h1 id="把“不可见”变成“可见”"><a href="#把“不可见”变成“可见”" class="headerlink" title="把“不可见”变成“可见”"></a>把“不可见”变成“可见”</h1><p>绝大多数属性的内容（即属性值）在web浏览器里都是不显示的，只有极少数属性例外，但不同的浏览器在呈现这些例外的属性时却常常千姿百态。比如说，有些浏览器会把title属性的内容显示为弹出式的提示框，另一些浏览器则会把它们显示在状态栏里。在显示属性这个问题上，你只能听任浏览器的摆布。其实只需要一点点DOM编程，我们就能够把这种控制器重新掌握在自己的手里。本文着眼于使用DOM技术为网页添加一些使用的小部件。</p>
+<ul>
+<li>得到隐藏在属性里的信息。</li>
+<li>创建标记封装这些信息。</li>
+<li>把这些标记插入到文档。</li>
+</ul>
+<h1 id="内容"><a href="#内容" class="headerlink" title="内容"></a>内容</h1><p>内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">What is the Document Object Model?</div><div class="line">The W3C defines the DOM as： </div><div class="line">A platform- and language-neutral interface that will allow programs and scripts to dynamically acess and update the content,structure and style of documents.</div><div class="line">It is an API that can be used to navigate HTML and XML documents.</div></pre></td></tr></table></figure></p>
+<p>添加标记：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">h1</span>&gt;</span>What is the Document Object Model?<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">  The <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"World Wide Web Consortium"</span>&gt;</span>W3C<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> defines the <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"Document Object Model"</span>&gt;</span>DOM<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> as:</div><div class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">blockquote</span> <span class="attr">cite</span>=<span class="string">"http://www.w3.org/DOM/"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">     A platform- and language-neutral interface that will allow programs and scripts to dynamically acess and update the content,structure and style of documents.</div><div class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">blockquote</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">  It is an <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"Application Programming Interface"</span>&gt;</span>API<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> that can be used to navigate <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"HyperText Markup Language"</span>&gt;</span>HTML<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> and <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"eXtensible Markup Language"</span>&gt;</span>XML<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> documents.</div><div class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="选用HTML、XHTML还是HTML5"><a href="#选用HTML、XHTML还是HTML5" class="headerlink" title="选用HTML、XHTML还是HTML5"></a>选用HTML、XHTML还是HTML5</h2><p>对于标记而言，选用HTML还是XHTML是你的自由。重要的是不管选用的哪种文档类型，你使用的标记必须与你选用的DOCTYPE声明一致。<br>HTML5文档类型声明：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div></pre></td></tr></table></figure></p>
+<p>而且这个文档声明同样也支持HTML和XHTML标记。<br>下面是按照HTML5规范完成的最终标记文件explanation.html：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Explaining the Document Object Model<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>What is the Document Object Model?<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">  The <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"World Wide Web Consortium"</span>&gt;</span>W3C<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> defines the <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"Document Object Model"</span>&gt;</span>DOM<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> as:</div><div class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">blockquote</span> <span class="attr">cite</span>=<span class="string">"http://www.w3.org/DOM/"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">     A platform- and language-neutral interface that will allow programs and scripts to dynamically acess and update the content,structure and style of documents.</div><div class="line">  <span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">blockquote</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span></div><div class="line">  It is an <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"Application Programming Interface"</span>&gt;</span>API<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> that can be used to navigate <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"HyperText Markup Language"</span>&gt;</span>HTML<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> and <span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"eXtensible Markup Language"</span>&gt;</span>XML<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span> documents.</div><div class="line"><span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="CSS"><a href="#CSS" class="headerlink" title="CSS"></a>CSS</h2><p>把下面样式表保存到typography.css文件，并将其放到子目录styles中。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">			<span class="attribute">font-family</span>:<span class="string">"Helvetica"</span>,<span class="string">"Arial"</span>,sans-serif;</div><div class="line">			<span class="attribute">font-size</span>:<span class="number">10pt</span>;</div><div class="line">		&#125;</div><div class="line"><span class="selector-tag">abbr</span> &#123;</div><div class="line">			<span class="attribute">text-decoration</span>:none;</div><div class="line">			<span class="attribute">boder</span>:<span class="number">0</span>;</div><div class="line">			<span class="attribute">font-style</span>:normal;</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>有些浏览器会在你把鼠标指针悬停在缩略语上时，将它的title属性显示为一个弹出式的提示消息。就像浏览器所使用的默认样式一样，浏览器对缩略语的默认呈现行为也是各有各的做法。就像我们可以用自己的CSS样式表去取代浏览器所使用的默认样式那样，你也可以用DOM去改变浏览器的默认行为。</p>
+<h1 id="显示“缩略语列表”"><a href="#显示“缩略语列表”" class="headerlink" title="显示“缩略语列表”"></a>显示“缩略语列表”</h1><p>将&lt;abbr&gt;标签中的title属性集中显示在一个页面：<br>定义列表：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">dl</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dt</span>&gt;</span>W3C<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span>World Wide Web Consortium<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dt</span>&gt;</span>DOM<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span>Document Object Model<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dt</span>&gt;</span>API<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span>Application Programming Interface<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dt</span>&gt;</span>HTML<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span>HyperText Markup Language<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dt</span>&gt;</span>XML<span class="tag">&lt;/<span class="name">dt</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">dd</span>&gt;</span>eXtensible Markup Language<span class="tag">&lt;/<span class="name">dd</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">dl</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="编写displayAbbreviations函数"><a href="#编写displayAbbreviations函数" class="headerlink" title="编写displayAbbreviations函数"></a>编写displayAbbreviations函数</h2><p>具体步骤：<br>1.遍历这份文档的所有abbr元素。<br>2.保存每个abbr元素的title属性。<br>3.保存每个abbr元素包含的文本。<br>4.创建一个“定义列表”元素（即dl元素）。<br>5.遍历刚才保存的title属性和abbr元素的文本。<br>6.创建一个“定义标题”元素（即dt元素）。<br>7.把abbr元素的文本插入到这个dt元素。<br>8.创建一个“定义描述”元素（即dd元素）。<br>9.把title属性插入到这个dd元素。<br>10.把dt元素追加到第4步创建的dl元素上。<br>11.把dd元素追加到第4步创建的dl元素上。<br>12.把dl元素追加到explanation.html文档的body元素上。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> abbreviations=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"abbr"</span>);</div><div class="line"><span class="keyword">var</span> defs=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;abbreviations.length;i++)&#123;</div><div class="line">		<span class="keyword">var</span> definition=abbreviations[i].getAttribute(<span class="string">"title"</span>);</div><div class="line">		<span class="keyword">var</span> key=abbreviations[i].lastChild.nodeValue;     <span class="comment">//firstChild也可以，但若文本本&lt;em&gt;包含则只能用lastChild</span></div><div class="line">		defs[key]=definition;         <span class="comment">//将key用作数组元素的下标</span></div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h2 id="创建标记"><a href="#创建标记" class="headerlink" title="创建标记"></a>创建标记</h2><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> dlist=<span class="built_in">document</span>.createElement(<span class="string">"dl"</span>);</div><div class="line"><span class="keyword">for</span>(key <span class="keyword">in</span> defs)&#123;           <span class="comment">//含义：对于defs关联数组里的每个键，把它的值赋给变量key</span></div><div class="line">		<span class="keyword">var</span> definition=defs[key];</div><div class="line">		<span class="keyword">var</span> dtitle=<span class="built_in">document</span>.createElement(<span class="string">"dt"</span>);</div><div class="line">		<span class="keyword">var</span> dtitle_text=<span class="built_in">document</span>.createTextNode(key);</div><div class="line">		dtitle.appendChild(dtitle_text);</div><div class="line">		<span class="keyword">var</span> ddesc=<span class="built_in">document</span>.createElement(<span class="string">"dd"</span>);</div><div class="line">		<span class="keyword">var</span> ddesc_text=<span class="built_in">document</span>.createTextNode(definition);</div><div class="line">		ddesc.appendChild(ddesc_text);</div><div class="line">		dlist.appendChild(dtitle);</div><div class="line">		dlist.appendChild(ddesc);</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<h3 id="插入这个定义列表"><a href="#插入这个定义列表" class="headerlink" title="插入这个定义列表"></a>插入这个定义列表</h3><p>创建一个描述性标题并将它们插入文档中。<br>displayAbbreviations()函数代码：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">displayAbbreviations</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">var</span> abbreviations=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"abbr"</span>);</div><div class="line">		<span class="keyword">var</span> defs=<span class="keyword">new</span> <span class="built_in">Array</span>();</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;abbreviations.length;i++)&#123;</div><div class="line">				<span class="keyword">var</span> definition=abbreviations[i].getAttribute(<span class="string">"title"</span>);</div><div class="line">				<span class="keyword">var</span> key=abbreviations[i].lastChild.nodeValue;     </div><div class="line">				defs[key]=definition;        </div><div class="line">		&#125;</div><div class="line">		<span class="keyword">var</span> dlist=<span class="built_in">document</span>.createElement(<span class="string">"dl"</span>);</div><div class="line">		<span class="keyword">for</span>(key <span class="keyword">in</span> defs)&#123;           </div><div class="line">				<span class="keyword">var</span> definition=defs[key];</div><div class="line">				<span class="keyword">var</span> dtitle=<span class="built_in">document</span>.createElement(<span class="string">"dt"</span>);</div><div class="line">				<span class="keyword">var</span> dtitle_text=<span class="built_in">document</span>.createTextNode(key);</div><div class="line">				dtitle.appendChild(dtitle_text);</div><div class="line">				<span class="keyword">var</span> ddesc=<span class="built_in">document</span>.createElement(<span class="string">"dd"</span>);</div><div class="line">				<span class="keyword">var</span> ddesc_text=<span class="built_in">document</span>.createTextNode(definition);</div><div class="line">				ddesc.appendChild(ddesc_text);</div><div class="line">				dlist.appendChild(dtitle);</div><div class="line">				dlist.appendChild(ddesc);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">var</span> header=<span class="built_in">document</span>.createElement(<span class="string">"h2"</span>);</div><div class="line">		<span class="keyword">var</span> header_text=<span class="built_in">document</span>.createTextNode(<span class="string">"Abbreviations"</span>);</div><div class="line">		header.appendChild(header_text);</div><div class="line">		<span class="built_in">document</span>.body.appendChild(header);</div><div class="line">		<span class="built_in">document</span>.body.appendChild(dlist);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="检查兼容性"><a href="#检查兼容性" class="headerlink" title="检查兼容性"></a>检查兼容性</h3><p>函数用到了getElementsByTagName、createElement和createTextNode：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">if</span>(!<span class="built_in">document</span>.getElementsByTagName) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line"><span class="keyword">if</span>(!<span class="built_in">document</span>.createElement) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line"><span class="keyword">if</span>(!<span class="built_in">document</span>.createTextNode) <span class="keyword">return</span> <span class="literal">false</span>;</div></pre></td></tr></table></figure></p>
+<p>还需要用到window.onload事件。<br>浏览器效果：<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E5%85%85%E5%AE%9E%E6%96%87%E6%A1%A3%E7%9A%84%E5%86%85%E5%AE%B91.png" alt="充实文档的内容1"></p>
+<h1 id="显示“文献来源链接表”"><a href="#显示“文献来源链接表”" class="headerlink" title="显示“文献来源链接表”"></a>显示“文献来源链接表”</h1><p>blockquote元素包含一个属性cite。这是一个可选属性，你可以给它一个URL地址，告诉人们blockquote元素的内容引自哪里。但在实践中，浏览器会完全忽视cite属性的存在。利用JavaScript语言和DOM，我们完全可以把那些信息收集起来，并以一种更有意义的方式把它们显示在网页上。步骤如下：<br>1.遍历这个文档里所有blockquote元素。<br>2.从blockquote元素提取出cite属性的值。<br>3.创建一个标识文本是source的链接。<br>4.把这个链接赋值为blockquote元素的cite属性值。<br>5.把这个链接插入到文献节选的末尾。</p>
+<h2 id="编写displayCitations函数"><a href="#编写displayCitations函数" class="headerlink" title="编写displayCitations函数"></a>编写displayCitations函数</h2><p>遍历并提取cite属性值：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> quotes=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"blockquote"</span>);</div><div class="line"><span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;quotes.length;i++)&#123;</div><div class="line">		<span class="keyword">if</span>(!quotes[i].getAttribute(<span class="string">"cite"</span>))&#123;</div><div class="line">						<span class="keyword">continue</span>;      <span class="comment">//跳到下一次循环</span></div><div class="line">				&#125;</div><div class="line">		<span class="keyword">var</span> url=quotes[i].getAttribute(<span class="string">"cite"</span>);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="查找你的元素"><a href="#查找你的元素" class="headerlink" title="查找你的元素"></a>查找你的元素</h3><p>把“文献来源链接”放在blockquote元素所包含的最后一个子元素节点之后，直接想到的是用lastChild属性，可是在&lt;/p&gt;标签和&lt;/blockquote&gt;标签之间还存在着一个换行符，有些浏览器会把这个换行符解释为一个文本节点。但可以通过把通配符“*”作为参数传递给getElementsByTagName方法，它会把所有的元素一一返回给我们。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> quoteChildren=quotes[i].getElementsByTagName(<span class="string">"*"</span>);</div><div class="line"><span class="keyword">if</span>(quoteChildren.length&lt;<span class="number">1</span>) <span class="keyword">continue</span>;</div><div class="line"><span class="keyword">var</span> elem=quoteChildren[quoteChildren.length<span class="number">-1</span>];</div></pre></td></tr></table></figure></p>
+<h3 id="创建链接"><a href="#创建链接" class="headerlink" title="创建链接"></a>创建链接</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> link=<span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</div><div class="line"><span class="keyword">var</span> link_text=<span class="built_in">document</span>.createTextNode(<span class="string">"source"</span>);</div><div class="line">link.appendChild(link_text);</div><div class="line">link.setAttribute(<span class="string">"href"</span>,url);</div></pre></td></tr></table></figure>
+<h3 id="插入链接"><a href="#插入链接" class="headerlink" title="插入链接"></a>插入链接</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> superscript=<span class="built_in">document</span>.createElement(<span class="string">"sup"</span>);</div><div class="line">superscript.appendChild(link);     <span class="comment">//呈现上标的效果</span></div><div class="line">elem.appendChild(superscript);</div></pre></td></tr></table></figure>
+<h3 id="代码清单"><a href="#代码清单" class="headerlink" title="代码清单"></a>代码清单</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">displayCitations</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span>(!<span class="built_in">document</span>.getElementsByTagName) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		<span class="keyword">if</span>(!<span class="built_in">document</span>.createElement) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		<span class="keyword">if</span>(!<span class="built_in">document</span>.createTextNode) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		<span class="keyword">var</span> quotes=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"blockquote"</span>);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;quotes.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(!quotes[i].getAttribute(<span class="string">"cite"</span>))&#123;</div><div class="line">					<span class="keyword">continue</span>;      </div><div class="line">				&#125;</div><div class="line">			<span class="keyword">var</span> url=quotes[i].getAttribute(<span class="string">"cite"</span>);</div><div class="line">			<span class="keyword">var</span> quoteChildren=quotes[i].getElementsByTagName(<span class="string">"*"</span>);</div><div class="line">			<span class="keyword">if</span>(quoteChildren.length&lt;<span class="number">1</span>) <span class="keyword">continue</span>;</div><div class="line">			<span class="keyword">var</span> elem=quoteChildren[quoteChildren.length<span class="number">-1</span>];</div><div class="line">			<span class="keyword">var</span> link=<span class="built_in">document</span>.createElement(<span class="string">"a"</span>);</div><div class="line">			<span class="keyword">var</span> link_text=<span class="built_in">document</span>.createTextNode(<span class="string">"source"</span>);</div><div class="line">			link.appendChild(link_text);</div><div class="line">			link.setAttribute(<span class="string">"href"</span>,url);</div><div class="line">			<span class="keyword">var</span> superscript=<span class="built_in">document</span>.createElement(<span class="string">"sup"</span>);</div><div class="line">			superscript.appendChild(link);     </div><div class="line">			elem.appendChild(superscript);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">addLoadEvent(displayCitations);</div></pre></td></tr></table></figure>
+<p>效果预览：<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E5%85%85%E5%AE%9E%E6%96%87%E6%A1%A3%E7%9A%84%E5%86%85%E5%AE%B92.PNG" alt="充实文档的内容2"></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/07/动态创建标记/" rel="next" title="动态创建标记">
+                <i class="fa fa-chevron-left"></i> 动态创建标记
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/10/CSS-DOM/" rel="prev" title="CSS-DOM">
+                CSS-DOM <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/09/充实文档的内容/"
+           data-title="充实文档的内容" data-url="http://zlw.poker/2016/11/09/充实文档的内容/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#不应该做什么"><span class="nav-number">1.</span> <span class="nav-text">不应该做什么</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#把“不可见”变成“可见”"><span class="nav-number">2.</span> <span class="nav-text">把“不可见”变成“可见”</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#内容"><span class="nav-number">3.</span> <span class="nav-text">内容</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#选用HTML、XHTML还是HTML5"><span class="nav-number">3.1.</span> <span class="nav-text">选用HTML、XHTML还是HTML5</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CSS"><span class="nav-number">3.2.</span> <span class="nav-text">CSS</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript"><span class="nav-number">3.3.</span> <span class="nav-text">JavaScript</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#显示“缩略语列表”"><span class="nav-number">4.</span> <span class="nav-text">显示“缩略语列表”</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编写displayAbbreviations函数"><span class="nav-number">4.1.</span> <span class="nav-text">编写displayAbbreviations函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建标记"><span class="nav-number">4.2.</span> <span class="nav-text">创建标记</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入这个定义列表"><span class="nav-number">4.2.1.</span> <span class="nav-text">插入这个定义列表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#检查兼容性"><span class="nav-number">4.2.2.</span> <span class="nav-text">检查兼容性</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#显示“文献来源链接表”"><span class="nav-number">5.</span> <span class="nav-text">显示“文献来源链接表”</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编写displayCitations函数"><span class="nav-number">5.1.</span> <span class="nav-text">编写displayCitations函数</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查找你的元素"><span class="nav-number">5.1.1.</span> <span class="nav-text">查找你的元素</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建链接"><span class="nav-number">5.1.2.</span> <span class="nav-text">创建链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入链接"><span class="nav-number">5.1.3.</span> <span class="nav-text">插入链接</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#代码清单"><span class="nav-number">5.1.4.</span> <span class="nav-text">代码清单</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

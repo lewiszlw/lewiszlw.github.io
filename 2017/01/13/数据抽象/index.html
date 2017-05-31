@@ -1,0 +1,1005 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,算法,数据抽象," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="数据抽象指的是定义和使用数据类型的过程。数据类型指的是一组值和一组对这些值的操作的集合。原则上所有的程序都只需要使用原始数据类型即可，但在更高层次的抽象上编写程序会更加方便。">
+<meta name="keywords" content="Java,算法,数据抽象">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据抽象">
+<meta property="og:url" content="http://zlw.poker/2017/01/13/数据抽象/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="数据抽象指的是定义和使用数据类型的过程。数据类型指的是一组值和一组对这些值的操作的集合。原则上所有的程序都只需要使用原始数据类型即可，但在更高层次的抽象上编写程序会更加方便。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A11.png">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A12.png">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A13.png">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A14.png">
+<meta property="og:updated_time" content="2017-01-15T12:47:20.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据抽象">
+<meta name="twitter:description" content="数据抽象指的是定义和使用数据类型的过程。数据类型指的是一组值和一组对这些值的操作的集合。原则上所有的程序都只需要使用原始数据类型即可，但在更高层次的抽象上编写程序会更加方便。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A11.png">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2017/01/13/数据抽象/"/>
+
+
+  <title> 数据抽象 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据抽象
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-01-13T20:00:04+08:00" content="2017-01-13">
+              2017-01-13
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/算法/" itemprop="url" rel="index">
+                    <span itemprop="name">算法</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/01/13/数据抽象/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/01/13/数据抽象/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>数据抽象指的是定义和使用数据类型的过程。数据类型指的是一组值和一组对这些值的操作的集合。原则上所有的程序都只需要使用原始数据类型即可，但在更高层次的抽象上编写程序会更加方便。<br><a id="more"></a><br>抽象数据类型（ADT）是一种能够对使用者隐藏数据表示的数据类型。用Java类来实现数据类型和用一组静态方法实现一个函数库并没有什么不同。抽象数据类型的主要不同之处在于将数据和函数的实现关联，并将数据的表示方法隐藏起来。</p>
+<h1 id="使用抽象数据类型"><a href="#使用抽象数据类型" class="headerlink" title="使用抽象数据类型"></a>使用抽象数据类型</h1><p>编写一个名为Counter的简单数据类型的程序。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Counter</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">final</span> String name;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span> count;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">Counter</span><span class="params">(String id)</span></span>&#123;</div><div class="line">		name=id;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">increment</span><span class="params">()</span></span>&#123;</div><div class="line">		count++;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">tally</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> count;</div><div class="line">	&#125;</div><div class="line">	<span class="function"><span class="keyword">public</span> String <span class="title">toString</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="keyword">return</span> count+<span class="string">" "</span>+name;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="抽象数据类型的API"><a href="#抽象数据类型的API" class="headerlink" title="抽象数据类型的API"></a>抽象数据类型的API</h2><p>计数器的API</p>
+<table>
+<thead>
+<tr>
+<th>public class Counter</th>
+<th></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Counter(String id)</td>
+<td>创建一个名为id的计数器</td>
+</tr>
+<tr>
+<td>void increment()</td>
+<td>将计数器的值加1</td>
+</tr>
+<tr>
+<td>int tally()</td>
+<td>该对象创建之后计数器被加1的次数</td>
+</tr>
+<tr>
+<td>String toString()</td>
+<td>对象的字符串表示</td>
+</tr>
+</tbody>
+</table>
+<h2 id="继承的方法"><a href="#继承的方法" class="headerlink" title="继承的方法"></a>继承的方法</h2><p>根据Java的约定，任意数据类型都能通过在API中包含特定的方法从Java的内在机制中获益。例如，Java中的所有数据类型都会继承toString()方法来返回用String表示的该类型的值。Java会在用“+”运算符将任意数据类型的值和String值连接时调用该方法。</p>
+<h2 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h2><p>对象是能够承载数据类型的值的实体，或数据类型的实例（三大特性）</p>
+<ul>
+<li>状态：数据类型中的值</li>
+<li>标识：能够将一个对象区别于另一个对象。可以认为对象的标识就是它在内存中的位置</li>
+<li>行为：数据类型的操作</li>
+</ul>
+<p>引用是访问对象的一种方式。Java中使用术语“引用类型”以示和原始数据类型（变量和值相关联）的区别。不同的Java实现中引用的实现细节也各不相同，但可以认为引用就是内存地址。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A11.png" alt="数据抽象1"></p>
+<h2 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h2><p>每种数据类型中的值都存储于一个对象中。要创建（或实例化）一个对象，用关键字new并紧跟类名以及括号()（若构造函数需要则指定一系列参数）来<strong>触发它的构造函数</strong>。构造函数没有返回值，因为它总是返回它的数据类型的对象的引用。</p>
+<p>每当用例调用了new()，系统都会：</p>
+<ul>
+<li>为新的对象分配内存空间</li>
+<li>调用构造函数初始化对象中的值</li>
+<li>返回该对象一个引用</li>
+</ul>
+<p>我们一般都会在一条声明语句中创建一个对象并通过将它和一个变量关联来初始化该变量，和使用原始数据类型时一样。和原始数据不同的是，变量关联的是指向对象的引用而并非数据类型的值本身。</p>
+<h2 id="调用实例方法"><a href="#调用实例方法" class="headerlink" title="调用实例方法"></a>调用实例方法</h2><p>实例方法拥有与静态方法很多相同的性质：</p>
+<ul>
+<li>参数按值传递</li>
+<li>方法名可以被重载</li>
+<li>方法可以有返回值，也许还会产生一些副作用</li>
+<li>特别地，方法的每次触发都是和一个对象相关的</li>
+</ul>
+<p>触发实例方法的各种方式：</p>
+<ul>
+<li>通过关键字new（触发构造函数）</li>
+<li>通过语句（没有返回值）</li>
+<li>通过表达式</li>
+<li>通过自动类型转换<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A12.png" alt="数据抽象2"></li>
+</ul>
+<p>静态方法的主要作用是实现函数；非静态（实例）方法的主要作用是实现数据类型的操作。静态方法调用的开头是类名（按习惯为大写），而非静态方法调用的开头总是对象名（按习惯为小写）。</p>
+<h2 id="使用对象"><a href="#使用对象" class="headerlink" title="使用对象"></a>使用对象</h2><p>要开发某种给定数据类型的用例，我们需要：</p>
+<ul>
+<li>声明该类型的变量，以用来引用对象</li>
+<li>使用关键字new触发能够创建该类型的对象的一个构造函数</li>
+<li>使用变量名在语句或表达式中调用实例方法</li>
+</ul>
+<h2 id="赋值语句"><a href="#赋值语句" class="headerlink" title="赋值语句"></a>赋值语句</h2><p>使用引用类型的赋值语句将会创建该引用的一个副本。<strong>赋值语句不会创建新的对象，而只是创建另一个指向某个已经存在的对象的引用</strong>。</p>
+<h2 id="将对象作为参数"><a href="#将对象作为参数" class="headerlink" title="将对象作为参数"></a>将对象作为参数</h2><p>可以将对象作为参数传递给方法，这一般都能简化用例代码。当我们调用一个需要参数的方法时，该动作在Java中的效果相当于每个参数值都出现在了一个赋值语句的右侧，而参数名则在该赋值语句的左侧。也就是说，Java将参数值的一个副本从调用端传递给了方法，这种方式称为按值传递。</p>
+<p><strong>对于原始数据来说，按值传递无法改变调用端变量的值，两个变量相互独立。但每当使用引用类型作为参数时我们创建的都是别名，换句话说，这种约定将会传递引用的值（复制引用），也就是传递对象的引用，虽然无法改变原始的引用，但它能够改变该对象的值。</strong></p>
+<h2 id="将对象作为返回值"><a href="#将对象作为返回值" class="headerlink" title="将对象作为返回值"></a>将对象作为返回值</h2><p>方法可以将它的参数对象返回。Java中方法只能有一个返回值——有了对象我们的代码实际上就能返回多个值。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> Counter <span class="title">max</span><span class="params">(Counter x,Counter y)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(x.tally()&gt;y.tally()) <span class="keyword">return</span> x;</div><div class="line">		<span class="keyword">else</span>					<span class="keyword">return</span> y;</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>在Java中，所有非原始数据类型的值都是对象。</strong></p>
+<h2 id="对象的数组"><a href="#对象的数组" class="headerlink" title="对象的数组"></a>对象的数组</h2><p>创建一个对象的数组需要以下两个步骤：</p>
+<ul>
+<li>使用方括号语法调用数组的构造函数创建数组</li>
+<li>对于每个数组元素调用它的构造函数创建相应的对象</li>
+</ul>
+<p><strong>在Java中，对象数组即是一个由对象的引用组成的数组，而非所有对象本身组成的数组。</strong><br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Rolls</span> </span>&#123;</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> T=Integer.parseInt(args[<span class="number">0</span>]);</div><div class="line">		<span class="keyword">int</span> SIDES=<span class="number">6</span>;</div><div class="line">		<span class="comment">//调用数组的构造函数创建数组</span></div><div class="line">		Counter[] rolls=<span class="keyword">new</span> Counter[SIDES];</div><div class="line">		<span class="comment">//对每个数组元素调用构造函数创建相应的对象</span></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;SIDES;i++)&#123;</div><div class="line">			rolls[i]=<span class="keyword">new</span> Counter(i+<span class="string">"'s"</span>);</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;T;i++)&#123;</div><div class="line">			<span class="keyword">int</span> result=StdRandom.uniform(<span class="number">0</span>, <span class="number">6</span>);</div><div class="line">			rolls[result].increment();</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(Counter value:rolls)&#123;</div><div class="line">			StdOut.println(value);</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>运用数据抽象的思想编写代码（定义和使用数据类型，将数据类型的值封装在对象中）的方式称为<strong>面对对象编程</strong>。</p>
+<h1 id="抽象数据类型的实现"><a href="#抽象数据类型的实现" class="headerlink" title="抽象数据类型的实现"></a>抽象数据类型的实现</h1><p><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A13.png" alt="数据抽象3"><br>实例方法可以是公共的（在API中说明）或是私有的（用于辅助计算，用例无法使用）。</p>
+<h2 id="实例变量"><a href="#实例变量" class="headerlink" title="实例变量"></a>实例变量</h2><p>实例变量和熟悉的静态方法或是某个代码中的局部变量最关键的区别在于：每一时刻每个局部变量只会有一个值，但每个实例变量则对应着无数值（数据类型的每个实例对象都会有一个）。这并不会产生二义性，因为我们在访问实例变量时都需要通过一个对象——我们访问的是这个对象的值。</p>
+<p>同样，每个实例变量的声明都需要一个可见性修饰符。在抽象数据类型的实现中，我们会使用private。如果该值在初始化后不应该再改变，我们也会使用final。如果使用public修饰Counter类型中的两个实例变量（Java中是允许的），那么根据定义，这种数据类型就不再是抽象的了。</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><p>每个Java类都至少含有一个构造函数以创建一个对象的标识。如果没有定义构造函数，类将会隐式定义一个默认情况下不接受任何参数的构造函数并将所有实例变量初始化为默认值。</p>
+<h2 id="实例方法"><a href="#实例方法" class="headerlink" title="实例方法"></a>实例方法</h2><p>实现数据类型的实例方法（即每个对象的行为）的代码和实现静态方法（函数）的代码完全相同</p>
+<ul>
+<li>返回值类型</li>
+<li>签名（指定方法名、返回值类型和所有参数变量的名称）</li>
+<li>主体（一系列语句组成，包括一个返回语句来将一个返回类型的值传递给调用者）</li>
+</ul>
+<p>实例方法的行为和静态方法部分相同，只有一点关键的不同：<strong>它们可以访问并操作实例变量</strong>。例如调用heads.increment()时，increment()方法中的代码访问的是heads中的实例变量，并且能改变它的值。</p>
+<h2 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h2><p>总的来说，在实现实例方法的Java代码中使用了三种变量：</p>
+<ul>
+<li>参数变量。方法的签名定义参数变量，在方法被调用时参数变量会被初始化为调用者提供的值。参数变量的作用域是整个方法。</li>
+<li>局部变量。局部变量的声明和初始化都在方法的主体中，作用域是当前代码段它的定义之后的所有语句。</li>
+<li>实例变量。实例变量为类的对象保存了数据类型的值，它们的作用域是整个类（如果出现二义性，可以使用this前缀来区别实例变量）。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%95%B0%E6%8D%AE%E6%8A%BD%E8%B1%A14.png" alt="数据抽象4"></li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/算法/" rel="tag">#算法</a>
+          
+            <a href="/tags/数据抽象/" rel="tag">#数据抽象</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/01/12/CSS工作原理/" rel="next" title="CSS工作原理">
+                <i class="fa fa-chevron-left"></i> CSS工作原理
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/01/17/背包、队列和栈/" rel="prev" title="背包、队列和栈">
+                背包、队列和栈 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/01/13/数据抽象/"
+           data-title="数据抽象" data-url="http://zlw.poker/2017/01/13/数据抽象/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#使用抽象数据类型"><span class="nav-number">1.</span> <span class="nav-text">使用抽象数据类型</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#抽象数据类型的API"><span class="nav-number">1.1.</span> <span class="nav-text">抽象数据类型的API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承的方法"><span class="nav-number">1.2.</span> <span class="nav-text">继承的方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象"><span class="nav-number">1.3.</span> <span class="nav-text">对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#创建对象"><span class="nav-number">1.4.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#调用实例方法"><span class="nav-number">1.5.</span> <span class="nav-text">调用实例方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#使用对象"><span class="nav-number">1.6.</span> <span class="nav-text">使用对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#赋值语句"><span class="nav-number">1.7.</span> <span class="nav-text">赋值语句</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将对象作为参数"><span class="nav-number">1.8.</span> <span class="nav-text">将对象作为参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#将对象作为返回值"><span class="nav-number">1.9.</span> <span class="nav-text">将对象作为返回值</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#对象的数组"><span class="nav-number">1.10.</span> <span class="nav-text">对象的数组</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#抽象数据类型的实现"><span class="nav-number">2.</span> <span class="nav-text">抽象数据类型的实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#实例变量"><span class="nav-number">2.1.</span> <span class="nav-text">实例变量</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#构造函数"><span class="nav-number">2.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例方法"><span class="nav-number">2.3.</span> <span class="nav-text">实例方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作用域"><span class="nav-number">2.4.</span> <span class="nav-text">作用域</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

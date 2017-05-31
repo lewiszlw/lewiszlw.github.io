@@ -1,0 +1,1034 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="操作系统," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="用户界面是操作系统的重要组成部分。用户界面负责用户和操作系统之间的交互，即用户通过用户界面向计算机系统提交服务需求，计算机通过用户界面向用户提供用户所需要的服务。">
+<meta name="keywords" content="操作系统">
+<meta property="og:type" content="article">
+<meta property="og:title" content="操作系统用户界面">
+<meta property="og:url" content="http://zlw.poker/2016/12/07/操作系统用户界面/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="用户界面是操作系统的重要组成部分。用户界面负责用户和操作系统之间的交互，即用户通过用户界面向计算机系统提交服务需求，计算机通过用户界面向用户提供用户所需要的服务。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A21.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A22.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:54:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="操作系统用户界面">
+<meta name="twitter:description" content="用户界面是操作系统的重要组成部分。用户界面负责用户和操作系统之间的交互，即用户通过用户界面向计算机系统提交服务需求，计算机通过用户界面向用户提供用户所需要的服务。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A21.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/07/操作系统用户界面/"/>
+
+
+  <title> 操作系统用户界面 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                操作系统用户界面
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-07T15:23:53+08:00" content="2016-12-07">
+              2016-12-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/计算机操作系统教程/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机操作系统教程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/07/操作系统用户界面/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/07/操作系统用户界面/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>用户界面是操作系统的重要组成部分。用户界面负责用户和操作系统之间的交互，即用户通过用户界面向计算机系统提交服务需求，计算机通过用户界面向用户提供用户所需要的服务。<br><a id="more"></a></p>
+<h1 id="作业的基本概念"><a href="#作业的基本概念" class="headerlink" title="作业的基本概念"></a>作业的基本概念</h1><h2 id="作业的定义"><a href="#作业的定义" class="headerlink" title="作业的定义"></a>作业的定义</h2><p>作业：是要求计算机系统按指定步骤对应用程序进行处理并得到计算结果的加工工作。</p>
+<p>用户的观点：在一次应用业务处理过程中，从输入开始到输出结束，用户要求计算机所做的有关该次业务处理的全部工作。    </p>
+<p>作业步：对应用程序进行处理的步骤。</p>
+<ul>
+<li>作业由不同的顺序相连的作业步组成</li>
+<li>作业步是在一个作业的处理过程中，计算机所做的相对独立的工作<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A21.PNG" alt="操作系统用户界面1"></li>
+</ul>
+<h2 id="作业的组成"><a href="#作业的组成" class="headerlink" title="作业的组成"></a>作业的组成</h2><p>作业由程序、数据和作业说明书三部分组成。（系统的观点）</p>
+<ul>
+<li>程序和数据：完成用户所要求的业务处理工作。<ul>
+<li>每个作业至少包含一个程序</li>
+</ul>
+</li>
+<li>作业说明书：体现用户的控制意图。系统通过作业说明书控制文件形式的程序和数据，使之执行和操作。<ul>
+<li>作业基本情况：用户名、作业名、编程语言、最大处理时间等</li>
+<li>作业控制描述：作业控制方式、作业步的操作顺序、作业执行出错处理</li>
+<li>作业资源要求描述：处理时间、优先级、内存空间、外设类型和数量等</li>
+</ul>
+</li>
+</ul>
+<h1 id="作业的建立"><a href="#作业的建立" class="headerlink" title="作业的建立"></a>作业的建立</h1><h2 id="作业的建立过程"><a href="#作业的建立过程" class="headerlink" title="作业的建立过程"></a>作业的建立过程</h2><p>（1）作业的输入<br>    指将作业的程序、数据和作业说明书从输入设备输入到外存。<br>（2）作业控制块的建立<br>    作业控制块是作业说明书在系统中生成的一张表格。操作系统通过该表了解到作业的要求，并分配资源和控制作业中程序和数据的编译、链接、装入和执行等。</p>
+<p>当一个作业的全部程序和数据输入到外存并且在系统中建立了相应的作业控制块之后，一个作业就建立了。</p>
+<h2 id="作业控制块JCB-Job-Control-Block"><a href="#作业控制块JCB-Job-Control-Block" class="headerlink" title="作业控制块JCB (Job Control Block)"></a>作业控制块JCB (Job Control Block)</h2><ul>
+<li>作业名</li>
+<li>估计执行时间</li>
+<li>优先数（用于调度）</li>
+<li>作业说明书文件名</li>
+<li>程序语言类型（表明需调用的系统程序）</li>
+<li>资源要求：如内存、外设要求（静态/动态申请）</li>
+<li>作业状态：提交/后备/执行/就绪/等待/完成</li>
+<li>作业在外存中的存储地址（以便迅速调入内存）</li>
+</ul>
+<p>作业控制块和作业之间是一一对应关系</p>
+<h2 id="作业输入输出方式"><a href="#作业输入输出方式" class="headerlink" title="作业输入输出方式"></a>作业输入输出方式</h2><ul>
+<li>联机：通过交互会话来输入输出作业。由主机直接控制I/O ；作业处理与I/O不能并行（CPU利用率低）。</li>
+<li>脱机（又称为预输入方式）：通过后援存储器（磁带/磁盘）在外围处理机与主机之间交换作业。提高了主机的利用率，但需人工干预，如移动存储介质和连接后援存储器等。</li>
+<li>直接耦合：通过大容量的公用存储器在外围处理机与主机之间交换作业；既提高了主机的利用率，又无需人工干预。成本较高，一般只适用于大型机/巨型机系统</li>
+<li>SPOOLING (Simultaneously Peripheral Operation On Line，外围设备同时联机操作 )：多台外围设备通过通道/DMA器件和主机与外存连接起来。作业的I/O过程由主机中的操作系统控制。</li>
+<li>网络联机：用户把在计算机网络中某一台主机上输入的信息传送到网中另一台主机上进行操作或执行。</li>
+</ul>
+<p>SPOOLING系统工作原理</p>
+<ol>
+<li>在系统输入模块收到作业输入请求信号后，输入管理模块中的读过程负责将信息从输入装置读入缓冲区。</li>
+<li>当缓冲区满时，由写过程将信息从缓冲区写到外存输入井中。</li>
+<li>读过程和写过程反复循环，直到一个作业输入完毕。当读过程读到一个硬件结束标志之后，系统再次驱动写过程把最后一批信息写入外存，并调用中断处理程序结束该次输入。</li>
+<li>系统为该作业建立作业控制块JCB，从而使输入井中的作业进入作业等待队列，等待作业调度程序选中后进入内存。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%93%8D%E4%BD%9C%E7%B3%BB%E7%BB%9F%E7%94%A8%E6%88%B7%E7%95%8C%E9%9D%A22.PNG" alt="操作系统用户界面2"></li>
+</ol>
+<h2 id="作业控制方式"><a href="#作业控制方式" class="headerlink" title="作业控制方式"></a>作业控制方式</h2><ul>
+<li>脱机作业控制：用户输入作业说明书，整个作业的运行由系统控制。</li>
+<li>联机作业控制：通过人-机会话方式控制作业运行。用户登录（控制台登录或远程登录），由系统自动执行一些命令脚本后，并进入shell（字符或GUI界面），接受用户的命令和操作，最后退出系统。</li>
+</ul>
+<p>需要说明的是，作业的概念一般用于早期批处理系统和现在的大型机、巨型机系统中，对于广为流行的微机和工作站系统，一般不太使用作业的概念。</p>
+<h1 id="用户接口"><a href="#用户接口" class="headerlink" title="用户接口"></a>用户接口</h1><h2 id="用户接口的定义"><a href="#用户接口的定义" class="headerlink" title="用户接口的定义"></a>用户接口的定义</h2><p>用户接口（界面）：是操作系统提供给用户与计算机打交道的外部机制。</p>
+<ul>
+<li>用户通过用户接口向计算机提交服务请求</li>
+<li>计算机通过用户接口向用户提供所需要的服务</li>
+</ul>
+<p>计算机系统的三类用户</p>
+<ul>
+<li>普通用户：只是使用计算机的应用服务</li>
+<li>管理员用户：负责计算机系统的正常与安全运行</li>
+<li>程序员用户：编程、开发新的应用程序</li>
+</ul>
+<p>针对不同的用户，操作系统提供不同的用户接口</p>
+<h2 id="操作系统提供的用户接口"><a href="#操作系统提供的用户接口" class="headerlink" title="操作系统提供的用户接口"></a>操作系统提供的用户接口</h2><ol>
+<li>命令控制接口（操作接口）<br>组织工作流程、控制程序的运行。<br>用户利用这些操作命令来组织和控制作业的执行或管理计算机系统<br>两种界面形式：命令界面，图形界面<br>使用操作命令进行作业控制的主要方式有两种。<ul>
+<li>脱机方式：用户将作业的执行顺序和出错处理方法一并以作业控制说明书的方式或命令文件方式提交给系统，由系统按照作业说明书或命令文件中所规定的顺序控制作业执行。</li>
+<li>联机控制：用户使用系统提供的操作命令和系统会话，交互地控制程序执行和管理计算机系统。</li>
+</ul>
+</li>
+<li>系统功能调用（程序接口）<br>用户程序在其运行过程中，使用系统功能调用来请求操作系统的服务。</li>
+</ol>
+<h2 id="系统调用"><a href="#系统调用" class="headerlink" title="系统调用"></a>系统调用</h2><p>系统调用是操作系统提供给软件开发人员的唯一接口：编程人员利用系统调用,在源程序一级调用系统中已有的系统功能来完成那些与机器硬件部分相关的工作以及控制程序的执行等。系统调用像一个黑箱子那样，对用户屏蔽了操作系统的具体动作而只提供有关的功能。</p>
+<h3 id="系统调用及系统调用指令"><a href="#系统调用及系统调用指令" class="headerlink" title="系统调用及系统调用指令"></a>系统调用及系统调用指令</h3><p>系统调用：用户程序中对OS所提供的一些子功能的调用称为系统调用。（编程人员利用系统调用来请求OS提供服务，它是OS提供给编程人员的唯一接口）</p>
+<p>处理机的执行状态</p>
+<ul>
+<li>用户态：处理机在用户程序中执行称为用户态</li>
+<li>系统态：处理机在系统程序中执行称为系统态</li>
+</ul>
+<p>在系统发生访管中断（陷阱中断）时，为了不让用户程序直接访问系统程序，反映处理机硬件状态的处理机状态字PSW中的相应位要从用户执行模式转换为系统执行模式。这一转换在发生访管中断时由硬件自动实现。</p>
+<p>系统调用指令（或称访管指令、陷阱指令）：指由于系统调用引起处理机中断的指令。</p>
+<h3 id="系统调用的实现过程"><a href="#系统调用的实现过程" class="headerlink" title="系统调用的实现过程"></a>系统调用的实现过程</h3><p>陷阱(trap)处理机构：是控制系统调用服务的中断处理机构，以保证系统调用时操作系统程序不被用户程序破坏。</p>
+<ul>
+<li>陷阱指令中必须包括对应系统调用的功能号（在操作系统中，每个系统调用都对应一个事先给定的功能号，例如0，1，2，3等 ）</li>
+<li>陷阱处理程序把陷阱指令中所包含的功能号与入口地址表中的有关项对应起来，从而由系统调用功能号驱动有关系统子程序执行。（入口地址表中，每个系统子程序名都与相应的入口地址对应起来）</li>
+</ul>
+<p>系统调用的处理过程</p>
+<ul>
+<li>在进入系统调用处理之前，陷阱处理机构需保存处理机现场</li>
+<li>在系统调用处理结束之后，陷阱处理机构还要恢复处理机现场</li>
+<li>在操作系统中，处理机的现场一般被保护在特定的内存区或寄存器中。</li>
+</ul>
+<p>参数传递问题：</p>
+<ul>
+<li>不同的系统调用需要传递给系统子程序以不同的参数</li>
+<li>系统调用的执行结果也要以参数形式返回给用户程序</li>
+</ul>
+<p>参数传递的常用方法（用户程序和系统程序之间）：</p>
+<ul>
+<li>由陷阱指令自带参数（陷阱指令只能自带极有限的几个参数进入系统内部）</li>
+<li>使用有关通用寄存器来传递参数（无法传递较多的参数，且这些寄存器应是系统程序和用户程序都能访问的）</li>
+<li>在内存中开辟专用堆栈区来传递参数（在系统调用较多的系统中）</li>
+</ul>
+<h3 id="系统调用功能"><a href="#系统调用功能" class="headerlink" title="系统调用功能"></a>系统调用功能</h3><p>系统调用的功能</p>
+<ul>
+<li>设备管理：请求和释放设备，启动设备操作等</li>
+<li>文件管理：创建、删除文件，读、写文件操作，移动文件指针等</li>
+<li>进程控制：创建、执行、撤销进程等控制</li>
+<li>进程通信：进程间传递消息或信号的系统调用</li>
+<li>存储管理：内存块的申请、释放，获取作业占用内存块的首址、大小等</li>
+<li>系统管理：设置和读取时间、读取用户和主机标识等</li>
+</ul>
+<h3 id="系统调用与普通过程调用的异同点"><a href="#系统调用与普通过程调用的异同点" class="headerlink" title="系统调用与普通过程调用的异同点"></a>系统调用与普通过程调用的异同点</h3><p>相同点</p>
+<ul>
+<li>改变指令流程</li>
+<li>重复执行和公用</li>
+<li>改变指令流程后需要返回原处</li>
+</ul>
+<p>不同点</p>
+<ul>
+<li>系统调用是动态调用，而CALL调用方式是静态调用</li>
+<li>执行状态不同</li>
+<li>进入方式不同</li>
+<li>与进程调度的关系不同</li>
+<li>嵌套或递归调用</li>
+</ul>
+<blockquote>
+<p>《计算机操作系统教程（第3版）》张尧学 史美林 张高 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/操作系统/" rel="tag">#操作系统</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/07/计算机操作系统绪论/" rel="next" title="计算机操作系统绪论">
+                <i class="fa fa-chevron-left"></i> 计算机操作系统绪论
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/08/数据库编程/" rel="prev" title="数据库编程">
+                数据库编程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/07/操作系统用户界面/"
+           data-title="操作系统用户界面" data-url="http://zlw.poker/2016/12/07/操作系统用户界面/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#作业的基本概念"><span class="nav-number">1.</span> <span class="nav-text">作业的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作业的定义"><span class="nav-number">1.1.</span> <span class="nav-text">作业的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业的组成"><span class="nav-number">1.2.</span> <span class="nav-text">作业的组成</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#作业的建立"><span class="nav-number">2.</span> <span class="nav-text">作业的建立</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#作业的建立过程"><span class="nav-number">2.1.</span> <span class="nav-text">作业的建立过程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业控制块JCB-Job-Control-Block"><span class="nav-number">2.2.</span> <span class="nav-text">作业控制块JCB (Job Control Block)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业输入输出方式"><span class="nav-number">2.3.</span> <span class="nav-text">作业输入输出方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#作业控制方式"><span class="nav-number">2.4.</span> <span class="nav-text">作业控制方式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用户接口"><span class="nav-number">3.</span> <span class="nav-text">用户接口</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#用户接口的定义"><span class="nav-number">3.1.</span> <span class="nav-text">用户接口的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#操作系统提供的用户接口"><span class="nav-number">3.2.</span> <span class="nav-text">操作系统提供的用户接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统调用"><span class="nav-number">3.3.</span> <span class="nav-text">系统调用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#系统调用及系统调用指令"><span class="nav-number">3.3.1.</span> <span class="nav-text">系统调用及系统调用指令</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统调用的实现过程"><span class="nav-number">3.3.2.</span> <span class="nav-text">系统调用的实现过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统调用功能"><span class="nav-number">3.3.3.</span> <span class="nav-text">系统调用功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#系统调用与普通过程调用的异同点"><span class="nav-number">3.3.4.</span> <span class="nav-text">系统调用与普通过程调用的异同点</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

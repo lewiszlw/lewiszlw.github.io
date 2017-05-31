@@ -1,0 +1,974 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MathJax,LaTex," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="MathJax是一个JavaScript引擎，用来显示网络上的数学公式。它可以工作于所有流行的浏览器上。">
+<meta name="keywords" content="MathJax,LaTex">
+<meta property="og:type" content="article">
+<meta property="og:title" content="MathJax简介和基本用法">
+<meta property="og:url" content="http://zlw.poker/2016/11/29/MathJax简介和基本用法/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="MathJax是一个JavaScript引擎，用来显示网络上的数学公式。它可以工作于所有流行的浏览器上。">
+<meta property="og:updated_time" content="2016-11-30T00:16:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="MathJax简介和基本用法">
+<meta name="twitter:description" content="MathJax是一个JavaScript引擎，用来显示网络上的数学公式。它可以工作于所有流行的浏览器上。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/29/MathJax简介和基本用法/"/>
+
+
+  <title> MathJax简介和基本用法 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                MathJax简介和基本用法
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-29T19:57:57+08:00" content="2016-11-29">
+              2016-11-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/blog/" itemprop="url" rel="index">
+                    <span itemprop="name">blog</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/29/MathJax简介和基本用法/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/29/MathJax简介和基本用法/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>MathJax是一个JavaScript引擎，用来显示网络上的数学公式。它可以工作于所有流行的浏览器上。<br><a id="more"></a></p>
+<h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>MathJax是一个开源JavaScript库。它支持LaTeX、MathML、AsciiMath符号，可以运行于所有流行浏览器上。 它的设计目标是利用最新的web技术，构建一个支持math的web平台。支持主要的浏览器和操作系统,包括那些移动设备。 对大部分用户而言它不需要安装，即没有插件需要下载也没有软件需要安装，所以网页作者可以编写包含数学公式的页面并有信心可以自然而容易的浏览到它们。 只需要在页面中包含MathJax脚本和一些数学公式，其他的事情交给MathJax来处理吧。</p>
+<p>MathJax使用网络字体（大部分浏览器都支持）去产生高质量的排版，使其在所有分辨率都可缩放和显示，这远比使用包含公式的图片要有效得多。 MathJax也可以用于屏幕阅读器，让视力受损者也可以使用。</p>
+<p>使用MathJax显示数学公式是基于文本的，而非图片。它可以被搜索引擎使用，这意味着方程式和页面上的文字一样是可以被搜索的。 MathJax允许页面作者使用TeX、LaTeX符号和 MathML 或者 AsciiMath 去书写公式。 MathJax甚至可以将Tex格式转化为MathML格式，使其可以被原生支持MathML格式的浏览器更多的渲染。转化为MathML格式后你可以复制粘贴它们到其他程序中。</p>
+<p>MathJax是模块化的，所以它仅仅在需要时才加载它的组件，同时也可以被扩展以实现更多功能。 MathJax同时也是高度可配置的，允许作者作出更适宜网站自身的自定义。 最重要的，MathJax的API可以让你在你的网页上动态的创建公式。</p>
+<h1 id="基本用法"><a href="#基本用法" class="headerlink" title="基本用法"></a>基本用法</h1><h2 id="获取MathJax"><a href="#获取MathJax" class="headerlink" title="获取MathJax"></a>获取MathJax</h2><p>有三种方法</p>
+<ul>
+<li><p>使用分布式网络中MathJax的副本<br>例如：</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span></span></div><div class="line">  <span class="attr">src</span>=<span class="string">"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"</span>&gt;<span class="undefined"></span></div><div class="line"><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>下载并安装一个MathJax的副本到服务器</p>
+<ol>
+<li>获取MathJax的副本并放置在硬盘上。</li>
+<li>配置MathJax以适合自己站点的需要。</li>
+<li>链接MathJax到要包括公式的web页面。</li>
+<li>将公式写入页面以便MathJax显示它们。</li>
+</ol>
+</li>
+<li>使用本地硬盘的副本</li>
+</ul>
+<h2 id="基本语法"><a href="#基本语法" class="headerlink" title="基本语法"></a>基本语法</h2><h3 id="插入公式"><a href="#插入公式" class="headerlink" title="插入公式"></a>插入公式</h3><ul>
+<li><p>行内公式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$...$</div></pre></td></tr></table></figure>
+</li>
+<li><p>行间公式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$$...$$   //注意要在上面空出一行</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>例如：行内公式<code>$y=\sum_{i=1}^{n}x$</code>为$y=\sum_{i=1}^{n}x$，行间公式为</p>
+<p>$$ y=\sum_{i=1}^{n}x $$</p>
+<h3 id="上标和下标"><a href="#上标和下标" class="headerlink" title="上标和下标"></a>上标和下标</h3><ul>
+<li>上标：<code>^</code></li>
+<li>下标：<code>_</code></li>
+</ul>
+<p>例如：<code>$x^1$</code>为$x^1$；<code>$x_n</code>为$x_n$；<code>$x^{5^6}$</code>为$x^{5^6}$</p>
+<h3 id="括号"><a href="#括号" class="headerlink" title="括号"></a>括号</h3><ul>
+<li>圆括号：<code>()</code></li>
+<li>方括号：<code>[]</code></li>
+<li>花括号：<code>\lbrace \rbrace</code></li>
+<li>尖括号：<code>\langle \rangle</code></li>
+<li>上取整：<code>\lceil \rceil</code></li>
+<li>下取整：<code>\lfloor \rfloor</code></li>
+</ul>
+<p>例如：<code>$\lbrace[(a+b)]\rbrace$</code>为$\lbrace[(a+b)]\rbrace$；<code>$\langle x,y \rangle$</code>为$\langle x,y \rangle$；<code>$\lceil x \rceil$</code>为$\lceil x \rceil$；<code>$\lfloor y \rfloor$</code>为$\lfloor y \rfloor$。</p>
+<h3 id="求和和累积"><a href="#求和和累积" class="headerlink" title="求和和累积"></a>求和和累积</h3><ul>
+<li>求和：<code>\sum</code></li>
+<li>累积：<code>\prod</code></li>
+</ul>
+<p>例如：<code>$\sum_{i=1}^{n}x$</code>为$\sum_{i=1}^{n}x$，<code>$\prod_0^{10}x^2$</code>为$\prod_0^{10}x^2$。</p>
+<h3 id="积分和极限"><a href="#积分和极限" class="headerlink" title="积分和极限"></a>积分和极限</h3><ul>
+<li>积分：<code>\int</code></li>
+<li>极限：<code>\lim</code></li>
+</ul>
+<p>例如：<code>$\int_a^b$</code>为$\int_a^b$，<code>$\lim_{x\to 0}$</code>为$\lim_{x\to 0}$。</p>
+<h3 id="分式和根式"><a href="#分式和根式" class="headerlink" title="分式和根式"></a>分式和根式</h3><ul>
+<li>分式：<code>\frac</code></li>
+<li>根式：<code>\sqrt</code></li>
+</ul>
+<p>例如：<code>$\sqrt[3]{\frac{x}{y}}$</code>为$\sqrt[3]{\frac{x}{y}}$。</p>
+<h3 id="矢量"><a href="#矢量" class="headerlink" title="矢量"></a>矢量</h3><ul>
+<li>矢量：<code>\vec</code></li>
+</ul>
+<p>例如：<code>$\vec{a}\cdot\vec{b}$</code>为$\vec{a} \cdot \vec{b}$。</p>
+<h3 id="省略号和公式编号"><a href="#省略号和公式编号" class="headerlink" title="省略号和公式编号"></a>省略号和公式编号</h3><ul>
+<li>省略号：<code>\ldots</code>（与文本底线对齐）和<code>\cdots</code>（与文本中线对齐）</li>
+<li>公式编号：<code>\tag{id}</code></li>
+</ul>
+<p>例如：<code>$f(x_1,x_2,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2$</code>为$f(x_1,x_2,\ldots,x_n) = x_1^2 + x_2^2 + \cdots + x_n^2$，公式编号：</p>
+<p>$${ \sum_{i=0}^n i^2= \frac {(n^2+n)(2n+1)}{6}} \tag{1.1}$$</p>
+<h3 id="字体"><a href="#字体" class="headerlink" title="字体"></a>字体</h3><p>例如：<code>\mathfrak</code>字体<br><code>$\mathfrak{ABC}$</code>为$\mathfrak{ABC}$。</p>
+<h3 id="其他字母和特殊符号（常用）"><a href="#其他字母和特殊符号（常用）" class="headerlink" title="其他字母和特殊符号（常用）"></a>其他字母和特殊符号（常用）</h3><p>$\alpha$：\alpha<br>$\beta$：\beta<br>$\Gamma$：\Gamma<br>$\gamma$：\gamma<br>$\delta$：\delta<br>$\Delta$：\Delta<br>$\epsilon$：\epsilon<br>$\theta$：\theta<br>$\pi$：\pi<br>$\Pi$：\Pi<br>$\lambda$：\lambda<br>$\mu$：\mu<br>$\xi$：\xi<br>$\sigma$：\sigma<br>$\phi$：\phi<br>$\Phi$：\Phi<br>$\omega$：\omega<br>$\Omega$：\Omega</p>
+<p>关系运算符<br>$\pm$：\pm<br>$\times$：\times<br>$\div$：\div<br>$\mid$：\mid<br>$\ast$：\ast<br>$\bigodot$：\bigodot<br>$\bigotimes$：\bigotimes<br>$\bigoplus$：\bigoplus<br>$\leq$：\leq<br>$\geq$：\geq<br>$\neq$：\neq<br>$\approx$：\approx<br>$\equiv$：\equiv</p>
+<p>集合运算符<br>$\emptyset$：\emptyset<br>$\in$：\in<br>$\notin$：\notin<br>$\subset$：\subset<br>$\supset$：\supset<br>$\subseteq$：\subseteq<br>$\supseteq$：\supseteq<br>$\bigcap$：\bigcap<br>$\bigcup$：\bigcup<br>$\bigvee$：\bigvee<br>$\bigwedge$：\bigwedge</p>
+<p>对数运算符<br>$\log$：\log<br>$\lg$：\lg<br>$\ln$：\ln</p>
+<p>三角运算符<br>$\angle$：\angle<br>$30^\circ$：30^\circ<br>$\sin$：\sin<br>$\cos$：\cos<br>$\tan$：\tan</p>
+<p>微积分运算符<br>$\prime$：\prime<br>$\iint$：\iint<br>$\iiint$：\iiint<br>$\iiiint$：\iiiint<br>$\oint$：\oint<br>$\infty$：\infty</p>
+<p>逻辑运算符<br>$\because$：\because<br>$\therefore$：\therefore<br>$\forall$：\forall<br>$\exists$：\exists<br>$\not=$：\not=<br>$\not&gt;$：\not&gt;<br>$\not\subset$：\not\subset</p>
+<p>箭头符号<br>$\uparrow$：\uparrow<br>$\downarrow$：\downarrow<br>$\Uparrow$：\Uparrow<br>$\Downarrow$：\Downarrow<br>$\rightarrow$：\rightarrow<br>$\leftarrow$：\leftarrow<br>$\Rightarrow$：\Rightarrow<br>$\Leftarrow$：\Leftarrow<br>$\longrightarrow$：\longrightarrow<br>$\longleftarrow$：\longleftarrow<br>$\Longrightarrow$：\Longrightarrow<br>$\Longleftarrow$：\Longleftarrow</p>
+<h1 id="友情链接"><a href="#友情链接" class="headerlink" title="友情链接"></a>友情链接</h1><ul>
+<li><a href="https://www.mathjax.org/" target="_blank" rel="external">官方网站www.mathjax.org</a></li>
+<li><a href="http://mathjax-chinese-doc.readthedocs.io/en/latest/#" target="_blank" rel="external">MathJax中文文档</a></li>
+<li><a href="http://latex.codecogs.com/eqneditor/editor.php" target="_blank" rel="external">MathJax在线编辑器</a>(生成公式代码或图片)</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MathJax/" rel="tag">#MathJax</a>
+          
+            <a href="/tags/LaTex/" rel="tag">#LaTex</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/28/汇编语言程序设计基础知识/" rel="next" title="汇编语言程序设计基础知识">
+                <i class="fa fa-chevron-left"></i> 汇编语言程序设计基础知识
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/30/关系数据理论/" rel="prev" title="关系数据理论">
+                关系数据理论 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/29/MathJax简介和基本用法/"
+           data-title="MathJax简介和基本用法" data-url="http://zlw.poker/2016/11/29/MathJax简介和基本用法/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#简介"><span class="nav-number">1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#基本用法"><span class="nav-number">2.</span> <span class="nav-text">基本用法</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取MathJax"><span class="nav-number">2.1.</span> <span class="nav-text">获取MathJax</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基本语法"><span class="nav-number">2.2.</span> <span class="nav-text">基本语法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入公式"><span class="nav-number">2.2.1.</span> <span class="nav-text">插入公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上标和下标"><span class="nav-number">2.2.2.</span> <span class="nav-text">上标和下标</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#括号"><span class="nav-number">2.2.3.</span> <span class="nav-text">括号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#求和和累积"><span class="nav-number">2.2.4.</span> <span class="nav-text">求和和累积</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#积分和极限"><span class="nav-number">2.2.5.</span> <span class="nav-text">积分和极限</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#分式和根式"><span class="nav-number">2.2.6.</span> <span class="nav-text">分式和根式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#矢量"><span class="nav-number">2.2.7.</span> <span class="nav-text">矢量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#省略号和公式编号"><span class="nav-number">2.2.8.</span> <span class="nav-text">省略号和公式编号</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字体"><span class="nav-number">2.2.9.</span> <span class="nav-text">字体</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他字母和特殊符号（常用）"><span class="nav-number">2.2.10.</span> <span class="nav-text">其他字母和特殊符号（常用）</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#友情链接"><span class="nav-number">3.</span> <span class="nav-text">友情链接</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

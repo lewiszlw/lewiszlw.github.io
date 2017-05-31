@@ -1,0 +1,33 @@
+#outer li{
+		display:inline;
+}
+#menu li{
+		display:inline;
+}
+#menu ul{
+		margin:0 auto 0 auto;
+		display:inline-block;
+}
+#menu ul li{
+		float:left;
+}
+#menu ul li a{
+		width:50px;
+		height:20px;
+		line-height:28px;
+		border:1px solid #ffffff;
+		font-size:12px;
+		background:red;
+		color:#ffffff;
+		margin:5px 10px;
+		display:block;
+		text-align:center;
+		text-decoration:none;
+}
+body{
+		background-color:#ffb7dd;
+}
+#menu{
+		text-align:center;
+		
+}

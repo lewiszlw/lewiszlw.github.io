@@ -1,0 +1,971 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="计算机系统结构," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="计算机系统结构的基本概念自第一台通用电子计算机诞生以来的六十多年中，计算机技术一直在以惊人的速度发展，对于许多应用来说，现在的高性能微处理器的性能已经超过了10年前的超级计算机。这种飞速的发展一方面是得益于计算机制造技术的发展，另一方面则是因为计算机系统结构的创新。">
+<meta name="keywords" content="计算机系统结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="计算机系统结构的基础知识">
+<meta property="og:url" content="http://zlw.poker/2016/11/21/计算机系统结构的基础知识/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="计算机系统结构的基本概念自第一台通用电子计算机诞生以来的六十多年中，计算机技术一直在以惊人的速度发展，对于许多应用来说，现在的高性能微处理器的性能已经超过了10年前的超级计算机。这种飞速的发展一方面是得益于计算机制造技术的发展，另一方面则是因为计算机系统结构的创新。">
+<meta property="og:updated_time" content="2017-01-04T05:52:38.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="计算机系统结构的基础知识">
+<meta name="twitter:description" content="计算机系统结构的基本概念自第一台通用电子计算机诞生以来的六十多年中，计算机技术一直在以惊人的速度发展，对于许多应用来说，现在的高性能微处理器的性能已经超过了10年前的超级计算机。这种飞速的发展一方面是得益于计算机制造技术的发展，另一方面则是因为计算机系统结构的创新。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/21/计算机系统结构的基础知识/"/>
+
+
+  <title> 计算机系统结构的基础知识 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                计算机系统结构的基础知识
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-21T10:07:36+08:00" content="2016-11-21">
+              2016-11-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/计算机系统结构教程/" itemprop="url" rel="index">
+                    <span itemprop="name">计算机系统结构教程</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/21/计算机系统结构的基础知识/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/21/计算机系统结构的基础知识/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="计算机系统结构的基本概念"><a href="#计算机系统结构的基本概念" class="headerlink" title="计算机系统结构的基本概念"></a>计算机系统结构的基本概念</h1><p>自第一台通用电子计算机诞生以来的六十多年中，计算机技术一直在以惊人的速度发展，对于许多应用来说，现在的高性能微处理器的性能已经超过了10年前的超级计算机。这种飞速的发展一方面是得益于计算机制造技术的发展，另一方面则是因为计算机系统结构的创新。<br><a id="more"></a><br>但是从2002年以来，计算机性能的年增长率下降到了约20%，其主要原因是：</p>
+<ul>
+<li>大功耗问题；</li>
+<li>可以进一步有效开发的指令级并行性已经很少；</li>
+<li>存储器访问速度的提高缓慢。这使得单个处理机性能的提高受到了严峻的挑战。</li>
+</ul>
+<p>于是，Intel于2004年宣布放弃其高性能单处理器项目，转向多核的研究和开发。这是通过在单个芯片上实现多个处理器核来提高性能的。IBM、Sun、AMD等公司也都纷纷朝这个方向转变，这标志着系统结构的一个重大转折：<strong>从单纯依靠指令级并行转向开发线程级并行和数据级并行</strong>。</p>
+<h2 id="计算机系统的层次结构"><a href="#计算机系统的层次结构" class="headerlink" title="计算机系统的层次结构"></a>计算机系统的层次结构</h2><p>从使用语言的角度出发，可把计算机系统按功能依次划分为微程序机器级、传统机器语言机器级、操作系统机器级、汇编语言机器级、高级语言机器级、应用语言机器级（如SQL）等。对于每一层的使用者来说，都可以把该机器级看成一台独立的计算机，可以用其相应的语言进行编程，并在该级上运行所编出的程序。<br><strong>第1级是微程序机器级。</strong>这一级的机器语言是微指令系统，其使用者是计算机硬件的设计人员，他们用微指令编写的微程序直接由固件/硬件来解释实现。<br><strong>第2级是传统机器语言机器级。</strong>这一级的机器语言就是传统的机器指令系统。程序员用该指令系统编写的程序由第1级上的微程序进行解释执行。由微程序解释指令系统又称作<strong>仿真</strong>。实际上，在第1级上可以有多个能够在它上面运行的解释程序，每一个解释程序定义了一种指令系统。因此，可以通过仿真在一台计算机上实现多种指令系统。有的计算机中没有采用微程序技术，因此没有微程序机器级。这时，第2级的指令系统是由硬联逻辑直接解释执行。硬联逻辑的优点是速度快。<br><strong>第3级是操作系统机器级。</strong>这一级的机器语言由两部分构成，一部分就是传统机器级指令，另一部分是操作系统级指令。后者用于实现对操作系统功能的调用，例如打开/关闭文件、读/写文件等。用这一级语言编写的程序是由第3级和第2级来共同执行的，其中只有操作系统指令是由操作系统进行解释执行的。<br><strong>第4级是汇编语言机器级。</strong>这一级的机器语言是汇编语言。用汇编语言编写的程序首先翻译成第3级和第2级语言，然后再由相应的机器执行。完成这个翻译的程序称为汇编程序。<br><strong>第5级是高级语言机器级。</strong>这级的机器语言就是各种高级语言（如C、Pascal等）。用高级语言编写的程序一般由编译器翻译到第4级或第3级机器上的语言。个别高级语言也用解释的方法实现，如绝大多数BASIC语言。<br><strong>第6级是应用语言机器级。</strong>这一级是为使计算机满足某种用途而专门设计的，因此这一级的语言就是各种面向具体应用问题的应用语言。用应用语言编写的程序一般由应用程序包翻译成第5级机器上的语言。<br>各机器级的实现主要靠翻译或解释，或两者的结合。<strong>翻译（translation）</strong>是先用转换程序把高一级机器上的程序转换为低一级机器上等效的程序，然后再在该低一级机器上运行，实现程序的功能。<strong>解释（interpretation）</strong>则是对于高一级机器上的程序中的每一条语句或指令，都转去执行低一级机器上的一段等效程序。执行完后，再去高一级机器取下一条语句或指令，再进行解释执行，如此反复，直到解释执行完整个程序。一般来说，解释执行比编译后再执行所花的时间多，但占用的存储空间较少。<br>在上述6级层次中，下面三级一般是用解释实现的，而上面三级则经常是用翻译的方法实现的。另外，最下面的两级机器是用硬件/固件实现的，称为<strong>物理机</strong>。上面4层一般是由软件实现的。用软件实现的机器称为<strong>虚拟机</strong>。虚拟机不一定完全由软件实现，有些操作可以由硬件或固件实现。<strong>固件</strong>是指具有软件功能的硬件。与硬联逻辑相比，固件的特点是灵活性大，但速度较慢。</p>
+<h2 id="计算机系统结构的定义"><a href="#计算机系统结构的定义" class="headerlink" title="计算机系统结构的定义"></a>计算机系统结构的定义</h2><p>经典定义：<strong>计算机系统结构</strong>是指传统机器程序员所看到的计算机属性，即概念性结构与功能特性。<br>在计算机技术中，把本来存在的事物或属性，但从某种角度看又好像不存在的概念称为<strong>透明性</strong>。通常，在一个计算机系统中，低层机器的属性对高层机器的程序员来说往往是透明的。<br>计算机系统结构的实质是确定计算机系统中软硬件的交界面，界面之上是软件实现的功能，界面之下是硬件和固件实现的功能。</p>
+<h2 id="计算机组成和计算机实现"><a href="#计算机组成和计算机实现" class="headerlink" title="计算机组成和计算机实现"></a>计算机组成和计算机实现</h2><p><strong>计算机组成</strong>指的是计算机系统结构的逻辑实现，包含物理机器级中的数据流和控制流的组成以及逻辑设计等。它着眼于物理机器级内各事件的排序方式与控制方式、各部件的功能以及各部件之间的联系。<br><strong>计算机实现</strong>指的是计算机组成的物理实现，包括处理机、主存等部件的物理结构，器件的集成度和速度，模块、插件、底板的划分与连接，信号传输，电源、冷却及整机装配技术等。它着眼于器件技术和微组装技术，其中器件技术在实现技术中起主导作用。<br>举例：<br>1.确定指令系统中是否有乘法指令属于计算机系统结构的内容，但乘法指令是用专门的乘法器实现，还是用加法器经多步操作来实现，属于计算机组成。而乘法器、加法器的物理实现，如器件的选定及所用的微组装技术等，属于计算机实现。<br>2.主存容量与编址方式（按位、按字节或按字访问等）的确定属于计算机系统结构。为了达到给定的性能价格比，主存速度应多块、逻辑结构是否采用多体交叉等属于计算机组成。而主存系统的物理实现，如器件的选定、逻辑电路的设计、微组装技术的使用等均属于计算机实现。</p>
+<p>同一种计算机组成可以采用多种不同的计算机实现。系列机的出现充分反映了这一点。<strong>系列机</strong>是指由同一厂家生产的具有相同系统结构，但具有不同组成和实现的一系列不同型号的计算机。</p>
+<h2 id="计算机系统结构的分类"><a href="#计算机系统结构的分类" class="headerlink" title="计算机系统结构的分类"></a>计算机系统结构的分类</h2><p>常见的计算机系统结构分类法有三种：Flynn分类法、冯氏分类法和Handler分类法。</p>
+<h3 id="Flynn分类法"><a href="#Flynn分类法" class="headerlink" title="Flynn分类法"></a>Flynn分类法</h3><p>Flynn分类法是按照指令流和数据流的多倍性进行分类的。Flynn分类法中的定义如下：</p>
+<ul>
+<li>指令流：计算机执行的指令序列。</li>
+<li>数据流：由指令流调用的数据序列。</li>
+<li>多倍性：在系统最受限的部件上，同时处于同一执行阶段的指令或数据的最大数目。</li>
+</ul>
+<p>Flynn分类法把计算机系统的结构分为以下4类：</p>
+<ul>
+<li>单指令流单数据流（SISD）</li>
+<li>单指令流多数据流（SIMD）</li>
+<li>多指令流单数据流（MISD）</li>
+<li>多指令流多数据流（MIMD）</li>
+</ul>
+<p>SISD是传统的顺序处理计算机。SIMD以阵列处理机为代表。MISD只是一种人为的划分，目前没有实际的机器。多处理机属于MIMD结构。</p>
+<h3 id="冯氏分类法"><a href="#冯氏分类法" class="headerlink" title="冯氏分类法"></a>冯氏分类法</h3><p>冯氏分类法是用系统的最大并行度对计算机进行分类的。<strong>最大并行度</strong>Pm定义为：计算机系统在单位时间内能够处理的最大二进制位数。4类不同最大并行度的计算机系统结构：（字宽即一个字中同时处理的二进位的位数，位片宽度即在一个位片中能同时处理的字数。两者乘积表示最大并行度）</p>
+<ul>
+<li>字串位串：字宽为1，位片宽度为1。这是第一代计算机发展初期的纯串行计算机。</li>
+<li>字串位并：字宽大于1，位片宽度为1。这是传统的单处理机，同时处理单个字的多个位。</li>
+<li>字并位串：字宽为1，位片宽度大于1。同时处理多个字的同一位（位片）。</li>
+<li>字并位并：字宽大于1，位片宽度大于1。同时处理多个字的多个位。</li>
+</ul>
+<h3 id="Handler分类法"><a href="#Handler分类法" class="headerlink" title="Handler分类法"></a>Handler分类法</h3><p>这种分类方法把计算机的硬件结构分成三个层次，并考虑它们的可并行-流水处理程度：<br>1.程序控制部件（PCU）的个数k；<br>2.算术逻辑部件（ALU）或处理部件（PE）的个数d；<br>3.每个算术逻辑部件包含基本逻辑线路（ELC）的套数w。</p>
+<p>这样就可以把一个计算机系统的结构用公式表示：t（系统型号）=（k,d,w）</p>
+<h1 id="计算机系统的设计"><a href="#计算机系统的设计" class="headerlink" title="计算机系统的设计"></a>计算机系统的设计</h1><h2 id="计算机系统设计的定量原理"><a href="#计算机系统设计的定量原理" class="headerlink" title="计算机系统设计的定量原理"></a>计算机系统设计的定量原理</h2><p>4个常用的定量原理</p>
+<h3 id="以经常性事件为重点"><a href="#以经常性事件为重点" class="headerlink" title="以经常性事件为重点"></a>以经常性事件为重点</h3><p>以经常性事件为重点是计算机设计中最重要、最广泛采用的设计原则。加快经常性事件的处理速度能显著地提高整个计算机系统的性能。</p>
+<h3 id="Amdahl定律"><a href="#Amdahl定律" class="headerlink" title="Amdahl定律"></a>Amdahl定律</h3><p>当对一个系统中的某个部件进行改进后，所能获得的整个系统性能的提高，受限于该部件的执行时间占总执行时间的百分比。<br>这个加速比的大小与两个因素有关：一个是在改进前的系统中，可改进部分的执行时间在总的执行时间中所占的比例，简称可改进比例；另一个是可改进部件改进后性能提高的倍数，简称部件加速比。</p>
+<h3 id="CPU性能公式"><a href="#CPU性能公式" class="headerlink" title="CPU性能公式"></a>CPU性能公式</h3><p>执行一个程序所需的CPU时间计算：CPU时间=执行程序所需的时钟周期数×时钟周期时间。<br>引入新的参数CPI，即每条指令的平均时钟周期数：CPI=执行程序所需的时钟周期数/所执行的指令条数。则有以下的CPU性能公式：CPU时间=IC×CPI×时钟周期时间。其中IC为所执行的指令条数。<br>根据这个公式可知，CPU的性能取决于以下三个参数：</p>
+<ul>
+<li>时钟周期时间：取决于硬件实现技术和计算机组成。</li>
+<li>CPI：取决于计算机组成和指令系统的结构。</li>
+<li>IC：取决于指令系统的结构和编译技术。</li>
+</ul>
+<h3 id="程序的局部性原理"><a href="#程序的局部性原理" class="headerlink" title="程序的局部性原理"></a>程序的局部性原理</h3><p>程序的局部性原理是指：程序执行时所访问的存储器地址不是随机分布的，而是相对地簇聚。现在常用的一个经验规则是：程序执行时间的90%都是在执行程序中10%的代码。数据访问也具有局部性，不过其局部性弱于代码访问的局部性。<br>局部性包括时间局部性和空间局部性。时间局部性是指：程序即将用到的信息很可能就是目前正在使用的信息。空间局部性是指：程序即将用到的信息很可能与目前正在使用的信息在空间上相邻或者临近。<br>利用程序的局部性原理，可以根据程序最近的访问情况来比较准确地预测将要访问的指令和数据。凡是涉及数据重用的地方都可能会用到它。</p>
+<h2 id="计算机系统设计者的主要任务"><a href="#计算机系统设计者的主要任务" class="headerlink" title="计算机系统设计者的主要任务"></a>计算机系统设计者的主要任务</h2><p>计算机系统设计者的任务包括指令系统的设计、数据表示的设计、功能的组织、逻辑设计以及其物理实现等。设计一个计算机系统大致要完成以下三个方面的工作：<br>1.确定用户对计算机系统的功能、价格和性能的需求。<br>2.软硬件功能分配。<br>3.设计出生命周期长的系统结构。</p>
+<h2 id="计算机系统设计的主要方法"><a href="#计算机系统设计的主要方法" class="headerlink" title="计算机系统设计的主要方法"></a>计算机系统设计的主要方法</h2><p>1.“由上往下”设计：从层次结构的最上面一级开始的，逐层往下设计各层机器。<br>2.“由下往上”设计：从层次结构的最下面一级开始的，逐层往上设计各层机器。<br>3.“从中间开始”设计：从中间开始设计。这里的“中间”是指层次结构中软硬件的交界面，目前一般是在传统机器语言机器级与操作系统机器级之间。软件和硬件并行设计可以缩短设计周期，设计过程中可以交流协商，是一种交互式的、很好的设计方法。</p>
+<h1 id="计算机系统的性能评测"><a href="#计算机系统的性能评测" class="headerlink" title="计算机系统的性能评测"></a>计算机系统的性能评测</h1><h2 id="执行时间和吞吐率"><a href="#执行时间和吞吐率" class="headerlink" title="执行时间和吞吐率"></a>执行时间和吞吐率</h2><p>执行时间：执行单个程序所花的时间。<br>吞吐率：单位时间里能够完成的任务量。</p>
+<h2 id="基准测试程序"><a href="#基准测试程序" class="headerlink" title="基准测试程序"></a>基准测试程序</h2><p>用于测试和比较性能的基准测试程序的最佳选择是真实的应用程序。</p>
+<h2 id="性能比较"><a href="#性能比较" class="headerlink" title="性能比较"></a>性能比较</h2><p>1.总执行时间。<br>2.调和平均值法。<br>3.几何平均值法。</p>
+<h1 id="计算机系统结构的发展"><a href="#计算机系统结构的发展" class="headerlink" title="计算机系统结构的发展"></a>计算机系统结构的发展</h1><h2 id="冯·诺依曼结构及其改进"><a href="#冯·诺依曼结构及其改进" class="headerlink" title="冯·诺依曼结构及其改进"></a>冯·诺依曼结构及其改进</h2><p>冯·诺依曼结构的主要特点：<br>1.计算机以运算器为中心。<br>2.在存储器中，指令和数据同等对待。<br>3.存储器是按地址访问、按顺序线性编址的一维结构，每个单元的位数是固定的。<br>4.指令的执行是顺序的，即一般是按照指令在存储器中存放的顺序执行的。<br>5.指令由操作码和地址码组成。<br>6.指令和数据均以二进制编码表示，采用二进制运算。</p>
+<p>后来的计算机针对冯·诺依曼结构的不足之处进行了不断的改进，在系统结构方面有了很大的进展，主要包括以下几个方面：<br>1.对输入输出方式的改进：</p>
+<ul>
+<li>程序控制：程序等待  程序中断；</li>
+<li>直接存储器访问（DMA）：成组传递  周期挪用；</li>
+<li>I/O处理机：通道  外围处理机。</li>
+</ul>
+<p>2.采用并行处理技术。<br>3.存储器组织结构的发展。<br>4.指令系统的发展。</p>
+<h2 id="软件对系统结构的影响"><a href="#软件对系统结构的影响" class="headerlink" title="软件对系统结构的影响"></a>软件对系统结构的影响</h2><p><strong>可移植性</strong>是指一个软件可以不经修改或者只需少量修改就可以由一台计算机移植到另一台计算机上执行，差别只是执行时间不同。在这种情况下，我们称这两台计算机是<strong>软件兼容</strong>的。实现可移植性的常用方法有三种：统一高级语言、采用系列机、模拟和仿真。<br><strong>模拟</strong>是指用软件的方法在一台现有的计算机（称为宿主机host）上实现另一台计算机（称为虚拟机）的指令系统。<strong>仿真</strong>是指用一台现有计算机（称为宿主机）上的微程序去解释实现另一台计算机（称为目标机）的指令系统。仿真和模拟的主要区别在于解释执行所用的语言。仿真是用微程序解释执行的，其解释程序存放在控制存储器中；而模拟是用机器语言程序解释执行的（虽然模拟程序可以用高级语言来编写，但最后执行时是机器代码），模拟程序存放在主存中。</p>
+<h2 id="器件发展对系统结构的影响"><a href="#器件发展对系统结构的影响" class="headerlink" title="器件发展对系统结构的影响"></a>器件发展对系统结构的影响</h2><h2 id="应用对系统结构的影响"><a href="#应用对系统结构的影响" class="headerlink" title="应用对系统结构的影响"></a>应用对系统结构的影响</h2><h1 id="计算机系统结构中并行性的发展"><a href="#计算机系统结构中并行性的发展" class="headerlink" title="计算机系统结构中并行性的发展"></a>计算机系统结构中并行性的发展</h1><h2 id="并行性的概念"><a href="#并行性的概念" class="headerlink" title="并行性的概念"></a>并行性的概念</h2><p><strong>并行性</strong>是指计算机系统在同一时刻或者同一时间间隔内进行多种运算或操作。只要在时间上相互重叠，就存在并行性。它包括同时性与并发性两种含义：</p>
+<ul>
+<li>同时性：两个或两个以上的事件在同一时刻发生。</li>
+<li>并发性：两个或两个以上的事件在同一时间间隔内发生。</li>
+</ul>
+<p>从处理数据的角度来看，并行性等级从低到高可分为以下几种：<br>1.字串位串：每次只对一个字的一位进行处理。这是最基本的串行处理方式，不存在并行性。<br>2.字串位并：同时对一个字的全部位进行处理，不同字之间是串行的。具备初步的并行性。这种并行性也称为位级并行。<br>3.字并位串：同时对许多字的同一位（称为位片）进行处理。这种方式具有较高的并行性。<br>4.全并行：同时对许多字的全部位或部分位进行处理。这是最高一级的并行。</p>
+<p>从执行程序的角度来看，并行性等级从低到高可分为以下5种：<br>1.指令内部并行：是指单条指令中各微操作之间的并行。<br>2.指令级并行：是指并行或并发地执行两条或两条以上的指令。<br>3.线程级并行：是指并行执行两个或两个以上的线程。<br>4.任务级或过程级并行：是指并行执行两个或两个以上的过程或任务（程序段），以子程序或进程为调度单元。<br>5.作业或程序级并行：是指并行执行两个或两个以上的作用或程序。</p>
+<h2 id="提高并行性的技术途径"><a href="#提高并行性的技术途径" class="headerlink" title="提高并行性的技术途径"></a>提高并行性的技术途径</h2><p>1.时间重叠：在并行性概念中引入时间因素，让多个处理过程在时间上相互错开，轮流重叠地使用同一套硬件设备的各个部分，以加快硬件周转而赢得速度。<br>2.资源重复：在并行性概念中引入空间因素，以数量取胜。通过重复设置硬件资源，大幅度地提高计算机系统的性能。<br>3.资源共享：这是一种软件方法，它使多个任务按一定的时间顺序轮流使用同一套硬件设备。</p>
+<blockquote>
+<p>《计算机系统结构教程（第2版）》张晨曦 王志英 等 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/计算机系统结构/" rel="tag">#计算机系统结构</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/20/关系数据库/" rel="next" title="关系数据库">
+                <i class="fa fa-chevron-left"></i> 关系数据库
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/22/关系数据库标准语言SQL（一）/" rel="prev" title="关系数据库标准语言SQL（一）">
+                关系数据库标准语言SQL（一） <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/21/计算机系统结构的基础知识/"
+           data-title="计算机系统结构的基础知识" data-url="http://zlw.poker/2016/11/21/计算机系统结构的基础知识/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机系统结构的基本概念"><span class="nav-number">1.</span> <span class="nav-text">计算机系统结构的基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机系统的层次结构"><span class="nav-number">1.1.</span> <span class="nav-text">计算机系统的层次结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机系统结构的定义"><span class="nav-number">1.2.</span> <span class="nav-text">计算机系统结构的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机组成和计算机实现"><span class="nav-number">1.3.</span> <span class="nav-text">计算机组成和计算机实现</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机系统结构的分类"><span class="nav-number">1.4.</span> <span class="nav-text">计算机系统结构的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Flynn分类法"><span class="nav-number">1.4.1.</span> <span class="nav-text">Flynn分类法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#冯氏分类法"><span class="nav-number">1.4.2.</span> <span class="nav-text">冯氏分类法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Handler分类法"><span class="nav-number">1.4.3.</span> <span class="nav-text">Handler分类法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机系统的设计"><span class="nav-number">2.</span> <span class="nav-text">计算机系统的设计</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机系统设计的定量原理"><span class="nav-number">2.1.</span> <span class="nav-text">计算机系统设计的定量原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#以经常性事件为重点"><span class="nav-number">2.1.1.</span> <span class="nav-text">以经常性事件为重点</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Amdahl定律"><span class="nav-number">2.1.2.</span> <span class="nav-text">Amdahl定律</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#CPU性能公式"><span class="nav-number">2.1.3.</span> <span class="nav-text">CPU性能公式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#程序的局部性原理"><span class="nav-number">2.1.4.</span> <span class="nav-text">程序的局部性原理</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机系统设计者的主要任务"><span class="nav-number">2.2.</span> <span class="nav-text">计算机系统设计者的主要任务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#计算机系统设计的主要方法"><span class="nav-number">2.3.</span> <span class="nav-text">计算机系统设计的主要方法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机系统的性能评测"><span class="nav-number">3.</span> <span class="nav-text">计算机系统的性能评测</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#执行时间和吞吐率"><span class="nav-number">3.1.</span> <span class="nav-text">执行时间和吞吐率</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#基准测试程序"><span class="nav-number">3.2.</span> <span class="nav-text">基准测试程序</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#性能比较"><span class="nav-number">3.3.</span> <span class="nav-text">性能比较</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机系统结构的发展"><span class="nav-number">4.</span> <span class="nav-text">计算机系统结构的发展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#冯·诺依曼结构及其改进"><span class="nav-number">4.1.</span> <span class="nav-text">冯·诺依曼结构及其改进</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#软件对系统结构的影响"><span class="nav-number">4.2.</span> <span class="nav-text">软件对系统结构的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#器件发展对系统结构的影响"><span class="nav-number">4.3.</span> <span class="nav-text">器件发展对系统结构的影响</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用对系统结构的影响"><span class="nav-number">4.4.</span> <span class="nav-text">应用对系统结构的影响</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#计算机系统结构中并行性的发展"><span class="nav-number">5.</span> <span class="nav-text">计算机系统结构中并行性的发展</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#并行性的概念"><span class="nav-number">5.1.</span> <span class="nav-text">并行性的概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#提高并行性的技术途径"><span class="nav-number">5.2.</span> <span class="nav-text">提高并行性的技术途径</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

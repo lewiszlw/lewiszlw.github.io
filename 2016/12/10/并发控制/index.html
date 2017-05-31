@@ -1,0 +1,1139 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="并发控制概述并发控制机制的任务  对并发操作进行正确调度 保证事务的隔离性 保证数据库的一致性">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="并发控制">
+<meta property="og:url" content="http://zlw.poker/2016/12/10/并发控制/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="并发控制概述并发控制机制的任务  对并发操作进行正确调度 保证事务的隔离性 保证数据库的一致性">
+<meta property="og:updated_time" content="2017-01-04T05:55:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="并发控制">
+<meta name="twitter:description" content="并发控制概述并发控制机制的任务  对并发操作进行正确调度 保证事务的隔离性 保证数据库的一致性">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/10/并发控制/"/>
+
+
+  <title> 并发控制 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                并发控制
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-10T19:24:51+08:00" content="2016-12-10">
+              2016-12-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/数据库系统概论/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库系统概论</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/10/并发控制/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/10/并发控制/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="并发控制概述"><a href="#并发控制概述" class="headerlink" title="并发控制概述"></a>并发控制概述</h1><p>并发控制机制的任务</p>
+<ul>
+<li>对并发操作进行正确调度</li>
+<li>保证事务的隔离性</li>
+<li>保证数据库的一致性</li>
+</ul>
+<a id="more"></a>
+<p>并发操作带来的数据不一致性</p>
+<ul>
+<li>丢失修改（Lost Update）</li>
+<li>不可重复读（Non-repeatable Read）<ul>
+<li>不可重复读是指事务T1读取数据后，事务T2执行更新操作，使T1无法再现前一次读取结果。</li>
+<li>不可重复读包括三种情况：<ul>
+<li>事务T1读取某一数据后，事务T2对其做了修改，当事务T1再次读该数据时，得到与前一次不同的值 </li>
+<li>事务T1按一定条件从数据库中读取了某些数据记录后，事务T2删除了其中部分记录，当T1再次按相同条件读取数据时，发现某些记录消失了 </li>
+<li>事务T1按一定条件从数据库中读取某些数据记录后，事务T2插入了一些记录，当T1再次按相同条件读取数据时，发现多了一些记录</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>读“脏”数据（Dirty Read）<br>读“脏”数据是指：事务T1修改某一数据，并将其写回磁盘，事务T2读取同一数据后，T1由于某种原因被撤销，这时T1已修改过的数据恢复原值，T2读到的数据就与数据库中的数据不一致，T2读到的数据就为“脏”数据，即不正确的数据。</li>
+</ul>
+<p>数据不一致性的原因：由于并发操作破坏了事务的隔离性。<br>并发控制就是要用正确的方式调度并发操作，使一个用户事务的执行不受其他事务的干扰，从而避免造成数据的不一致性。</p>
+<p>并发控制的主要技术</p>
+<ul>
+<li>封锁(Locking)</li>
+<li>时间戳(Timestamp)</li>
+<li>乐观控制法</li>
+<li>多版本并发控制(MVCC)</li>
+</ul>
+<h1 id="封锁"><a href="#封锁" class="headerlink" title="封锁"></a>封锁</h1><p>什么是封锁</p>
+<ul>
+<li>封锁就是事务T在对某个数据对象（例如表、记录等）操作之前，先向系统发出请求，对其加锁</li>
+<li>加锁后事务T就对该数据对象有了一定的控制，在事务T释放它的锁之前，其它的事务不能更新此数据对象</li>
+</ul>
+<p>基本封锁类型</p>
+<ul>
+<li>排它锁（eXclusive Locks，简记为X锁）<ul>
+<li>排它锁又称为写锁</li>
+<li>若事务T对数据对象A加上X锁，则只允许T读取和修改A，其它任何事务都不能再对A加任何类型的锁，直到T释放A上的锁</li>
+<li>保证其他事务在T释放A上的锁之前不能再读取和修改A </li>
+</ul>
+</li>
+<li>共享锁（Share Locks，简记为S锁）<ul>
+<li>共享锁又称为读锁</li>
+<li>若事务T对数据对象A加上S锁，则其它事务只能再对A加S锁，而不能加X锁，直到T释放A上的S锁</li>
+<li>保证其他事务可以读A，但在T释放A上的S锁之前不能对A做任何修改 </li>
+</ul>
+</li>
+</ul>
+<h1 id="封锁协议"><a href="#封锁协议" class="headerlink" title="封锁协议"></a>封锁协议</h1><p>在运用X锁和S锁对数据对象加锁时，需要约定一些规则：封锁协议（Locking Protocol） </p>
+<ul>
+<li>何时申请X锁或S锁</li>
+<li>持锁时间、何时释放</li>
+</ul>
+<p>常用的封锁协议：</p>
+<ol>
+<li>一级封锁协议<ul>
+<li>事务T在修改数据R之前必须先对其加X锁，直到事务结束才释放</li>
+<li>一级封锁协议可防止丢失修改</li>
+<li>在一级封锁协议中，如果是读数据，不需要加锁的，所以它不能保证可重复读和不读“脏”数据。</li>
+</ul>
+</li>
+<li>二级封锁协议<ul>
+<li>一级封锁协议+事务T在读取数据R前必须先加S锁，读完后即可释放S锁</li>
+<li>二级封锁协议可以防止丢失修改和读“脏”数据</li>
+<li>在二级封锁协议中，由于读完数据后即可释放S锁，所以它不能保证可重复读</li>
+</ul>
+</li>
+<li>三级封锁协议<ul>
+<li>一级封锁协议 + 事务T在读取数据R之前必须先对其加S锁，直到事务结束才释放</li>
+<li>三级封锁协议可防止丢失修改、读脏数据和不可重复读</li>
+</ul>
+</li>
+</ol>
+<table>
+<thead>
+<tr>
+<th></th>
+<th>操作结束释放（X锁）</th>
+<th>事务结束释放（X锁）</th>
+<th>操作结束释放（S锁）</th>
+<th>事务结束释放（S锁）</th>
+<th>不丢失数据</th>
+<th>不读“脏”数据</th>
+<th>可重复读</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>一级封锁协议</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+<td>√</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td>二级封锁协议</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+<td></td>
+</tr>
+<tr>
+<td>三级封锁协议</td>
+<td></td>
+<td>√</td>
+<td></td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+<td>√</td>
+</tr>
+</tbody>
+</table>
+<h1 id="活锁和死锁"><a href="#活锁和死锁" class="headerlink" title="活锁和死锁"></a>活锁和死锁</h1><p>封锁技术带来的一些新问题</p>
+<ul>
+<li>活锁</li>
+<li>死锁</li>
+</ul>
+<h2 id="活锁"><a href="#活锁" class="headerlink" title="活锁"></a>活锁</h2><p>活锁示例：</p>
+<ul>
+<li>事务T1封锁了数据R</li>
+<li>事务T2又请求封锁R，于是T2等待。</li>
+<li>T3也请求封锁R，当T1释放了R上的封锁之后系统首先批准了T3的请求，T2仍然等待。</li>
+<li>T4又请求封锁R，当T3释放了R上的封锁之后系统又批准了T4的请求……</li>
+<li>T2有可能永远等待，这就是活锁的情形 </li>
+</ul>
+<p>避免活锁：采用先来先服务的策略</p>
+<ul>
+<li>当多个事务请求封锁同一数据对象时</li>
+<li>按请求封锁的先后次序对这些事务排队</li>
+<li>该数据对象上的锁一旦释放，首先批准申请队列中第一个事务获得锁</li>
+</ul>
+<h2 id="死锁"><a href="#死锁" class="headerlink" title="死锁"></a>死锁</h2><p>死锁示例：</p>
+<ul>
+<li>事务T1封锁了数据R1</li>
+<li>T2封锁了数据R2</li>
+<li>T1又请求封锁R2，因T2已封锁了R2，于是T1等待T2释放R2上的锁</li>
+<li>接着T2又申请封锁R1，因T1已封锁了R1，T2也只能等待T1释放R1上的锁</li>
+<li>这样T1在等待T2，而T2又在等待T1，T1和T2两个事务永远不能结束，形成死锁 </li>
+</ul>
+<p>解决死锁的方法</p>
+<ol>
+<li>预防死锁<ul>
+<li>产生死锁的原因是两个或多个事务都已封锁了一些数据对象，然后又都请求对已为其他事务封锁的数据对象加锁，从而出现死等待。</li>
+<li>预防死锁的发生就是要破坏产生死锁的条件</li>
+<li>预防死锁的方法<ul>
+<li>一次封锁法<br>要求每个事务必须一次将所有要使用的数据全部加锁，否则就不能继续执行</li>
+<li>顺序封锁法<br>顺序封锁法是预先对数据对象规定一个封锁顺序，所有事务都按这个顺序实行封锁。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>死锁的诊断与解除<ul>
+<li>死锁的诊断<ul>
+<li>超时法<br>如果一个事务的等待时间超过了规定的时限，就认为发生了死锁    </li>
+<li>事务等待图法<br>用事务等待图动态反映所有事务的等待情况</li>
+</ul>
+</li>
+<li>解除死锁<ul>
+<li>选择一个处理死锁代价最小的事务，将其撤消</li>
+<li>释放此事务持有的所有的锁，使其它事务能继续运行下去</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<h1 id="并发调度的可串行性"><a href="#并发调度的可串行性" class="headerlink" title="并发调度的可串行性"></a>并发调度的可串行性</h1><h2 id="可串行化调度"><a href="#可串行化调度" class="headerlink" title="可串行化调度"></a>可串行化调度</h2><p>可串行化(Serializable)调度：多个事务的并发执行是正确的，当且仅当其结果与按某一次序串行地执行这些事务时的结果相同。</p>
+<p>可串行性(Serializability)</p>
+<ul>
+<li>是并发事务正确调度的准则</li>
+<li>一个给定的并发调度，当且仅当它是可串行化的，才认为是正确调度 </li>
+</ul>
+<h2 id="冲突可串行化调度"><a href="#冲突可串行化调度" class="headerlink" title="冲突可串行化调度"></a>冲突可串行化调度</h2><p>冲突操作：是指不同的事务对同一数据的读写操作和写写操作。</p>
+<p>一个调度Sc在保证冲突操作的次序不变的情况下，通过交换两个事务不冲突操作的次序得到另一个调度Sc’，如果Sc’是串行的，称调度Sc是冲突可串行化的调度。</p>
+<p>若一个调度是冲突可串行化，则一定是可串行化的调度。</p>
+<h1 id="两段锁协议"><a href="#两段锁协议" class="headerlink" title="两段锁协议"></a>两段锁协议</h1><p>两段封锁协议(Two-Phase Locking，简称2PL)是最常用的一种封锁协议，理论上证明使用两段封锁协议产生的是可串行化调度。</p>
+<p>两段锁协议：指所有事务必须分两个阶段对数据项加锁和解锁 </p>
+<ul>
+<li>在对任何数据进行读、写操作之前，事务首先要获得对该数据的封锁</li>
+<li>在释放一个封锁之后，事务不再申请和获得任何其他封锁</li>
+</ul>
+<p>“两段”锁的含义：事务分为两个阶段</p>
+<ul>
+<li>第一阶段是获得封锁，也称为扩展阶段<br>事务可以申请获得任何数据项上的任何类型的锁，但是不能释放任何锁 </li>
+<li>第二阶段是释放封锁，也称为收缩阶段<br>事务可以释放任何数据项上的任何类型的锁，但是不能再申请任何锁</li>
+</ul>
+<p>两段锁协议与防止死锁的一次封锁法</p>
+<ul>
+<li>一次封锁法要求每个事务必须一次将所有要使用的数据全部加锁，否则就不能继续执行，因此一次封锁法遵守两段锁协议</li>
+<li>但是两段锁协议并不要求事务必须一次将所有要使用的数据全部加锁，因此遵守两段锁协议的事务可能发生死锁</li>
+</ul>
+<h1 id="封锁的粒度"><a href="#封锁的粒度" class="headerlink" title="封锁的粒度"></a>封锁的粒度</h1><p>封锁对象的大小称为封锁粒度（Granularity）。</p>
+<p>封锁的对象：逻辑单元，物理单元</p>
+<ul>
+<li>逻辑单元: 属性值、属性值集合、元组、关系、索引项、整个索引、整个数据库等</li>
+<li>物理单元：页（数据页或索引页）、物理记录等</li>
+</ul>
+<p>封锁粒度与系统的并发度和并发控制的开销密切相关。</p>
+<ul>
+<li>封锁的粒度越大，数据库所能够封锁的数据单元就越少，并发度就越小，系统开销也越小；</li>
+<li>封锁的粒度越小，并发度较高，但系统开销也就越大</li>
+</ul>
+<h2 id="多粒度封锁"><a href="#多粒度封锁" class="headerlink" title="多粒度封锁"></a>多粒度封锁</h2><p>多粒度树</p>
+<ul>
+<li>以树形结构来表示多级封锁粒度</li>
+<li>根结点是整个数据库，表示最大的数据粒度</li>
+<li>叶结点表示最小的数据粒度</li>
+</ul>
+<p>多粒度封锁协议</p>
+<ul>
+<li>允许多粒度树中的每个结点被独立地加锁</li>
+<li>对一个结点加锁意味着这个结点的所有后裔结点也被加以同样类型的锁</li>
+<li>在多粒度封锁中一个数据对象可能以两种方式封锁：显式封锁和隐式封锁<ul>
+<li>显式封锁: 直接加到数据对象上的封锁</li>
+<li>隐式封锁:是该数据对象没有独立加锁，是由于其上级结点加锁而使该数据对象加上了锁</li>
+<li>显式封锁和隐式封锁的效果是一样的</li>
+</ul>
+</li>
+</ul>
+<h2 id="意向锁"><a href="#意向锁" class="headerlink" title="意向锁"></a>意向锁</h2><p>意向锁的含义是如果对一个结点加意向锁，则说明该结点的下层结点正在被加锁；对任一结点加基本锁，必须先对它的上层结点加意向锁。</p>
+<p>常用意向锁</p>
+<ul>
+<li>意向共享锁(Intent Share Lock，简称IS锁)<br>如果对一个数据对象加IS锁，表示它的后裔结点拟（意向）加S锁</li>
+<li>意向排它锁(Intent Exclusive Lock，简称IX锁)<br>如果对一个数据对象加IX锁，表示它的后裔结点拟（意向）加X锁</li>
+<li>共享意向排它锁(Share Intent Exclusive Lock，简称SIX锁)<br>如果对一个数据对象加SIX锁，表示对它加S锁，再加IX锁，即SIX = S + IX</li>
+</ul>
+<hr>
+<blockquote>
+<p>《数据库系统概论（第5版）》王珊 萨师煊 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/09/数据库恢复技术/" rel="next" title="数据库恢复技术">
+                <i class="fa fa-chevron-left"></i> 数据库恢复技术
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/12/编译原理引论/" rel="prev" title="编译原理引论">
+                编译原理引论 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/10/并发控制/"
+           data-title="并发控制" data-url="http://zlw.poker/2016/12/10/并发控制/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#并发控制概述"><span class="nav-number">1.</span> <span class="nav-text">并发控制概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#封锁"><span class="nav-number">2.</span> <span class="nav-text">封锁</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#封锁协议"><span class="nav-number">3.</span> <span class="nav-text">封锁协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#活锁和死锁"><span class="nav-number">4.</span> <span class="nav-text">活锁和死锁</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#活锁"><span class="nav-number">4.1.</span> <span class="nav-text">活锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#死锁"><span class="nav-number">4.2.</span> <span class="nav-text">死锁</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#并发调度的可串行性"><span class="nav-number">5.</span> <span class="nav-text">并发调度的可串行性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#可串行化调度"><span class="nav-number">5.1.</span> <span class="nav-text">可串行化调度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#冲突可串行化调度"><span class="nav-number">5.2.</span> <span class="nav-text">冲突可串行化调度</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#两段锁协议"><span class="nav-number">6.</span> <span class="nav-text">两段锁协议</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#封锁的粒度"><span class="nav-number">7.</span> <span class="nav-text">封锁的粒度</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#多粒度封锁"><span class="nav-number">7.1.</span> <span class="nav-text">多粒度封锁</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#意向锁"><span class="nav-number">7.2.</span> <span class="nav-text">意向锁</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

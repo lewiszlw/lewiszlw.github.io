@@ -1,0 +1,953 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编译原理," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="什么是编译程序从功能上看，一个编译程序就是一个语言翻译程序。语言翻译程序把一种语言（称作源语言）书写的程序翻译成另一种语言（称作目标语言）的等价程序。">
+<meta name="keywords" content="编译原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编译原理引论">
+<meta property="og:url" content="http://zlw.poker/2016/12/12/编译原理引论/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="什么是编译程序从功能上看，一个编译程序就是一个语言翻译程序。语言翻译程序把一种语言（称作源语言）书写的程序翻译成另一种语言（称作目标语言）的等价程序。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%BC%95%E8%AE%BA1.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:55:26.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="编译原理引论">
+<meta name="twitter:description" content="什么是编译程序从功能上看，一个编译程序就是一个语言翻译程序。语言翻译程序把一种语言（称作源语言）书写的程序翻译成另一种语言（称作目标语言）的等价程序。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%BC%95%E8%AE%BA1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/12/编译原理引论/"/>
+
+
+  <title> 编译原理引论 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                编译原理引论
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-12T10:14:33+08:00" content="2016-12-12">
+              2016-12-12
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/编译原理/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/12/编译原理引论/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/12/编译原理引论/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="什么是编译程序"><a href="#什么是编译程序" class="headerlink" title="什么是编译程序"></a>什么是编译程序</h1><p>从功能上看，一个编译程序就是一个语言翻译程序。语言翻译程序把一种语言（称作源语言）书写的程序翻译成另一种语言（称作目标语言）的等价程序。<br><a id="more"></a><br>在计算机上执行一个高级语言程序一般要分为两步：</p>
+<ol>
+<li>用一个编译程序把高级语言翻译成机器语言程序；</li>
+<li>运行所得的机器语言程序求得计算结果。 </li>
+</ol>
+<p>翻译程序（Translator）<br>通常所说的翻译程序是指这样的一个程序，它能够把某一种语言程序（称为源语言程序或源程序）转换成另一种语言程序（称为目标语言程序或目标程序），而后者与前者在逻辑上是等价的。 </p>
+<ul>
+<li>汇编程序（Assembler）<br>如果源语言是某种汇编语言，而目标语言是某种计算机的机器语言，这样的一个翻译程序就称为汇编程序。</li>
+<li>编译程序（Compiler）<br>如果源语言是某种高级语言，而目标语言是某种低级语言（汇编语言或机器语言），这样的一个翻译程序就称为编译程序。 </li>
+<li>解释程序（Interpreter）<br>这是另外一种类型的翻译程序，在翻译过程它按照高级语言源程序在计算机上执行的动态顺序对源程序的语句逐条翻译（解释），边解释边执行直至结束，它不产生目标程序，它的工作结果就是源程序的执行结果，这样的一个翻译程序就称为解释程序。 </li>
+</ul>
+<p>宿主机（host machine）：运行编译程序的计算机。<br>目标机(object machine) ：运行编译程序所产生目标代码的计算机。</p>
+<h1 id="编译过程和编译程序的结构"><a href="#编译过程和编译程序的结构" class="headerlink" title="编译过程和编译程序的结构"></a>编译过程和编译程序的结构</h1><h2 id="编译过程概述"><a href="#编译过程概述" class="headerlink" title="编译过程概述"></a>编译过程概述</h2><p>编译程序的工作过程一般也可以划分为五个阶段：词法分析、语法分析、语义分析与中间代码产生、优化、目标代码生成。</p>
+<h3 id="词法分析"><a href="#词法分析" class="headerlink" title="词法分析"></a>词法分析</h3><p>词法分析的任务：<br>输入源程序，对构成源程序的字符串进行扫描和分解，识别出一个个的单词：</p>
+<ul>
+<li>保留字（begin、end、if、for、while等）</li>
+<li>标识符（x1、s等变量名）</li>
+<li>常数（3.14、100等）</li>
+<li>算符（+、-、and、or等）</li>
+<li>界符（标点符号、左右括号等） </li>
+</ul>
+<p>在词法分析阶段的工作中所依循的是语言的词法规则（或称构词规则）。<br>描述词法规则的有效工具是</p>
+<ul>
+<li>正规式</li>
+<li>有限自动机</li>
+</ul>
+<h3 id="语法分析"><a href="#语法分析" class="headerlink" title="语法分析"></a>语法分析</h3><p>语法分析的任务是：<br>在词法分析的基础上，根据语言的语法规则，把单词符号串分解成各类语法单位（语法范畴），如“短语”、“子句”、“句子”（“语句”）、“程序段”和“程序”等。通过语法分析，确定整个输入串是否构成语法上正确的“程序”。 </p>
+<p>语法分析所依循的是语言的语法规则。<br>语法规则通常用<strong>上下文无关文法描述</strong>。</p>
+<h3 id="语义分析与中间代码产生"><a href="#语义分析与中间代码产生" class="headerlink" title="语义分析与中间代码产生"></a>语义分析与中间代码产生</h3><p>此阶段的任务是：<br>对语法分析所识别出的各类语法范畴，分析其含义，并进行初步翻译（产生中间代码）。</p>
+<p>中间代码是一种独立于具体硬件的记号系统。<br>常用的中间代码：三地址码，四元式，三元式、间接三元式、逆波兰式，树形表示等。</p>
+<h3 id="优化"><a href="#优化" class="headerlink" title="优化"></a>优化</h3><p>优化的任务:<br>对产生的中间代码进行加工变换，以期在最后阶段能产生出更为高效（省时间和空间）的目标代码。 </p>
+<p>优化的主要方面有：<br>公共子表达式提取、循环优化、删除无用代码等等。有时，为了便于“并行运算”，还可以对代码进行并行化处理。</p>
+<p>优化所依循的原则：程序的等价变换规则。</p>
+<h3 id="目标代码生成"><a href="#目标代码生成" class="headerlink" title="目标代码生成"></a>目标代码生成</h3><p>这一阶段的任务是：<br>把中间代码（或经优化处理之后）变换成特定机器上的低级语言代码。 </p>
+<h2 id="编译程序的结构"><a href="#编译程序的结构" class="headerlink" title="编译程序的结构"></a>编译程序的结构</h2><p><img src="http://ofolh8dcq.bkt.clouddn.com/%E7%BC%96%E8%AF%91%E5%8E%9F%E7%90%86%E5%BC%95%E8%AE%BA1.PNG" alt="编译原理引论1"></p>
+<h3 id="表格管理"><a href="#表格管理" class="headerlink" title="表格管理"></a>表格管理</h3><p>编译程序在工作过程中需要保存一系列的表格，以登记源程序的各类信息和编译各阶段的进展状况。</p>
+<h3 id="出错处理"><a href="#出错处理" class="headerlink" title="出错处理"></a>出错处理</h3><p>一个编译程序不仅应能对书写正确的程序进行翻译，而且应能对出现在源程序中的错误进行处理。</p>
+<p>源程序中的错误通常分为语法错误和语义错误两大类。</p>
+<ul>
+<li>语法错误是指源程序中不符合语法（或词法）规则的错误，它们可在词法分析或语法分析时检测出来。<br>例如，词法分析阶段能够检测出“非法字符”之类的错误；语法分析阶段能够检测出诸如“括号不匹配”、“缺少；”之类的错误。</li>
+<li>语义错误是指源程序中不符合语义规则的错误，这些错误一般在语义分析时检测出来，有的语义错误要在运行时才能检测出来。<br>语义错误通常包括：说明错误、作用域错误、类型不一致等等。</li>
+</ul>
+<h3 id="编译前端和后端"><a href="#编译前端和后端" class="headerlink" title="编译前端和后端"></a>编译前端和后端</h3><p>前端主要由与源语言有关但与目标机无关的那些部分组成。这些部分通常包括词法分析、语法分析、语义分析与中间代码产生，有的代码优化工作也可包括在前端。</p>
+<p>后端包括编译程序中与目标机有关的那些部分，如与目标机有关的代码优化和目标代码生成等。通常，后端不依赖于源语言而仅仅依赖于中间语言。 </p>
+<h1 id="编译程序和程序设计环境"><a href="#编译程序和程序设计环境" class="headerlink" title="编译程序和程序设计环境"></a>编译程序和程序设计环境</h1><p>编译程序无疑是实现高级语言的一个最重要的工具。但支持程序设计人员进行程序开发通常还需要一些其它的工具如编辑程序；连接程序；调试工具等。编译程序与这些程序设计工具一起构成所谓的程序设计环境。</p>
+<p>一个集成化的程序设计环境的特点是，它将相互独立的程序设计工具集成起来，以便为程序员提供完整的、一体化的支持，从而进一步提高程序开发效率，改善程序质量。在一个好的集成化程序设计环境中，不仅包含丰富的程序设计工具，而且还支持程序设计方法学，支持程序开发的全生命周期。</p>
+<hr>
+<blockquote>
+<p>《编译原理（第2版）》张素琴 吕映芝 蒋维杜 戴桂兰 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编译原理/" rel="tag">#编译原理</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/10/并发控制/" rel="next" title="并发控制">
+                <i class="fa fa-chevron-left"></i> 并发控制
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/12/进程管理/" rel="prev" title="进程管理">
+                进程管理 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/12/编译原理引论/"
+           data-title="编译原理引论" data-url="http://zlw.poker/2016/12/12/编译原理引论/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#什么是编译程序"><span class="nav-number">1.</span> <span class="nav-text">什么是编译程序</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译过程和编译程序的结构"><span class="nav-number">2.</span> <span class="nav-text">编译过程和编译程序的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#编译过程概述"><span class="nav-number">2.1.</span> <span class="nav-text">编译过程概述</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#词法分析"><span class="nav-number">2.1.1.</span> <span class="nav-text">词法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语法分析"><span class="nav-number">2.1.2.</span> <span class="nav-text">语法分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#语义分析与中间代码产生"><span class="nav-number">2.1.3.</span> <span class="nav-text">语义分析与中间代码产生</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#优化"><span class="nav-number">2.1.4.</span> <span class="nav-text">优化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#目标代码生成"><span class="nav-number">2.1.5.</span> <span class="nav-text">目标代码生成</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#编译程序的结构"><span class="nav-number">2.2.</span> <span class="nav-text">编译程序的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#表格管理"><span class="nav-number">2.2.1.</span> <span class="nav-text">表格管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#出错处理"><span class="nav-number">2.2.2.</span> <span class="nav-text">出错处理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#编译前端和后端"><span class="nav-number">2.2.3.</span> <span class="nav-text">编译前端和后端</span></a></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#编译程序和程序设计环境"><span class="nav-number">3.</span> <span class="nav-text">编译程序和程序设计环境</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

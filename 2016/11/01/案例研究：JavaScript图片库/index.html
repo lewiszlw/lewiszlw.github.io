@@ -1,0 +1,950 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,DOM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="把图片发布到网上的办法很多。你可以简单地把所有图片放在一个网页，但是当图片数量过多，这个页面会变得过于庞大，我们必须面对这样一个事实：没有人愿意等待很长时间去下载一个网页。因此，为每张图片分别创建一个网页的方案值得考虑。不过这一方法并非尽善尽美。首先，为每张图片分别创建一个网页的工作量很大。其次，每个网页上应该提供某种导航链接给出当前图片在整个图片库的位置，方便人们从当前图片转到其他图片。">
+<meta name="keywords" content="JavaScript,DOM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="案例研究：JavaScript图片库">
+<meta property="og:url" content="http://zlw.poker/2016/11/01/案例研究：JavaScript图片库/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="把图片发布到网上的办法很多。你可以简单地把所有图片放在一个网页，但是当图片数量过多，这个页面会变得过于庞大，我们必须面对这样一个事实：没有人愿意等待很长时间去下载一个网页。因此，为每张图片分别创建一个网页的方案值得考虑。不过这一方法并非尽善尽美。首先，为每张图片分别创建一个网页的工作量很大。其次，每个网页上应该提供某种导航链接给出当前图片在整个图片库的位置，方便人们从当前图片转到其他图片。">
+<meta property="og:updated_time" content="2017-01-04T05:50:58.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="案例研究：JavaScript图片库">
+<meta name="twitter:description" content="把图片发布到网上的办法很多。你可以简单地把所有图片放在一个网页，但是当图片数量过多，这个页面会变得过于庞大，我们必须面对这样一个事实：没有人愿意等待很长时间去下载一个网页。因此，为每张图片分别创建一个网页的方案值得考虑。不过这一方法并非尽善尽美。首先，为每张图片分别创建一个网页的工作量很大。其次，每个网页上应该提供某种导航链接给出当前图片在整个图片库的位置，方便人们从当前图片转到其他图片。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/01/案例研究：JavaScript图片库/"/>
+
+
+  <title> 案例研究：JavaScript图片库 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                案例研究：JavaScript图片库
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-01T14:13:23+08:00" content="2016-11-01">
+              2016-11-01
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/JavaScriptDOM编程艺术/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScriptDOM编程艺术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/01/案例研究：JavaScript图片库/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/01/案例研究：JavaScript图片库/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>把图片发布到网上的办法很多。你可以简单地把所有图片放在一个网页，但是当图片数量过多，这个页面会变得过于庞大，我们必须面对这样一个事实：没有人愿意等待很长时间去下载一个网页。<br>因此，为每张图片分别创建一个网页的方案值得考虑。不过这一方法并非尽善尽美。首先，为每张图片分别创建一个网页的工作量很大。其次，每个网页上应该提供某种导航链接给出当前图片在整个图片库的位置，方便人们从当前图片转到其他图片。<br><a id="more"></a></p>
+<h2 id="标记"><a href="#标记" class="headerlink" title="标记"></a>标记</h2><p>第一项工作是为这些图片创建一个链接清单。<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Image Gallery<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Snapshots<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/fireworks.jpg"</span> <span class="attr">title</span>=<span class="string">"a firework display"</span>&gt;</span>fireworks<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/coffee.png"</span> <span class="attr">title</span>=<span class="string">"a cup of coffee"</span>&gt;</span>coffee<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/rose.jpg"</span> <span class="attr">title</span>=<span class="string">"a red rose"</span>&gt;</span>rose<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/bigben.jpeg"</span> <span class="attr">title</span>=<span class="string">"the famouse clock"</span>&gt;</span>bigben<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>将其保存在gallery.html文件，并把图片集中保存在目录images里。images目录和gallery.html文件放在同一目录下。<br>希望改进的几个地方：</p>
+<ul>
+<li>当点击某个链接时，能留在这个网页而不是转到另一个窗口。</li>
+<li>当点击某个链接时，能在这个网页上同时看到那张图片以及原有的图片清单。</li>
+</ul>
+<p>实现方法：</p>
+<ul>
+<li>通过增加一个“占位符”图片的办法在这个主页上为图片预留一个浏览区域。</li>
+<li>在点击某个链接时，拦截这个网页的默认行为。</li>
+<li>在点击某个链接时，把“占位符”图片换成这个链接相对应的图片。</li>
+</ul>
+<p>“占位符”图片：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">"placeholder"</span> <span class="attr">src</span>=<span class="string">"images/placeholder.jpg"</span> <span class="attr">alt</span>=<span class="string">"my image gallery"</span>/&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="JavaScript"><a href="#JavaScript" class="headerlink" title="JavaScript"></a>JavaScript</h2><p>为了把“占位符”图片替换成想要查看的图片，需要改变它的src属性。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showPic</span>(<span class="params">whichpic</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> source = whichpic.getAttribute(<span class="string">"href"</span>);</div><div class="line">	<span class="keyword">var</span> placeholder = <span class="built_in">document</span>.getElementById(<span class="string">"placeholder"</span>);</div><div class="line">	placeholder.setAttribute(<span class="string">"src"</span>,source);</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="应用这个JavaScript函数"><a href="#应用这个JavaScript函数" class="headerlink" title="应用这个JavaScript函数"></a>应用这个JavaScript函数</h2><p>把这个函数保存在扩展名为.js的文件中，然后在gallery.html中引用这个脚本文件。但是我们还需要事件处理函数来调用这个showPic函数。<br><strong>事件处理函数</strong><br>事件处理函数的作用是，在特定事件发生时调用特定的JavaScript代码。<br>在图片库里，用户点击链接触发一个动作，因此需要使用onclick事件处理函数。当我把onclick嵌入到链接中时，需要把这个链接本身用作showPic函数的参数：使用this关键字。<br>事件处理函数的语法：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">event=<span class="string">"javascript statements(s)"</span></div></pre></td></tr></table></figure></p>
+<p>但是仅这样，点击链接时showPic函数会调用，同时链接被点击的默认行为也会被调用。<br>事件处理函数的工作机制：在给某个元素添加事件处理函数后，一旦事件发生，相应的JavaScript代码就会得到执行。被调用的JavaScript代码可以返回一个值，这个值将被传递给那个事件处理函数。例如，给某个链接添加一个onclick事件处理函数，并让这个处理函数所触发的JavaScript代码返回布尔值true或false。这样，当这个链接被点击时，如果那段JavaScript代码返回值是true，onclick函数就认为“这个链接被点击了”；反之，如果返回值是false，onclick函数就认为“这个链接没有被点击”。<br>所以onclick函数这样写：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">onclick=<span class="string">"showPic(this);return false;"</span></div></pre></td></tr></table></figure></p>
+<p>所以gallery.html最终代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Image Gallery<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Snapshots<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/fireworks.jpg"</span> <span class="attr">title</span>=<span class="string">"a firework display"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>fireworks<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/coffee.png"</span> <span class="attr">title</span>=<span class="string">"a cup of coffee"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>coffee<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/rose.jpg"</span> <span class="attr">title</span>=<span class="string">"a red rose"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>rose<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/bigben.jpeg"</span> <span class="attr">title</span>=<span class="string">"the famouse clock"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>bigben<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">"placeholder"</span> <span class="attr">src</span>=<span class="string">"images/placeholder.jpg"</span> <span class="attr">alt</span>=<span class="string">"my image gallery"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"scripts/showPic.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h2><p>目的：想在图片下面添加描述，并且切换图片时切换不同的文本。为此我们需要用到几个新的DOM属性：</p>
+<h3 id="childNodes属性"><a href="#childNodes属性" class="headerlink" title="childNodes属性"></a>childNodes属性</h3><p>在一棵节点树上，childNodes属性可以用来获取任何一个元素的所有子元素，它是一个包含这个元素全部子元素的<strong>数组</strong>:<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.childNodes</div></pre></td></tr></table></figure></p>
+<p>例如获取某个文档body元素的所有子元素：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">document</span>.getElementsByTagName(<span class="string">"body"</span>)[<span class="number">0</span>].childNodes        <span class="comment">//每份文档只有一个body元素，所有数组下标为0</span></div></pre></td></tr></table></figure></p>
+<h3 id="nodeType属性"><a href="#nodeType属性" class="headerlink" title="nodeType属性"></a>nodeType属性</h3><p>由childNodes属性返回的数组包含所有类型的节点，而不仅仅是元素节点。事实上，文档里几乎每一样东西都是一个节点，甚至连空格和换行符都会被解释为节点，而它们也全都包含在childNodes属性所返回的数组中。<br>nodeType属性总共有12种取值，但其中仅有三种具有实用价值：</p>
+<ul>
+<li><strong>元素节点</strong>的nodeType属性值为1。</li>
+<li><strong>属性节点</strong>的nodeType属性值为2。</li>
+<li><strong>文本节点</strong>的nodeType属性值为3。</li>
+</ul>
+<h3 id="在标记里增加一段描述"><a href="#在标记里增加一段描述" class="headerlink" title="在标记里增加一段描述"></a>在标记里增加一段描述</h3><p>在gallery.html文件的&lt;img&gt;后面加上：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"description"</span>&gt;</span>choose an image<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>在显示图片时，把这个文本节点的值替换成目标图片链接的title值。</p>
+<h3 id="用JavaScript改变这段描述"><a href="#用JavaScript改变这段描述" class="headerlink" title="用JavaScript改变这段描述"></a>用JavaScript改变这段描述</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> text=whichpic.getAttribute(<span class="string">"title"</span>);</div><div class="line"><span class="keyword">var</span> description=<span class="built_in">document</span>.getElementById(<span class="string">"description"</span>);</div></pre></td></tr></table></figure>
+<p>然后是实现文本的切换。</p>
+<h3 id="nodeValue属性"><a href="#nodeValue属性" class="headerlink" title="nodeValue属性"></a>nodeValue属性</h3><p>如果想改变一个文本节点的值，那就使用DOM提供的nodeValue属性，它用来得到和设置一个节点的值。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node.nodeValue</div></pre></td></tr></table></figure></p>
+<p>但是有个必须注意的细节：在用nodeValue属性获取description对象的值时，得到的并不是包含在这个段落里的文本。&lt;p&gt;元素本身的nodeValue属性是一个空值，包含在&lt;p&gt;元素里的文本是另一种节点，它是&lt;p&gt;元素的第一个子节点。</p>
+<h3 id="firstChild和lastChild属性"><a href="#firstChild和lastChild属性" class="headerlink" title="firstChild和lastChild属性"></a>firstChild和lastChild属性</h3><p>firstChild属性代表childNodes数组里的第一个元素，lastChild属性代表childNodes数组里的最后一个元素。<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">node.firstChild    <span class="comment">//等价于node.childNodes[0]</span></div><div class="line">node.lastChild     <span class="comment">//等价于node.childNodes[node.childNodes.length-1]</span></div></pre></td></tr></table></figure></p>
+<h3 id="利用nodeValue属性刷新这段描述"><a href="#利用nodeValue属性刷新这段描述" class="headerlink" title="利用nodeValue属性刷新这段描述"></a>利用nodeValue属性刷新这段描述</h3><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">var</span> text=whichpic.getAttribute(<span class="string">"title"</span>);</div><div class="line"><span class="keyword">var</span> description=<span class="built_in">document</span>.getElementById(<span class="string">"description"</span>);</div><div class="line">description.firstChild.nodeValue=text;</div></pre></td></tr></table></figure>
+<p>如果想让这个图片库更美观，可以给它增加下面给这样的样式表：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">	<span class="attribute">font-family</span>:<span class="string">"Helvetica"</span>,<span class="string">"Arial"</span>,serif;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#333</span>;</div><div class="line">	<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">1em</span> <span class="number">10%</span></div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#333</span>;</div><div class="line">	<span class="attribute">background-color</span>:transparent;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">a</span> &#123;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#c60</span>;</div><div class="line">	<span class="attribute">background-color</span>:transparent;</div><div class="line">	<span class="attribute">font-weight</span>:bold;</div><div class="line">	<span class="attribute">text-decoration</span>:none;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">ul</span> &#123;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">li</span> &#123;</div><div class="line">	<span class="attribute">float</span>:left;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">1em</span>;</div><div class="line">	<span class="attribute">list-style</span>:none;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">	<span class="attribute">display</span>:block;</div><div class="line">	<span class="attribute">clear</span>:both;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h2><p>学会写一个简单的JavaScript图片库<br>介绍了DOM提供的几个新属性：</p>
+<ul>
+<li>childNodes</li>
+<li>nodeType</li>
+<li>nodeValue</li>
+<li>firstChild</li>
+<li>lastChild</li>
+</ul>
+<h2 id="最终代码"><a href="#最终代码" class="headerlink" title="最终代码"></a>最终代码</h2><p>gallery.html<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Image Gallery<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">link</span> <span class="attr">rel</span>=<span class="string">"stylesheet"</span> <span class="attr">href</span>=<span class="string">"styles/layout.css"</span> <span class="attr">media</span>=<span class="string">"screen"</span>/&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">h1</span>&gt;</span>Snapshots<span class="tag">&lt;/<span class="name">h1</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">ul</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/fireworks.jpg"</span> <span class="attr">title</span>=<span class="string">"a firework display"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>fireworks<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/coffee.png"</span> <span class="attr">title</span>=<span class="string">"a cup of coffee"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>coffee<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/rose.jpg"</span> <span class="attr">title</span>=<span class="string">"a red rose"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>rose<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">li</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"images/bigben.jpeg"</span> <span class="attr">title</span>=<span class="string">"the famouse clock"</span> <span class="attr">onclick</span>=<span class="string">"showPic(this);return false;"</span>&gt;</span>bigben<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line">    <span class="tag">&lt;/<span class="name">li</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">ul</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">img</span> <span class="attr">id</span>=<span class="string">"placeholder"</span> <span class="attr">src</span>=<span class="string">"images/placeholder.jpg"</span> <span class="attr">alt</span>=<span class="string">"my image gallery"</span>/&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">p</span> <span class="attr">id</span>=<span class="string">"description"</span>&gt;</span>choose an image<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">script</span> <span class="attr">type</span>=<span class="string">"text/javascript"</span> <span class="attr">src</span>=<span class="string">"scripts/showPic.js"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>showPic.js<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">showPic</span>(<span class="params">whichpic</span>)</span>&#123;</div><div class="line">	<span class="keyword">var</span> source = whichpic.getAttribute(<span class="string">"href"</span>);</div><div class="line">	<span class="keyword">var</span> placeholder = <span class="built_in">document</span>.getElementById(<span class="string">"placeholder"</span>);</div><div class="line">	placeholder.setAttribute(<span class="string">"src"</span>,source);</div><div class="line">	</div><div class="line">	<span class="keyword">var</span> text=whichpic.getAttribute(<span class="string">"title"</span>);</div><div class="line">	<span class="keyword">var</span> description=<span class="built_in">document</span>.getElementById(<span class="string">"description"</span>);</div><div class="line">	description.firstChild.nodeValue=text;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>layout.css<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span> &#123;</div><div class="line">	<span class="attribute">font-family</span>:<span class="string">"Helvetica"</span>,<span class="string">"Arial"</span>,serif;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#333</span>;</div><div class="line">	<span class="attribute">background-color</span>:<span class="number">#ccc</span>;</div><div class="line">	<span class="attribute">margin</span>:<span class="number">1em</span> <span class="number">10%</span></div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">h1</span> &#123;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#333</span>;</div><div class="line">	<span class="attribute">background-color</span>:transparent;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">a</span> &#123;</div><div class="line">	<span class="attribute">color</span>:<span class="number">#c60</span>;</div><div class="line">	<span class="attribute">background-color</span>:transparent;</div><div class="line">	<span class="attribute">font-weight</span>:bold;</div><div class="line">	<span class="attribute">text-decoration</span>:none;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">ul</span> &#123;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">0</span>;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">li</span> &#123;</div><div class="line">	<span class="attribute">float</span>:left;</div><div class="line">	<span class="attribute">padding</span>:<span class="number">1em</span>;</div><div class="line">	<span class="attribute">list-style</span>:none;</div><div class="line">	&#125;</div><div class="line"><span class="selector-tag">img</span> &#123;</div><div class="line">	<span class="attribute">display</span>:block;</div><div class="line">	<span class="attribute">clear</span>:both;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/DOM/" rel="tag">#DOM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/10/27/markdown的常用语法/" rel="next" title="markdown的常用语法">
+                <i class="fa fa-chevron-left"></i> markdown的常用语法
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/02/最佳实践/" rel="prev" title="最佳实践">
+                最佳实践 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/01/案例研究：JavaScript图片库/"
+           data-title="案例研究：JavaScript图片库" data-url="http://zlw.poker/2016/11/01/案例研究：JavaScript图片库/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#标记"><span class="nav-number">1.</span> <span class="nav-text">标记</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JavaScript"><span class="nav-number">2.</span> <span class="nav-text">JavaScript</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用这个JavaScript函数"><span class="nav-number">3.</span> <span class="nav-text">应用这个JavaScript函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展"><span class="nav-number">4.</span> <span class="nav-text">扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#childNodes属性"><span class="nav-number">4.1.</span> <span class="nav-text">childNodes属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nodeType属性"><span class="nav-number">4.2.</span> <span class="nav-text">nodeType属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#在标记里增加一段描述"><span class="nav-number">4.3.</span> <span class="nav-text">在标记里增加一段描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#用JavaScript改变这段描述"><span class="nav-number">4.4.</span> <span class="nav-text">用JavaScript改变这段描述</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#nodeValue属性"><span class="nav-number">4.5.</span> <span class="nav-text">nodeValue属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#firstChild和lastChild属性"><span class="nav-number">4.6.</span> <span class="nav-text">firstChild和lastChild属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#利用nodeValue属性刷新这段描述"><span class="nav-number">4.7.</span> <span class="nav-text">利用nodeValue属性刷新这段描述</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#小结"><span class="nav-number">5.</span> <span class="nav-text">小结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#最终代码"><span class="nav-number">6.</span> <span class="nav-text">最终代码</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

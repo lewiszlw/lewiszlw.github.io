@@ -1,0 +1,1150 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="事务的基本概念事务是一系列的数据库操作，是数据库应用程序的基本逻辑单元。事务处理技术主要包括数据库恢复技术和并发控制技术。">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库恢复技术">
+<meta property="og:url" content="http://zlw.poker/2016/12/09/数据库恢复技术/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="事务的基本概念事务是一系列的数据库操作，是数据库应用程序的基本逻辑单元。事务处理技术主要包括数据库恢复技术和并发控制技术。">
+<meta property="og:updated_time" content="2017-01-04T05:55:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库恢复技术">
+<meta name="twitter:description" content="事务的基本概念事务是一系列的数据库操作，是数据库应用程序的基本逻辑单元。事务处理技术主要包括数据库恢复技术和并发控制技术。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/09/数据库恢复技术/"/>
+
+
+  <title> 数据库恢复技术 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据库恢复技术
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-09T15:23:02+08:00" content="2016-12-09">
+              2016-12-09
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/数据库系统概论/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库系统概论</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/09/数据库恢复技术/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/09/数据库恢复技术/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="事务的基本概念"><a href="#事务的基本概念" class="headerlink" title="事务的基本概念"></a>事务的基本概念</h1><p>事务是一系列的数据库操作，是数据库应用程序的基本逻辑单元。事务处理技术主要包括数据库恢复技术和并发控制技术。<br><a id="more"></a><br>事务是用户定义的一个数据库操作序列，这些操作要么全做，要么全不做，是一个不可分割的工作单位。</p>
+<p>事务和程序比较</p>
+<ul>
+<li>两个概念</li>
+<li>在关系数据库中，一个事务可以是一条SQL语句、一组SQL语句或整个程序。</li>
+<li>一个程序通常包含多个事务</li>
+</ul>
+<p>显式定义：</p>
+<ul>
+<li><p>COMMIT表示提交，即提交事务的所有操作，将事务中所有对数据库的更新写回到磁盘上的物理数据库中去</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">BEGIN</span> <span class="keyword">TRANSACTION</span></div><div class="line">.....</div><div class="line"><span class="keyword">COMMIT</span>;</div></pre></td></tr></table></figure>
+</li>
+<li><p>ROLLBACK表示回滚，系统将事务中对数据库的所有已完成的操作全部撤销，回滚到事务开始时的状态。</p>
+<figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">BEGIN</span> <span class="keyword">TRANSACTION</span></div><div class="line">......</div><div class="line"><span class="keyword">ROLLBACK</span>;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>隐式定义：</p>
+<ul>
+<li>当用户没有显式地定义事务时，DBMS按缺省规定自动划分事务</li>
+</ul>
+<p>事务的ACID特性：</p>
+<ul>
+<li>原子性（Atomicity）<br>事务是数据库的逻辑工作单位，事务中包括的诸操作要么都做，要么都不做。</li>
+<li>一致性（Consistency）<br>事务执行的结果必须是使数据库从一个一致性状态变到另一个一致性状态。</li>
+<li>隔离性（Isolation）<br>一个事务的执行不能被其他事务干扰。</li>
+<li>持续性（Durability ）<br>一个事务一旦提交，它对数据库中数据的改变就应该是永久性的。</li>
+</ul>
+<h1 id="数据库恢复概述"><a href="#数据库恢复概述" class="headerlink" title="数据库恢复概述"></a>数据库恢复概述</h1><p>故障是不可避免的</p>
+<ul>
+<li>系统故障：计算机软、硬件故障</li>
+<li>人为故障：操作员的失误、恶意的破坏等</li>
+</ul>
+<p>数据库的恢复（Recovery）：把数据库从错误状态恢复到某一已知的正确状态（亦称为一致状态或完整状态）。</p>
+<h1 id="故障的种类"><a href="#故障的种类" class="headerlink" title="故障的种类"></a>故障的种类</h1><ol>
+<li>事务内部的故障<ul>
+<li>有的是可以通过事务程序本身发现的</li>
+<li>有的是非预期的（大多）</li>
+<li>事务故障的恢复：撤消事务（UNDO）</li>
+</ul>
+</li>
+<li>系统故障<br>系统故障称为软故障，是指造成系统停止运转的任何事件，使得系统要重新启动。 <ul>
+<li>影响<ul>
+<li>整个系统的正常运行突然被破坏</li>
+<li>所有正在运行的事务都非正常终止</li>
+<li>不破坏数据库</li>
+<li>内存中数据库缓冲区的信息全部丢失</li>
+</ul>
+</li>
+<li>系统故障的常见原因<ul>
+<li>特定类型的硬件错误（如CPU故障）</li>
+<li>操作系统故障</li>
+<li>DBMS代码错误</li>
+<li>系统断电</li>
+</ul>
+</li>
+<li>系统故障的恢复<ul>
+<li>发生系统故障时，事务未提交<br>恢复策略：强行撤消（UNDO）所有未完成事务</li>
+<li>发生系统故障时，事务已提交，但缓冲区中的信息尚未完全写回到磁盘上。<br>恢复策略：重做（REDO）所有已提交的事务</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>介质故障<br>介质故障称为硬故障，指外存故障<ul>
+<li>常见<ul>
+<li>磁盘损坏</li>
+<li>磁头碰撞</li>
+<li>操作系统的某种潜在错误</li>
+<li>瞬时强磁场干扰</li>
+</ul>
+</li>
+<li>介质故障的恢复<ul>
+<li>装入数据库发生介质故障前某个时刻的数据副本</li>
+<li>重做自此时始的所有成功事务，将这些事务已提交的结果重新记入数据库</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>计算机病毒<ul>
+<li>一种人为的故障或破坏，是一些恶作剧者研制的一种计算机程序</li>
+<li>可以繁殖和传播</li>
+<li>危害<ul>
+<li>破坏、盗窃系统中的数据</li>
+<li>破坏系统文件</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>各类故障，对数据库的影响有两种可能性</p>
+<ul>
+<li>一是数据库本身被破坏</li>
+<li>二是数据库没有被破坏，但数据可能不正确，这是由于事务的运行被非正常终止造成的</li>
+</ul>
+<p>恢复操作的基本原理：冗余</p>
+<ul>
+<li>利用存储在系统其它地方的冗余数据来重建数据库中已被破坏或不正确的那部分数据</li>
+</ul>
+<h1 id="恢复的实现技术"><a href="#恢复的实现技术" class="headerlink" title="恢复的实现技术"></a>恢复的实现技术</h1><p>建立冗余数据最常用的技术是数据转储和登记日志文件。</p>
+<h2 id="数据转储"><a href="#数据转储" class="headerlink" title="数据转储"></a>数据转储</h2><p>转储是指DBA将整个数据库复制到磁带或另一个磁盘上保存起来的过程，备用的数据称为后备副本或后援副本。</p>
+<p>静态转储</p>
+<ul>
+<li>在系统中无运行事务时进行的转储操作</li>
+<li>转储开始时数据库处于一致性状态</li>
+<li>转储期间不允许对数据库的任何存取、修改活动</li>
+<li>得到的一定是一个数据一致性的副本 </li>
+<li>优点：实现简单</li>
+<li>缺点：降低了数据库的可用性<ul>
+<li>转储必须等待正运行的用户事务结束 </li>
+<li>新的事务必须等转储结束</li>
+</ul>
+</li>
+</ul>
+<p>动态转储</p>
+<ul>
+<li>转储操作与用户事务并发进行</li>
+<li>转储期间允许对数据库进行存取或修改</li>
+<li>优点<ul>
+<li>不用等待正在运行的用户事务结束</li>
+<li>不会影响新事务的运行</li>
+</ul>
+</li>
+<li>动态转储的缺点<ul>
+<li>不能保证副本中的数据正确有效</li>
+</ul>
+</li>
+</ul>
+<p>另一种分类</p>
+<ul>
+<li>海量转储: 每次转储全部数据库</li>
+<li>增量转储: 只转储上次转储后更新过的数据</li>
+<li>海量转储与增量转储比较<ul>
+<li>从恢复角度看，使用海量转储得到的后备副本进行恢复往往更方便</li>
+<li>但如果数据库很大，事务处理又十分频繁，则增量转储方式更实用更有效</li>
+</ul>
+</li>
+</ul>
+<p>数据存储有两种方式，分别可以在两种状态下进行，因此数据转储方法可以分为4类：动态海量转储、动态增量转储、静态海量转储、静态增量转储。</p>
+<h2 id="登记日志文件"><a href="#登记日志文件" class="headerlink" title="登记日志文件"></a>登记日志文件</h2><p>日志文件(log)是用来记录事务对数据库的更新操作的文件</p>
+<p>日志文件的格式</p>
+<ul>
+<li>以记录为单位的日志文件</li>
+<li>以数据块为单位的日志文件</li>
+</ul>
+<p>以记录为单位的日志文件内容</p>
+<ul>
+<li>各个事务的开始标记(BEGIN TRANSACTION)</li>
+<li>各个事务的结束标记(COMMIT或ROLLBACK)</li>
+<li>各个事务的所有更新操作</li>
+</ul>
+<p>以记录为单位的日志文件，每条日志记录的内容</p>
+<ul>
+<li>事务标识（标明是哪个事务） </li>
+<li>操作类型（插入、删除或修改）</li>
+<li>操作对象（记录内部标识）</li>
+<li>更新前数据的旧值（对插入操作而言，此项为空值）</li>
+<li>更新后数据的新值（对删除操作而言, 此项为空值）</li>
+</ul>
+<p>以数据块为单位的日志文件，每条日志记录的内容</p>
+<ul>
+<li>事务标识（标明是那个事务）</li>
+<li>被更新的数据块</li>
+</ul>
+<p>基本原则</p>
+<ul>
+<li>登记的次序严格按并发事务执行的时间次序</li>
+<li>必须先写日志文件，后写数据库</li>
+</ul>
+<h1 id="恢复策略"><a href="#恢复策略" class="headerlink" title="恢复策略"></a>恢复策略</h1><h2 id="事务故障的恢复"><a href="#事务故障的恢复" class="headerlink" title="事务故障的恢复"></a>事务故障的恢复</h2><p>事务故障的恢复由系统自动完成，对用户是透明的，不需要用户干预。</p>
+<p>事务故障的恢复步骤</p>
+<ol>
+<li>反向扫描文件日志（即从最后向前扫描日志文件），查找该事务的更新操作。</li>
+<li>对该事务的更新操作执行逆操作。即将日志记录中“更新前的值” 写入数据库。</li>
+<li>继续反向扫描日志文件，查找该事务的其他更新操作，并做同样处理。</li>
+<li>如此处理下去，直至读到此事务的开始标记，事务故障恢复就完成了。</li>
+</ol>
+<h2 id="系统故障的恢复"><a href="#系统故障的恢复" class="headerlink" title="系统故障的恢复"></a>系统故障的恢复</h2><p>系统故障造成数据库不一致状态的原因</p>
+<ul>
+<li>未完成事务对数据库的更新已写入数据库</li>
+<li>已提交事务对数据库的更新还留在缓冲区没来得及写入数据库</li>
+</ul>
+<p>恢复方法</p>
+<ul>
+<li>Undo 故障发生时未完成的事务</li>
+<li>Redo 已完成的事务</li>
+</ul>
+<p>系统故障的恢复步骤</p>
+<ol>
+<li>正向扫描日志文件（即从头扫描日志文件）<ul>
+<li>重做(REDO) 队列: 在故障发生前已经提交的事务<br>这些事务既有BEGIN TRANSACTION记录，也有COMMIT记录</li>
+<li>撤销 (Undo)队列:故障发生时尚未完成的事务<br>这些事务只有BEGIN TRANSACTION记录，无相应的COMMIT记录</li>
+</ul>
+</li>
+<li>对撤销(Undo)队列事务进行撤销(UNDO)处理<ul>
+<li>反向扫描日志文件，对每个UNDO事务的更新操作执行逆操作</li>
+<li>即将日志记录中“更新前的值”写入数据库 </li>
+</ul>
+</li>
+<li>对重做(Redo)队列事务进行重做(REDO)处理<ul>
+<li>正向扫描日志文件，对每个REDO事务重新执行登记的操作</li>
+<li>即将日志记录中“更新后的值”写入数据库 </li>
+</ul>
+</li>
+</ol>
+<h2 id="介质故障的恢复"><a href="#介质故障的恢复" class="headerlink" title="介质故障的恢复"></a>介质故障的恢复</h2><p>这是最严重的一种故障，恢复方法：</p>
+<ol>
+<li>重装数据库</li>
+<li>重做已完成的事务</li>
+</ol>
+<p>恢复步骤</p>
+<ol>
+<li>装入最新的后备数据库副本（离故障发生时刻最近的转储副本），使数据库恢复到最近一次转储时的一致性状态。</li>
+<li>装入有关的日志文件副本（转储结束时刻的日志文件副本），重做已完成的事务。</li>
+</ol>
+<h1 id="具有检查点的恢复技术"><a href="#具有检查点的恢复技术" class="headerlink" title="具有检查点的恢复技术"></a>具有检查点的恢复技术</h1><p>具有检查点（checkpoint）的恢复技术</p>
+<ul>
+<li>在日志文件中增加检查点记录（checkpoint）</li>
+<li>增加重新开始文件</li>
+<li>恢复子系统在登录日志文件期间动态地维护日志</li>
+</ul>
+<p>检查点记录的内容</p>
+<ul>
+<li>建立检查点时刻所有正在执行的事务清单</li>
+<li>这些事务最近一个日志记录的地址</li>
+</ul>
+<p>动态维护日志文件的方法：<br>周期性地执行如下操作：建立检查点，保存数据库状态。<br>具体步骤是：<br>（1）将当前日志缓冲区中的所有日志记录写入磁盘的日志文件上<br>（2）在日志文件中写入一个检查点记录<br>（3）将当前数据缓冲区的所有数据记录写入磁盘的数据库中<br>（4）把检查点记录在日志文件中的地址写入一个重新开始文件</p>
+<h1 id="数据库镜像"><a href="#数据库镜像" class="headerlink" title="数据库镜像"></a>数据库镜像</h1><p>数据库镜像</p>
+<ul>
+<li>数据库管理系统自动把整个数据库或其中的关键数据复制到另一个磁盘上</li>
+<li>数据库管理系统自动保证镜像数据与主数据的一致性。每当主数据库更新时，数据库管理系统自动把更新后的数据复制过去。</li>
+</ul>
+<p>数据库镜像的用途</p>
+<ul>
+<li>出现介质故障时<ul>
+<li>可由镜像磁盘继续提供使用 </li>
+<li>同时数据库管理系统自动利用镜像磁盘数据进行数据库的恢复</li>
+<li>不需要关闭系统和重装数据库副本</li>
+</ul>
+</li>
+<li>没有出现故障时<ul>
+<li>可用于并发操作</li>
+<li>一个用户对数据加排他锁修改数据，其他用户可以读镜像数据库上的数据，而不必等待该用户释放锁 </li>
+</ul>
+</li>
+</ul>
+<p>频繁地复制数据自然会降低系统运行效率，在实际应用中用户往往只选择对关键数据和日志文件镜像，不是对整个数据库进行镜像。</p>
+<hr>
+<blockquote>
+<p>《数据库系统概论（第5版）》王珊 萨师煊 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/09/关系查询处理和查询优化/" rel="next" title="关系查询处理和查询优化">
+                <i class="fa fa-chevron-left"></i> 关系查询处理和查询优化
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/10/并发控制/" rel="prev" title="并发控制">
+                并发控制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/09/数据库恢复技术/"
+           data-title="数据库恢复技术" data-url="http://zlw.poker/2016/12/09/数据库恢复技术/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#事务的基本概念"><span class="nav-number">1.</span> <span class="nav-text">事务的基本概念</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库恢复概述"><span class="nav-number">2.</span> <span class="nav-text">数据库恢复概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#故障的种类"><span class="nav-number">3.</span> <span class="nav-text">故障的种类</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#恢复的实现技术"><span class="nav-number">4.</span> <span class="nav-text">恢复的实现技术</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#数据转储"><span class="nav-number">4.1.</span> <span class="nav-text">数据转储</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#登记日志文件"><span class="nav-number">4.2.</span> <span class="nav-text">登记日志文件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#恢复策略"><span class="nav-number">5.</span> <span class="nav-text">恢复策略</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#事务故障的恢复"><span class="nav-number">5.1.</span> <span class="nav-text">事务故障的恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#系统故障的恢复"><span class="nav-number">5.2.</span> <span class="nav-text">系统故障的恢复</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#介质故障的恢复"><span class="nav-number">5.3.</span> <span class="nav-text">介质故障的恢复</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#具有检查点的恢复技术"><span class="nav-number">6.</span> <span class="nav-text">具有检查点的恢复技术</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#数据库镜像"><span class="nav-number">7.</span> <span class="nav-text">数据库镜像</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

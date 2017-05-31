@@ -1,0 +1,1089 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据库," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="数据库的完整性是指数据的正确性和相容性。">
+<meta name="keywords" content="数据库">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据库完整性">
+<meta property="og:url" content="http://zlw.poker/2016/11/28/数据库完整性/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="数据库的完整性是指数据的正确性和相容性。">
+<meta property="og:updated_time" content="2017-01-04T05:53:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据库完整性">
+<meta name="twitter:description" content="数据库的完整性是指数据的正确性和相容性。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/28/数据库完整性/"/>
+
+
+  <title> 数据库完整性 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                数据库完整性
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-28T16:43:14+08:00" content="2016-11-28">
+              2016-11-28
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/数据库系统概论/" itemprop="url" rel="index">
+                    <span itemprop="name">数据库系统概论</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/28/数据库完整性/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/28/数据库完整性/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>数据库的完整性是指数据的正确性和相容性。<br><a id="more"></a><br>数据的完整性和安全性是两个不同概念</p>
+<ul>
+<li>数据的完整性<ul>
+<li>防止数据库中存在不符合语义的数据，也就是防止数据库中存在不正确的数据</li>
+<li>防范对象：不合语义的、不正确的数据</li>
+</ul>
+</li>
+<li>数据的安全性<ul>
+<li>保护数据库防止恶意的破坏和非法的存取</li>
+<li>防范对象：非法用户和非法操作</li>
+</ul>
+</li>
+</ul>
+<p>为维护数据库的完整性，DBMS必须：</p>
+<ul>
+<li>提供定义完整性约束条件的机制</li>
+<li>提供完整性检查的方法</li>
+<li>违约处理</li>
+</ul>
+<h1 id="实体完整性"><a href="#实体完整性" class="headerlink" title="实体完整性"></a>实体完整性</h1><h2 id="定义实体完整性"><a href="#定义实体完整性" class="headerlink" title="定义实体完整性"></a>定义实体完整性</h2><ul>
+<li>关系模型的实体完整性<ul>
+<li>CREATE  TABLE中用PRIMARY KEY定义</li>
+</ul>
+</li>
+<li>单属性构成的码有两种说明方法 <ul>
+<li>定义为列级约束条件</li>
+<li>定义为表级约束条件</li>
+</ul>
+</li>
+<li>对多个属性构成的码只有一种说明方法<ul>
+<li>定义为表级约束条件 </li>
+</ul>
+</li>
+</ul>
+<h2 id="实体完整性检查和违约处理"><a href="#实体完整性检查和违约处理" class="headerlink" title="实体完整性检查和违约处理"></a>实体完整性检查和违约处理</h2><p>插入或对主码列进行更新操作时，RDBMS按照实体完整性规则自动进行检查。包括：</p>
+<ul>
+<li>检查主码值是否唯一，如果不唯一则拒绝插入或修改</li>
+<li>检查主码的各个属性是否为空，只要有一个为空就拒绝插入或修改</li>
+</ul>
+<h1 id="参照完整性"><a href="#参照完整性" class="headerlink" title="参照完整性"></a>参照完整性</h1><h2 id="定义参照完整性"><a href="#定义参照完整性" class="headerlink" title="定义参照完整性"></a>定义参照完整性</h2><p>关系模型的参照完整性定义</p>
+<ul>
+<li>在CREATE TABLE中用FOREIGN KEY短语定义哪些列为外码</li>
+<li>用REFERENCES短语指明这些外码参照哪些表的主码 </li>
+</ul>
+<h2 id="参照完整性检查和违约处理"><a href="#参照完整性检查和违约处理" class="headerlink" title="参照完整性检查和违约处理"></a>参照完整性检查和违约处理</h2><p>可能破坏参照完整性的情况及违约处理</p>
+<table>
+<thead>
+<tr>
+<th>被参照表</th>
+<th>参照表</th>
+<th>违约处理</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>可能破坏参照完整性</td>
+<td>插入元组</td>
+<td>拒绝</td>
+</tr>
+<tr>
+<td>可能破坏参照完整性</td>
+<td>修改外码值</td>
+<td>拒绝</td>
+</tr>
+<tr>
+<td>删除元组</td>
+<td>可能破坏参照完整性</td>
+<td>拒绝/级联删除/设置为空值</td>
+</tr>
+<tr>
+<td>修改主码值</td>
+<td>可能破坏参照完整性</td>
+<td>拒绝/级联删除/设置为空值</td>
+</tr>
+</tbody>
+</table>
+<p>参照完整性违约处理</p>
+<ol>
+<li>拒绝(NO ACTION)执行<br>默认策略</li>
+<li>级联(CASCADE)操作</li>
+<li>设置为空值（SET-NULL）</li>
+</ol>
+<p>对于参照完整性，除了应该定义外码，还应定义外码列是否允许空值</p>
+<h1 id="用户定义的完整性"><a href="#用户定义的完整性" class="headerlink" title="用户定义的完整性"></a>用户定义的完整性</h1><ul>
+<li>用户定义的完整性就是针对某一具体应用的数据必须满足的语义要求 </li>
+<li>RDBMS提供，而不必由应用程序承担</li>
+</ul>
+<h2 id="属性上的约束条件"><a href="#属性上的约束条件" class="headerlink" title="属性上的约束条件"></a>属性上的约束条件</h2><ol>
+<li><p>属性上约束条件的定义<br>CREATE TABLE时定义</p>
+<ul>
+<li>列值非空（NOT NULL）</li>
+<li>列值唯一（UNIQUE）</li>
+<li>检查列值是否满足一个布尔表达式（CHECK）</li>
+</ul>
+</li>
+<li><p>属性上约束条件的检查和违约处理<br>当往表中插入元组或修改属性的值时，关系数据库管理系统将检查属性上的约束条件是否被满足，如果不满足则操作被拒绝执行。</p>
+</li>
+</ol>
+<h2 id="元组上的约束条件"><a href="#元组上的约束条件" class="headerlink" title="元组上的约束条件"></a>元组上的约束条件</h2><ol>
+<li>元组上约束条件的定义<ul>
+<li>在CREATE TABLE时可以用CHECK短语定义元组上的约束条件，即元组级的限制</li>
+<li>同属性值限制相比，元组级的限制可以设置不同属性之间的取值的相互约束条件 </li>
+</ul>
+</li>
+<li>元组上约束条件检查和违约处理<ul>
+<li>插入元组或修改属性的值时，RDBMS检查元组上的约束条件是否被满足</li>
+<li>如果不满足则操作被拒绝执行 </li>
+</ul>
+</li>
+</ol>
+<h1 id="完整性约束命名子句"><a href="#完整性约束命名子句" class="headerlink" title="完整性约束命名子句"></a>完整性约束命名子句</h1><ol>
+<li><p>完整性约束命名子句</p>
+<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CONSTRAINT &lt;完整性约束条件名&gt;&lt;完整性约束条件&gt;</div></pre></td></tr></table></figure>
+<p>&lt;完整性约束条件&gt;包括NOT NULL,UNIQUE,PRIMARY KEY,FOREIGN KEY,CHECK短语等。</p>
+</li>
+<li>修改表中的完整性限制<br>可以使用ALTER TABLE语句修改表中的完整性约束。</li>
+</ol>
+<h1 id="域中的完整性限制"><a href="#域中的完整性限制" class="headerlink" title="域中的完整性限制"></a>域中的完整性限制</h1><p>SQL支持域的概念，并可以用CREATE DOMAIN语句建立一个域以及该域应该满足的完整性约束条件。</p>
+<h1 id="断言"><a href="#断言" class="headerlink" title="断言"></a>断言</h1><ul>
+<li>SQL中，可以使用 CREATE ASSERTION语句，通过声明性断言来指定更具一般性的约束。</li>
+<li>可以定义涉及多个表的或聚集操作的比较复杂的完整性约束。</li>
+<li>断言创建以后，<strong>任何对断言中所涉及的关系的操作都会触发关系数据库管理系统对断言的检查</strong>，任何使断言不为真值的操作都会被拒绝执行</li>
+</ul>
+<ol>
+<li>创建断言的语句格式<ul>
+<li><code>CREATE ASSERTION&lt;断言名&gt;&lt;CHECK 子句&gt;</code></li>
+<li>每个断言都被赋予一个名字，&lt;CHECK 子句&gt;中的约束条件与WHERE子句的条件表达式类似。</li>
+</ul>
+</li>
+<li>删除断言的语句格式为<ul>
+<li><code>DROP ASSERTION &lt;断言名&gt;;</code></li>
+<li>如果断言很复杂，则系统在检测和维护断言的开销较高，这是在使用断言时应该注意的</li>
+</ul>
+</li>
+</ol>
+<h1 id="触发器"><a href="#触发器" class="headerlink" title="触发器"></a>触发器</h1><p>触发器（Trigger）是用户定义在关系表上的一类由事件驱动的特殊过程</p>
+<ul>
+<li>触发器保存在数据库服务器中</li>
+<li>任何用户对表的增、删、改操作均由服务器自动激活相应的触发器</li>
+<li>触发器可以实施更为复杂的检查和操作，具有更精细和更强大的数据控制能力 </li>
+</ul>
+<h2 id="定义触发器"><a href="#定义触发器" class="headerlink" title="定义触发器"></a>定义触发器</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> &lt;触发器名&gt;              <span class="comment">/*每当触发事件发生时，该触发器被激活*/</span> </div><div class="line">&#123;<span class="keyword">BEFORE</span> | <span class="keyword">AFTER</span>&#125; &lt;触发事件&gt; <span class="keyword">ON</span> &lt;表名&gt;  <span class="comment">/*指明触发器激活的时间是在执行触发事件前或后*/</span></div><div class="line"><span class="keyword">REFERENCING</span> <span class="keyword">NEW</span>|<span class="keyword">OLD</span> <span class="keyword">ROW</span> <span class="keyword">AS</span>&lt;变量&gt;       <span class="comment">/*REFERENCING指出引用的变量*/</span></div><div class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> &#123;<span class="keyword">ROW</span> | <span class="keyword">STATEMENT</span>&#125;             <span class="comment">/*定义触发器的类型，指明动作体执行的频率*/</span></div><div class="line">[<span class="keyword">WHEN</span> &lt;触发条件&gt;]&lt;触发动作体&gt;          <span class="comment">/*仅当触发条件为真时才执行触发动作体*/</span></div></pre></td></tr></table></figure>
+<p>触发器又叫做事件-条件-动作（event-condition-action）规则。当特定的系统事件发生时，对规则的条件进行检查，如果条件成立则执行规则中的动作，否则不执行该动作。规则中的动作体可以很复杂，通常是一段SQL存储过程。<br>定义触发器的语法说明</p>
+<ol>
+<li>表的拥有者才可以在表上创建触发器</li>
+<li>触发器名<ul>
+<li>触发器名可以包含模式名，也可以不包含模式名</li>
+<li>同一模式下，触发器名必须是唯一的</li>
+<li>触发器名和表名必须在同一模式下</li>
+</ul>
+</li>
+<li>表名<ul>
+<li>触发器只能定义在基本表上，不能定义在视图上</li>
+<li>当基本表的数据发生变化时，将激活定义在该表上相应触发事件的触发器</li>
+</ul>
+</li>
+<li>触发事件<ul>
+<li>触发事件可以是INSERT、DELETE或UPDATE，也可以是这几个事件的组合</li>
+<li>还可以UPDATE OF&lt;触发列，…&gt;，即进一步指明修改哪些列时激活触发器</li>
+<li>AFTER/BEFORE是触发的时机<br>AFTER表示在触发事件的操作执行之后激活触发器<br>BEFORE表示在触发事件的操作执行之前激活触发器</li>
+</ul>
+</li>
+<li>触发器类型<ul>
+<li>行级触发器（FOR EACH ROW）</li>
+<li>语句级触发器（FOR EACH STATEMENT）</li>
+</ul>
+</li>
+<li>触发条件<ul>
+<li>触发器被激活时，只有当触发条件为真时触发动作体才执行；否则触发动作体不执行。</li>
+<li>如果省略WHEN触发条件，则触发动作体在触发器激活后立即执行。</li>
+</ul>
+</li>
+<li>触发动作体<ul>
+<li>触发动作体可以是一个匿名PL/SQL过程块<br>也可以是对已创建存储过程的调用</li>
+<li>如果是行级触发器，用户都可以在过程体中使用NEW和OLD引用事件之后的新值和事件之前的旧值</li>
+<li>如果是语句级触发器，则不能在触发动作体中使用NEW或OLD进行引用</li>
+<li>如果触发动作体执行失败，激活触发器的事件就会终止执行，触发器的目标表或触发器可能影响的其他对象不发生任何变化 </li>
+</ul>
+</li>
+</ol>
+<h2 id="激活触发器"><a href="#激活触发器" class="headerlink" title="激活触发器"></a>激活触发器</h2><ul>
+<li>触发器的执行，是由触发事件激活的，并由数据库服务器自动执行</li>
+<li>一个数据表上可能定义了多个触发器，遵循如下的执行顺序:<br>（1） 执行该表上的BEFORE触发器;<br>（2） 激活触发器的SQL语句;<br>（3） 执行该表上的AFTER触发器。</li>
+</ul>
+<h2 id="删除触发器"><a href="#删除触发器" class="headerlink" title="删除触发器"></a>删除触发器</h2><p>删除触发器的SQL语法：<br>     DROP TRIGGER &lt;触发器名&gt; ON &lt;表名&gt;;<br>触发器必须是一个已经创建的触发器，并且只能由具有相应权限的用户删除。</p>
+<blockquote>
+<p>《数据库系统概论（第5版）》王珊 萨师煊 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据库/" rel="tag">#数据库</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/27/数据库安全性/" rel="next" title="数据库安全性">
+                <i class="fa fa-chevron-left"></i> 数据库安全性
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/28/汇编语言程序设计基础知识/" rel="prev" title="汇编语言程序设计基础知识">
+                汇编语言程序设计基础知识 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/28/数据库完整性/"
+           data-title="数据库完整性" data-url="http://zlw.poker/2016/11/28/数据库完整性/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#实体完整性"><span class="nav-number">1.</span> <span class="nav-text">实体完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义实体完整性"><span class="nav-number">1.1.</span> <span class="nav-text">定义实体完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实体完整性检查和违约处理"><span class="nav-number">1.2.</span> <span class="nav-text">实体完整性检查和违约处理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#参照完整性"><span class="nav-number">2.</span> <span class="nav-text">参照完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义参照完整性"><span class="nav-number">2.1.</span> <span class="nav-text">定义参照完整性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#参照完整性检查和违约处理"><span class="nav-number">2.2.</span> <span class="nav-text">参照完整性检查和违约处理</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#用户定义的完整性"><span class="nav-number">3.</span> <span class="nav-text">用户定义的完整性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#属性上的约束条件"><span class="nav-number">3.1.</span> <span class="nav-text">属性上的约束条件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#元组上的约束条件"><span class="nav-number">3.2.</span> <span class="nav-text">元组上的约束条件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#完整性约束命名子句"><span class="nav-number">4.</span> <span class="nav-text">完整性约束命名子句</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#域中的完整性限制"><span class="nav-number">5.</span> <span class="nav-text">域中的完整性限制</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#断言"><span class="nav-number">6.</span> <span class="nav-text">断言</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#触发器"><span class="nav-number">7.</span> <span class="nav-text">触发器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#定义触发器"><span class="nav-number">7.1.</span> <span class="nav-text">定义触发器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#激活触发器"><span class="nav-number">7.2.</span> <span class="nav-text">激活触发器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除触发器"><span class="nav-number">7.3.</span> <span class="nav-text">删除触发器</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

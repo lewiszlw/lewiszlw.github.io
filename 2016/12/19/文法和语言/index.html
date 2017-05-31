@@ -1,0 +1,1003 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="编译原理," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="形式语言基础字母表和符号串 字母表：符号的非空有限集合   例：∑={a，b，c} 符号：字母表中的元素         例： a，b，c 符号串：符号的有穷序列       例：a, aa, ac, abc，..特别地，空符号串：无任何符号的符号串(ε)     符号串集合：由符号串构成的集合。">
+<meta name="keywords" content="编译原理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="文法和语言">
+<meta property="og:url" content="http://zlw.poker/2016/12/19/文法和语言/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="形式语言基础字母表和符号串 字母表：符号的非空有限集合   例：∑={a，b，c} 符号：字母表中的元素         例： a，b，c 符号串：符号的有穷序列       例：a, aa, ac, abc，..特别地，空符号串：无任何符号的符号串(ε)     符号串集合：由符号串构成的集合。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%801.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:56:44.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="文法和语言">
+<meta name="twitter:description" content="形式语言基础字母表和符号串 字母表：符号的非空有限集合   例：∑={a，b，c} 符号：字母表中的元素         例： a，b，c 符号串：符号的有穷序列       例：a, aa, ac, abc，..特别地，空符号串：无任何符号的符号串(ε)     符号串集合：由符号串构成的集合。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%801.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/19/文法和语言/"/>
+
+
+  <title> 文法和语言 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                文法和语言
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-19T10:35:16+08:00" content="2016-12-19">
+              2016-12-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/编译原理/" itemprop="url" rel="index">
+                    <span itemprop="name">编译原理</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/19/文法和语言/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/19/文法和语言/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="形式语言基础"><a href="#形式语言基础" class="headerlink" title="形式语言基础"></a>形式语言基础</h1><h2 id="字母表和符号串"><a href="#字母表和符号串" class="headerlink" title="字母表和符号串"></a>字母表和符号串</h2><ol>
+<li>字母表：符号的非空有限集合   例：∑={a，b，c}</li>
+<li>符号：字母表中的元素         例： a，b，c</li>
+<li>符号串：符号的有穷序列       例：a, aa, ac, abc，..<br>特别地，空符号串：无任何符号的符号串(ε)    </li>
+<li>符号串集合：由符号串构成的集合。</li>
+</ol>
+<a id="more"></a>
+<h2 id="符号串和符号串集合的运算"><a href="#符号串和符号串集合的运算" class="headerlink" title="符号串和符号串集合的运算"></a>符号串和符号串集合的运算</h2><ol>
+<li>符号串相等：若x、y是集合上的两个符号串，则x＝y当且仅当组成x的每一个符号和组成y的每一个符号依次相等。</li>
+<li>符号串的长度：x为符号串，其长度|x|等于组成该符号串的符号个数。例： x＝STV ， |x|=3<br>特别地，|ε| =0</li>
+<li>符号串的联接：若x、y是定义在Σ是上的符号串，且x＝XY，y＝YX，则x和y的联接 xy＝XYYX也是Σ上的符号串。<br>注意：一般xy≠yx，而εx＝xε＝x</li>
+<li>符号串集合的乘积运算：令A、B为符号串集合，定义AB＝{ xy |x∈A，y∈B}<br> 因为εx＝xε＝x，所以{ε}A= A{ε} =A</li>
+<li>方幂运算<ul>
+<li>符号串集合的方幂<br>有任一符号串集合A，定义：$A^0=\lbrace\epsilon\rbrace，A^1=A，A^2=AA，A^3=AAA，…$</li>
+<li>符号串的方幂<br>有任一符号串X，定义：$X^0=\epsilon，X^1=X，X^2=XX，X^3=XXX，…$</li>
+</ul>
+</li>
+<li>符号串集合的闭包运算：设A是符号串集合，定义<ul>
+<li>$A^+=A^1\cup A^2\cup A^3\cup …\cup A^n$称为集合A的正则闭包</li>
+<li>$A^*=A^0\cup A^1\cup A^2\cup…\cup A^n=A^0\cup A^+$称为集合A的星闭包</li>
+</ul>
+</li>
+</ol>
+<h1 id="文法的直观理解"><a href="#文法的直观理解" class="headerlink" title="文法的直观理解"></a>文法的直观理解</h1><p>&lt;句子&gt;::=&lt;主语&gt;&lt;谓语&gt;<br>&lt;主语&gt;::=&lt;代词&gt;|&lt;名词&gt;<br>&lt;代词&gt; ::=你|我|他<br>&lt;名词&gt;::= 王民|大学生|工人|英语<br>&lt;谓语&gt;::=&lt;动词&gt;&lt;直接宾语&gt;<br>&lt;动词&gt;::=是|学习<br>&lt;直接宾语&gt;::=&lt;代词&gt;|&lt;名词&gt;</p>
+<ol>
+<li>什么是文法：<br>文法是对语言结构的定义与描述。即从形式上用于描述和规定语言结构的称为“文法”（或称为“语法”）。</li>
+<li>语法规则：<br>我们通过建立一组规则（产生式），来描述句子的语法结构。规定用“::=”表示“由……组成”。</li>
+<li>由产生式推导句子：<br>推导方法：从一个要开始的符号开始推导，即用相应产生式的右部来替代产生式的左部，每次仅用一条产生式去进行推导。<br>例：&lt;句子&gt;  =&gt; &lt;主语&gt;&lt;谓语&gt;<br>&lt;主语&gt;&lt;谓语&gt; =&gt; &lt;代词&gt;&lt;谓语&gt;<br>……<br>这种推导一直进行下去，直到所有带&lt; &gt;的符号都由终结符号替代为止。</li>
+<li>语法树：我们用语法树来描述一个句子的语法结构。<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%96%87%E6%B3%95%E5%92%8C%E8%AF%AD%E8%A8%801.PNG" alt="文法和语言1"></li>
+</ol>
+<h1 id="文法和语言的定义"><a href="#文法和语言的定义" class="headerlink" title="文法和语言的定义"></a>文法和语言的定义</h1><h2 id="文法的定义"><a href="#文法的定义" class="headerlink" title="文法的定义"></a>文法的定义</h2><p>定义: 文法G=（VN，VT，P，Z）</p>
+<ul>
+<li>VN ：非终结符号集</li>
+<li>VT ：终结符号集</li>
+<li>P：产生式或规则的集合</li>
+<li>Z：开始符号（识别符号）  Z∈VN</li>
+</ul>
+<p>其中:<br>①产生式：产生式是一个有序对(U, x), 通常写为： U ::=x 或U → x；      |U|≧ 1 ,  |x| ≧ 0<br>②非终结符号：出现在产生式的左部,且能推出符号或符号串的那些符号。其全体构成非终结符号集，记为VN 。<br>③终结符号：不出现在产生式的左部,且不能推出符号或符号串的那些符号。其全体构成终结符号集，记为VT 。</p>
+<h2 id="推导和归约"><a href="#推导和归约" class="headerlink" title="推导和归约"></a>推导和归约</h2><p>直接推导：<br>文法G：v＝x Uy，w＝xuy, 其中x、y ∈V<em> ，U∈VN,  u ∈V</em>,<br>              若U ::=u∈P，则$v\Rightarrow w$，即x Uy$\Rightarrow$xuy 。<br>              若x＝y＝ε，有U ::=u，则U$\Rightarrow$u<br>换句话说，x和y是符号串，若使用一次产生式可以从x变换出y，则称x直接推导出y(或者说y是x的直接推导），记为x$\Rightarrow$y。</p>
+<p>+推导：<br>x和y是符号串，若使用若干次产生式可以从x变换出y，则称x推导出y(或者说y是x的推导），记为x$\overset{+}{\Rightarrow}$y。<br>或者说：若有直接推导序列：x=U0$\Rightarrow$U1$\Rightarrow$U2$\Rightarrow$……$\Rightarrow$Un=y,则  x$\overset{+}{\Rightarrow}$y  。</p>
+<p>*推导：<br>x和y是符号串，若使用0次或若干次产生式可以从x变换出y，则称x*推导出y(或者说y是x的*推导），记为x$\overset{*}{\Rightarrow}$y。</p>
+<p>最右推导：<br>若符号串α中有两个以上的非终结符时，对推导的每一步坚持把α中的最右非终结符进行替换，称为最右推导。</p>
+<p>最左推导：<br>若符号串α中有两个以上的非终结符时，对推导的每一步坚持把α中的最左非终结符进行替换，称为最左推导。</p>
+<p>归约：<br>推导的逆过程称之为归约。</p>
+<h2 id="语言的形式定义"><a href="#语言的形式定义" class="headerlink" title="语言的形式定义"></a>语言的形式定义</h2><p>文法G[Z]<br>（1）句型：x是句型$\Leftrightarrow$ Z $\overset{*}{\Rightarrow}$ x,且x∈V*；<br>即：句型是由文法开始符号推导出来的由终结符和非终结符组成的符号串。<br>（2）句子：x是句子$\Leftrightarrow$Z$\overset{*}{\Rightarrow}$x, 且x∈VT*；<br>即：句子是由文法开始符号推导出来的由终结符组成的符号串。<br>（3）语言：L（G[Z]）={x| Z$\overset{*}{\Rightarrow}$x，x∈VT* }；</p>
+<p>等价文法：<br>G和G’是两个不同的文法，若 L(G) = L(G’)，则G和G’为等价文法。</p>
+<h2 id="递归文法"><a href="#递归文法" class="headerlink" title="递归文法"></a>递归文法</h2><p>递归产生式：<br>产生式右部有与左部相同的符号<br>对于 U::= xUy<br>若x=ε,即U::=  Uy，左递归；<br>若y=ε,即U::=  xU，右递归；</p>
+<p>递归文法：<br>文法G，存在U ∈VN<br>if   U$\Rightarrow$…U…, 则G为递归文法；<br>if   U$\Rightarrow$U…, 则G为左递归文法；<br>if   U$\Rightarrow$…U, 则G为右递归文法；</p>
+<h1 id="文法的类型"><a href="#文法的类型" class="headerlink" title="文法的类型"></a>文法的类型</h1><p>形式语言：用文法和自动机所描述的没有语义的语言。</p>
+<p>语言定义：  L（G[Z]）={x| Z$\overset{*}{\Rightarrow}$x , x∈VT*}</p>
+<p>文法定义：乔姆斯基将所有文法都定义为一个四元组：G=（VN，VT，P，Z）<br>VN：非终结符号集<br>VT：终结符号集<br>P：产生式或规则的集合<br>Z：开始符号（开始符号）  Z∈VN</p>
+<p>文法和语言分类：0型、1型、2型、3型<br>这几类文法的差别在于对产生式施加不同的限制。</p>
+<p>0型文法：<br>P： u::=v，其中u∈V<em> ，v∈V</em><br>0型文法称为短语结构文法。产生式的左部和右部都可以是符号串，一个短语可以产生另一个短语。<br>0型语言：L0     这种语言可以用图灵机(Turing)接受。</p>
+<p>1型文法：<br>P： xUy::= xuy，其中 U∈VN， x、y、u∈V*<br>称为上下文敏感或上下文有关。也即只有在x、y这样的<br>上下文中才能把U改写为u</p>
+<p>1型文法：<br>P： u::= v  |u|≥ |v|，u, v ∈V*<br>1型语言：L1     这种语言可以由一种线性界限自动机接受。</p>
+<p>2型文法：<br>P： U::= u ，其中 U∈VN， u∈V*<br>称为上下文无关文法。也即把U改写为u时，不必考虑上下文。<br>注意：2型文法与BNF表示相等价。<br>2型语言：L2    这种语言可以由下推自动机接受。</p>
+<p>3型文法：<br>（左线性）  P： U::=t或  U::=Wt，其中 U、W∈VN，t∈VT<br>（右线性）  P： U::=t或  U::=tW，其中 U、W∈VN，t∈VT</p>
+<p> 3型文法又被称为正则文法。它是对2型文法进行进一步限制。</p>
+<p>3型语言：L3    又称正则语言、正则集合，这种语言可以由有穷自动机接受。</p>
+<p>语言之间的关系：<br>L0$\supset$L1$\supset$L2$\supset$L3<br>0型文法可以产生L0、L1、L2、L3 ；但2型文法只能产生L2、 L3，不能产生L1。</p>
+<h1 id="语法树与二义性"><a href="#语法树与二义性" class="headerlink" title="语法树与二义性"></a>语法树与二义性</h1><h2 id="推导与语法树"><a href="#推导与语法树" class="headerlink" title="推导与语法树"></a>推导与语法树</h2><ol>
+<li>语法树：句子结构的图示表示法，它是一种有向图，由结点和有向边组成。<ul>
+<li>结点：符号<ul>
+<li>根结点：开始符号</li>
+<li>中间结点：非终结符</li>
+<li>叶结点：终结符或非终结符</li>
+</ul>
+</li>
+<li>有向边：表示结点间的派生关系</li>
+</ul>
+</li>
+<li>句型的推导及语法树的生成（自顶向下）<br>给定G[Z]，句型w：<br>可建立推导序列，Z$\overset{*}{\Rightarrow}$w<br>可建立语法树，以Z为树根结点，每步推导生成语法树的一层分支，最终可生成句型的语法树。</li>
+<li>子树与简单子树<br>子树：语法树中的某个结点（子树的根）连同它向下派生的部分所组成。<br>简单子树：只有单层分枝的子树称为简单子树。</li>
+<li>树与推导<br>句型推导过程$\Leftrightarrow$句型语法树的生长过程<ul>
+<li>由推导构造语法树<ul>
+<li>从开始符号开始，自左向右建立推导序列</li>
+<li>由根结点开始，自上而下建立语法树</li>
+</ul>
+</li>
+<li>由语法树构造归约<ul>
+<li>自下而上地修剪子树的末端结点，直至把整棵树剪掉（留根），每剪一次对应一次归约</li>
+<li>从句型开始，自右向左地逐步进行归约，建立归约序列</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+<p>规范句型：<br>通过规范推导或规范归约所得到的句型称为规范句型。</p>
+<h2 id="文法的二义性"><a href="#文法的二义性" class="headerlink" title="文法的二义性"></a>文法的二义性</h2><p>定义1：<br>若对于一个文法的某一句子存在两棵不同的语法树，则该文法是二义性文法，否则是无二义性文法。<br>换而言之，无二义性文法的句子只有一棵语法树，尽管推导过程可以不同。</p>
+<p>定义2：<br>若一个文法的某句子存在两个不同的规范推导，则该文法是二义性的，否则是无二义性的。</p>
+<p>定义3 若一个文法的某规范句型的句柄不唯一，则该文法是二义性的，否则是无二义性的。</p>
+<h1 id="句型的分析"><a href="#句型的分析" class="headerlink" title="句型的分析"></a>句型的分析</h1><h2 id="句型的短语、简单短语和句柄"><a href="#句型的短语、简单短语和句柄" class="headerlink" title="句型的短语、简单短语和句柄"></a>句型的短语、简单短语和句柄</h2><p>短语：<br>给定文法G[Z],  w=xuy∈V+，为该文法的句型，若Z$\overset{*}{\Rightarrow}$xUy, 且U$\overset{+}{\Rightarrow}$u, 则u是句型w相对于U的短语；其中U ∈VN，u ∈V+，x,y ∈V*</p>
+<p>或短语定义:<br>设G[Z]是给定文法,  w=xuy∈V+，为该文法的句型,如果满足下面两个条件:<br>① Z$\overset{*}{\Rightarrow}$xUy；<br>② U$\overset{+}{\Rightarrow}$u；<br> 则称句型xuy 中的子串u是句型xuy的短语。<br>直观理解：短语是前面句型中的某个非终结符所能推出的符号串。</p>
+<p>简单短语：<br>给定文法G[Z],  w=xuy∈V+，为该文法的句型，若 Z$\overset{*}{\Rightarrow}$xUy, 且U$\Rightarrow$u, 则u是句型w相对于U的简单短语。其中U ∈VN，u ∈V+，x,y ∈V*</p>
+<p>句柄：<br>任一句型的最左简单短语称为该句型的句柄。</p>
+<p>给定句型找句柄的步骤：短语$\Longrightarrow$简单短语$\Longrightarrow$句柄</p>
+<hr>
+<blockquote>
+<p>《编译原理（第2版）》张素琴 吕映芝 蒋维杜 戴桂兰 著</p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/编译原理/" rel="tag">#编译原理</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/19/CSS盒模型/" rel="next" title="CSS盒模型">
+                <i class="fa fa-chevron-left"></i> CSS盒模型
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/19/修改hosts文件实现翻墙/" rel="prev" title="修改hosts文件实现翻墙">
+                修改hosts文件实现翻墙 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/19/文法和语言/"
+           data-title="文法和语言" data-url="http://zlw.poker/2016/12/19/文法和语言/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#形式语言基础"><span class="nav-number">1.</span> <span class="nav-text">形式语言基础</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#字母表和符号串"><span class="nav-number">1.1.</span> <span class="nav-text">字母表和符号串</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#符号串和符号串集合的运算"><span class="nav-number">1.2.</span> <span class="nav-text">符号串和符号串集合的运算</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文法的直观理解"><span class="nav-number">2.</span> <span class="nav-text">文法的直观理解</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文法和语言的定义"><span class="nav-number">3.</span> <span class="nav-text">文法和语言的定义</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#文法的定义"><span class="nav-number">3.1.</span> <span class="nav-text">文法的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#推导和归约"><span class="nav-number">3.2.</span> <span class="nav-text">推导和归约</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#语言的形式定义"><span class="nav-number">3.3.</span> <span class="nav-text">语言的形式定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#递归文法"><span class="nav-number">3.4.</span> <span class="nav-text">递归文法</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#文法的类型"><span class="nav-number">4.</span> <span class="nav-text">文法的类型</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#语法树与二义性"><span class="nav-number">5.</span> <span class="nav-text">语法树与二义性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#推导与语法树"><span class="nav-number">5.1.</span> <span class="nav-text">推导与语法树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文法的二义性"><span class="nav-number">5.2.</span> <span class="nav-text">文法的二义性</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#句型的分析"><span class="nav-number">6.</span> <span class="nav-text">句型的分析</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#句型的短语、简单短语和句柄"><span class="nav-number">6.1.</span> <span class="nav-text">句型的短语、简单短语和句柄</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

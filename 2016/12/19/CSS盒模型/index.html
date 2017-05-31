@@ -1,0 +1,983 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="CSS," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="CSS盒模型（Box Model）规定了元素框处理元素内容、内边距、边框和外边距的方式。">
+<meta name="keywords" content="CSS">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS盒模型">
+<meta property="og:url" content="http://zlw.poker/2016/12/19/CSS盒模型/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="CSS盒模型（Box Model）规定了元素框处理元素内容、内边距、边框和外边距的方式。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B1.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B2.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B3.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B4.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B5.PNG">
+<meta property="og:updated_time" content="2016-12-19T18:31:08.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS盒模型">
+<meta name="twitter:description" content="CSS盒模型（Box Model）规定了元素框处理元素内容、内边距、边框和外边距的方式。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/12/19/CSS盒模型/"/>
+
+
+  <title> CSS盒模型 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS盒模型
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-12-19T08:18:46+08:00" content="2016-12-19">
+              2016-12-19
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Front-End/" itemprop="url" rel="index">
+                    <span itemprop="name">Front-End</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/12/19/CSS盒模型/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/19/CSS盒模型/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>CSS盒模型（Box Model）规定了元素框处理元素内容、内边距、边框和外边距的方式。<br><a id="more"></a></p>
+<h1 id="CSS盒模型概述"><a href="#CSS盒模型概述" class="headerlink" title="CSS盒模型概述"></a>CSS盒模型概述</h1><p><img src="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B1.PNG" alt="CSS盒模型1"><br>元素框的最内部分是实际的内容，直接包围内容的是内边距。内边距呈现了元素的背景。内边距的边缘是边框。边框以外是外边距，外边距默认是透明的，因此不会遮挡其后的任何元素。</p>
+<p>注意：背景应用于由内容和内边距、边框组成的区域。不包括外边距区域。</p>
+<p>内边距、边框和外边距都是可选的，默认值是零。在 CSS 中，width 和 height 指的是<strong>内容区域</strong>的宽度和高度。增加内边距、边框和外边距不会影响内容区域的尺寸，但是会增加元素框的总尺寸。</p>
+<p>例如：<br>如下代码设置盒模型：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#box</span>&#123;</div><div class="line">	<span class="attribute">width</span>: <span class="number">70px</span>;</div><div class="line">	<span class="attribute">margin</span>: <span class="number">10px</span>;</div><div class="line">	<span class="attribute">padding</span>: <span class="number">5px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>各边距如下：<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B2.PNG" alt="CSS盒模型2"></p>
+<h1 id="CSS内边距"><a href="#CSS内边距" class="headerlink" title="CSS内边距"></a>CSS内边距</h1><p>元素的内边距在边框和内容区之间。控制该区域最简单的属性是 padding 属性。CSS padding 属性定义元素边框与元素内容之间的空白区域。</p>
+<p>CSS padding 属性定义元素的内边距。padding 属性接受<strong>长度值</strong>或<strong>百分比值</strong>，但不允许使用负值。</p>
+<ul>
+<li>padding: 10px;内边距为10像素</li>
+<li>padding: 10%;内边距是父元素<strong>width</strong>的10%</li>
+</ul>
+<p>CSS内边距属性</p>
+<ul>
+<li>padding：简写属性。作用是在一个声明中设置元素的所有内边距属性</li>
+<li>padding-bottom：设置元素的下内边距</li>
+<li>padding-left：设置元素的左内边距</li>
+<li>padding-right：设置元素的右内边距</li>
+<li>padding-top：设置元素的上内边距</li>
+</ul>
+<h1 id="CSS边框"><a href="#CSS边框" class="headerlink" title="CSS边框"></a>CSS边框</h1><p>元素的边框 (border) 是围绕元素内容和内边距的一条或多条线。每个边框有 3 个方面：宽度、样式，以及颜色。CSS border 属性允许你规定元素边框的样式、宽度和颜色。</p>
+<p>CSS 规范指出，边框绘制在“元素的背景之上”。这很重要，因为有些边框是“间断的”（例如，点线边框或虚线框），元素的背景应当出现在边框的可见部分之间。</p>
+<p>CSS边框属性</p>
+<ul>
+<li>border：简写属性，用于把针对四个边的属性设置在一个声明（例如设置为10px solid red）</li>
+<li>border-style：用于设置元素所有边框的样式，或者单独地为各边设置边框样式</li>
+<li>border-width：简写属性，用于为元素的所有边框设置宽度，或者单独地为各边边框设置宽度</li>
+<li>border-color：简写属性，设置元素的所有边框中可见部分的颜色，或为 4 个边分别设置颜色</li>
+<li>border-bottom：简写属性，用于把下边框的所有属性设置到一个声明中</li>
+<li>border-bottom-color：设置元素的下边框的颜色</li>
+<li>border-bottom-style：设置元素的下边框的样式</li>
+<li>border-bottom-width：设置元素的下边框的宽度</li>
+<li>border-left：简写属性，用于把左边框的所有属性设置到一个声明中</li>
+<li>border-left-color：设置元素的左边框的颜色</li>
+<li>border-left-style：设置元素的左边框的样式</li>
+<li>border-left-width：设置元素的左边框的宽度</li>
+<li>border-right：简写属性，用于把右边框的所有属性设置到一个声明中</li>
+<li>border-right-color：设置元素的右边框的颜色</li>
+<li>border-right-style：设置元素的右边框的样式</li>
+<li>border-right-width：设置元素的右边框的宽度</li>
+<li>border-top：简写属性，用于把上边框的所有属性设置到一个声明中</li>
+<li>border-top-color：设置元素的上边框的颜色</li>
+<li>border-top-style：设置元素的上边框的样式</li>
+<li>border-top-width：设置元素的上边框的宽度</li>
+</ul>
+<p>注意：简写属性时同样遵循top-right-bottom-left顺序。</p>
+<p>常见border-style属性值有</p>
+<ul>
+<li>solid：实线边框</li>
+<li>dotted：点线边框</li>
+<li>dashed：虚线边框</li>
+<li>double：双线边框</li>
+</ul>
+<h1 id="CSS外边距"><a href="#CSS外边距" class="headerlink" title="CSS外边距"></a>CSS外边距</h1><p>围绕在元素边框的空白区域是外边距。设置外边距会在元素外创建额外的“空白”。设置外边距的最简单的方法就是使用 margin 属性，这个属性接受任何长度单位、百分数值甚至负值。</p>
+<ul>
+<li>margin: 10px;外边距为10像素</li>
+<li>margin: 10%;外边距为父元素<strong>width</strong>的10%</li>
+<li>margin: auto;</li>
+</ul>
+<p>margin 的默认值是 0，所以如果没有为 margin 声明一个值，就不会出现外边距。但是，在实际中，浏览器对许多元素已经提供了预定的样式，外边距也不例外。例如，在支持 CSS 的浏览器中，外边距会在每个段落元素的上面和下面生成“空行”。因此，如果没有为 p 元素声明外边距，浏览器可能会自己应用一个外边距。当然，只要你特别作了声明，就会覆盖默认样式。</p>
+<p>CSS外边距属性</p>
+<ul>
+<li>margin：简写属性。在一个声明中设置所有外边距属性</li>
+<li>margin-bottom：设置元素的下外边距</li>
+<li>margin-left：设置元素的左外边距</li>
+<li>margin-right：设置元素的右外边距</li>
+<li>margin-top：设置元素的上外边距</li>
+</ul>
+<p>margin简写规则</p>
+<ul>
+<li>如果缺少左外边距的值，则使用右外边距的值</li>
+<li>如果缺少下外边距的值，则使用上外边距的值</li>
+<li>如果缺少右外边距的值，则使用上外边距的值</li>
+</ul>
+<p>注意，margin简写属性如果只设置左外边距，做法：margin: auto auto auto 10px;</p>
+<p>利用margin属性实现盒模型居中：margin: 0 auto;</p>
+<h1 id="CSS外边距合并"><a href="#CSS外边距合并" class="headerlink" title="CSS外边距合并"></a>CSS外边距合并</h1><p>外边距合并指的是，当两个垂直外边距相遇时，它们将形成一个外边距。合并后的外边距的高度等于两个发生合并的外边距的高度中的较大者。</p>
+<ol>
+<li>当一个元素出现在另一个元素上面时，第一个元素的下外边距与第二个元素的上外边距会发生合并<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B3.PNG" alt="CSS盒模型3"></li>
+<li>当一个元素包含在另一个元素中时（假设没有内边距或边框把外边距分隔开），它们的上和/或下外边距也会发生合并<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B4.PNG" alt="CSS盒模型4"></li>
+</ol>
+<p>注释：只有普通文档流中块框的垂直外边距才会发生外边距合并。<strong>行内框</strong>、<strong>浮动框</strong>或<strong>绝对定位</strong>之间的外边距不会合并。</p>
+<h1 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h1><p>用CSS画三角形：<br>代码：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"UTF-8"</span>&gt;</span></div><div class="line">        <span class="tag">&lt;<span class="name">title</span>&gt;</span>test<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">style</span>&gt;</span><span class="css"></span></div><div class="line">			<span class="selector-id">#triangle1</span>&#123;</div><div class="line">					<span class="attribute">width</span>:<span class="number">0</span>;</div><div class="line">					<span class="attribute">height</span>:<span class="number">0</span>;</div><div class="line">					<span class="attribute">border-top</span>:<span class="number">100px</span> solid red;</div><div class="line">					<span class="attribute">border-right</span>:<span class="number">100px</span> solid blue;</div><div class="line">					<span class="attribute">border-bottom</span>:<span class="number">100px</span> solid yellow;</div><div class="line">					<span class="attribute">border-left</span>:<span class="number">100px</span> solid green;</div><div class="line">			&#125;</div><div class="line">			<span class="selector-id">#triangle2</span>&#123;</div><div class="line">					<span class="attribute">width</span>:<span class="number">0</span>;</div><div class="line">					<span class="attribute">height</span>:<span class="number">0</span>;</div><div class="line">					<span class="attribute">border-top</span>:<span class="number">100px</span> solid white;</div><div class="line">					<span class="attribute">border-right</span>:<span class="number">100px</span> solid white;</div><div class="line">					<span class="attribute">border-bottom</span>:<span class="number">100px</span> solid yellow;</div><div class="line">					<span class="attribute">border-left</span>:<span class="number">100px</span> solid white;</div><div class="line"></div><div class="line">			&#125;</div><div class="line">		<span class="tag">&lt;/<span class="name">style</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"triangle1"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line">		<span class="tag">&lt;<span class="name">div</span> <span class="attr">id</span>=<span class="string">"triangle2"</span>&gt;</span><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>效果：<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS%E7%9B%92%E6%A8%A1%E5%9E%8B5.PNG" alt="CSS盒模型5"></p>
+<hr>
+<blockquote>
+<p>参考文档：<a href="http://www.w3school.com.cn/css/css_boxmodel.asp" target="_blank" rel="external">www.w3school.com.cn</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/12/18/CSS浮动布局/" rel="next" title="CSS浮动布局">
+                <i class="fa fa-chevron-left"></i> CSS浮动布局
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/12/19/文法和语言/" rel="prev" title="文法和语言">
+                文法和语言 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/12/19/CSS盒模型/"
+           data-title="CSS盒模型" data-url="http://zlw.poker/2016/12/19/CSS盒模型/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS盒模型概述"><span class="nav-number">1.</span> <span class="nav-text">CSS盒模型概述</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS内边距"><span class="nav-number">2.</span> <span class="nav-text">CSS内边距</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS边框"><span class="nav-number">3.</span> <span class="nav-text">CSS边框</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS外边距"><span class="nav-number">4.</span> <span class="nav-text">CSS外边距</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#CSS外边距合并"><span class="nav-number">5.</span> <span class="nav-text">CSS外边距合并</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#示例"><span class="nav-number">6.</span> <span class="nav-text">示例</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>

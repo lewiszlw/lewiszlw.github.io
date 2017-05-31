@@ -1,0 +1,954 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="JavaScript,CSS,DOM," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="三位一体的网页我们在浏览器看到的网页其实是由以下三层信息构成的一个共同体：  结构层 表示层 行为层">
+<meta name="keywords" content="JavaScript,CSS,DOM">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CSS-DOM">
+<meta property="og:url" content="http://zlw.poker/2016/11/10/CSS-DOM/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="三位一体的网页我们在浏览器看到的网页其实是由以下三层信息构成的一个共同体：  结构层 表示层 行为层">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS-DOM1.PNG">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS-DOM2.PNG">
+<meta property="og:updated_time" content="2017-01-04T05:51:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="CSS-DOM">
+<meta name="twitter:description" content="三位一体的网页我们在浏览器看到的网页其实是由以下三层信息构成的一个共同体：  结构层 表示层 行为层">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS-DOM1.PNG">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2016/11/10/CSS-DOM/"/>
+
+
+  <title> CSS-DOM | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                CSS-DOM
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2016-11-10T20:27:53+08:00" content="2016-11-10">
+              2016-11-10
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">读书笔记</span>
+                  </a>
+                </span>
+
+                
+                
+                  , 
+                
+
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/读书笔记/JavaScriptDOM编程艺术/" itemprop="url" rel="index">
+                    <span itemprop="name">JavaScriptDOM编程艺术</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2016/11/10/CSS-DOM/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/11/10/CSS-DOM/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="三位一体的网页"><a href="#三位一体的网页" class="headerlink" title="三位一体的网页"></a>三位一体的网页</h1><p>我们在浏览器看到的网页其实是由以下三层信息构成的一个共同体：</p>
+<ul>
+<li>结构层</li>
+<li>表示层</li>
+<li>行为层</li>
+</ul>
+<a id="more"></a>
+<h2 id="结构层"><a href="#结构层" class="headerlink" title="结构层"></a>结构层</h2><p>网页的结构层（structural layer）由HTML或XHTML之类的标记负责创建的。标签（tag）对网页内容的语义含义做出了描述，例如&lt;p&gt;标签表达了这样一种语义：“这是一个文本段”。但这些标签并不包含任何关于内容如何显示的信息。</p>
+<h2 id="表示层"><a href="#表示层" class="headerlink" title="表示层"></a>表示层</h2><p>表示层（presentation layer）由CSS负责完成。CSS描述页面内容应该如何呈现。</p>
+<h2 id="行为层"><a href="#行为层" class="headerlink" title="行为层"></a>行为层</h2><p>行为层（behavior layer）负责内容应该如何响应事件这一问题。这是JavaScript语言和DOM主宰的领域。</p>
+<p>网页的表示层和行为层总是存在的，即使未明确地给出任何具体的指令也是如此。此时，web浏览器将应用它的默认样式和默认事件处理函数。</p>
+<h2 id="分离"><a href="#分离" class="headerlink" title="分离"></a>分离</h2><ul>
+<li>使用（X）HTML去搭建文档的结构；</li>
+<li>使用CSS去设置文档的呈现效果；</li>
+<li>使用DOM脚本去实现文档的行为。</li>
+</ul>
+<p>不过在这三种技术之间存在着一些潜在的重叠区域。</p>
+<h1 id="style属性"><a href="#style属性" class="headerlink" title="style属性"></a>style属性</h1><p>文档的每个元素节点还有一个属性style。style属性包含着元素的样式，查询这个属性将<strong>返回一个对象而不是一个简单的字符串</strong>。也就是说，不仅文档里每个元素是一个对象，每个元素都有一个style属性，它们也是一个对象。</p>
+<h2 id="获取样式"><a href="#获取样式" class="headerlink" title="获取样式"></a>获取样式</h2><p>例如为了查出某个元素在浏览器里的显示颜色，我们需要使用style对象的color属性：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.style.color</div></pre></td></tr></table></figure></p>
+<p>但有些属性的获取方式略有不同，例如font-family，你不能简单的查询style对象的font-family，因为“font”和“family”之间的连字符与JavaScript语言中的减法操作符相同，JavaScript会把它解释为减号。当你需要引用一个中间带减号的CSS属性时，DOM要求你用驼峰命名法。CSS属性font-family变成fontFamily：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.style.fontFamily</div></pre></td></tr></table></figure></p>
+<p>其他：CSS属性background-color——DOM属性backgroundColor，CSS属性magin-top-width——DOM属性marginTopWidth，以此类推。而且绝大多数样式属性的返回值与它们的设置值都采用同样的计量单位。<br>通过style属性获取样式有很大的局限性，<strong>style属性只能返回内嵌样式</strong>。换句话说，只有把CSS style属性插入到标记里，才可以用DOM style属性去查询那些信息。DOM style属性无法查询引用的外部CSS文件和放在&lt;head&gt;部分的&lt;style&gt;标签里的样式。</p>
+<h2 id="设置样式"><a href="#设置样式" class="headerlink" title="设置样式"></a>设置样式</h2><p>style对象的各个属性是可读写的，可以通过赋值操作来更新样式：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.style.property=value   <span class="comment">//style对象的属性值是一个字符串，所以赋值时要加上引号</span></div></pre></td></tr></table></figure></p>
+<h1 id="何时该用DOM脚本设置样式"><a href="#何时该用DOM脚本设置样式" class="headerlink" title="何时该用DOM脚本设置样式"></a>何时该用DOM脚本设置样式</h1><h2 id="根据元素在节点树里的位置来设置样式"><a href="#根据元素在节点树里的位置来设置样式" class="headerlink" title="根据元素在节点树里的位置来设置样式"></a>根据元素在节点树里的位置来设置样式</h2><p>通过CSS声明样式的具体做法主要有三种：<br>第一种是为标签元素统一地声明样式<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">1em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第二种是为有特定class属性的所有元素统一声明样式<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-class">.fineprint</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">8em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>第三种是为有独一无二id属性的元素单独声明样式<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#intro</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">1.2em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>也可以为有类似属性的多个元素声明样式<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">input</span><span class="selector-attr">[type*="text"]</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">1.2em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>在现代浏览器中，甚至可以根据元素的位置声明样式<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-pseudo">:first-of-type</span>&#123;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">2em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>现在，CSS还无法根据元素之间的相对位置关系找出某个特定的元素，但这对DOM来说却是轻而易举。例如我们利用DOM找出文档中紧跟在每个h1元素后面的那个元素，并把样式添加给它：<br>由于nextSibling属性是查找下一个节点，而这里我们需要查找下一个元素节点，所以编写getNextElement函数来实现：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNextElement</span>(<span class="params">node</span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span>(node.nodeType==<span class="number">1</span>)&#123;</div><div class="line">				<span class="keyword">return</span> node;</div><div class="line">			&#125;</div><div class="line">		<span class="keyword">if</span>(node.nextSibling)&#123;</div><div class="line">				<span class="keyword">return</span> getNextElement(node.nextSibling);</div><div class="line">			&#125;</div><div class="line">		<span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>所以代码为：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">styleHeaderSiblings</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span>(!<span class="built_in">document</span>.getElementsByTagName) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		<span class="keyword">var</span> headers=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"h1"</span>);</div><div class="line">		<span class="keyword">var</span> elem;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;headers.length;i++)&#123;</div><div class="line">				elem=getNextElement(headers[i].nextSibling);</div><div class="line">				elem.style.fontWeight=<span class="string">"bold"</span>;</div><div class="line">				elem.style.fontSize=<span class="string">"1.2em"</span>;</div><div class="line">			&#125;</div><div class="line">	&#125;</div><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">getNextElement</span>(<span class="params">node</span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span>(node.nodeType==<span class="number">1</span>)&#123;</div><div class="line">				<span class="keyword">return</span> node;</div><div class="line">			&#125;</div><div class="line">		<span class="keyword">if</span>(node.nextSibling)&#123;</div><div class="line">				<span class="keyword">return</span> getNextElement(node.nextSibling);</div><div class="line">			&#125;</div><div class="line">		<span class="keyword">return</span> <span class="literal">null</span>;</div><div class="line">	&#125;</div><div class="line">addLoadEvent(styleHeaderSiblings);</div></pre></td></tr></table></figure></p>
+<h2 id="根据某种条件反复设置某种样式"><a href="#根据某种条件反复设置某种样式" class="headerlink" title="根据某种条件反复设置某种样式"></a>根据某种条件反复设置某种样式</h2><p>编写一个表格：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&lt;!DOCTYPE html&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">html</span> <span class="attr">lang</span>=<span class="string">"en"</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">head</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">meta</span> <span class="attr">charset</span>=<span class="string">"utf-8"</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">title</span>&gt;</span>Cities<span class="tag">&lt;/<span class="name">title</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">head</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">body</span>&gt;</span></div><div class="line">  <span class="tag">&lt;<span class="name">table</span>&gt;</span></div><div class="line">    <span class="tag">&lt;<span class="name">caption</span>&gt;</span>Itinerary<span class="tag">&lt;/<span class="name">caption</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">thead</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">th</span>&gt;</span>WHEN<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">th</span>&gt;</span>WHERE<span class="tag">&lt;/<span class="name">th</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">thead</span>&gt;</span></div><div class="line">	<span class="tag">&lt;<span class="name">tbody</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">td</span>&gt;</span>June 9th<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">td</span>&gt;</span>Portland,<span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"Oregon"</span>&gt;</span>OR<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">td</span>&gt;</span>June 10th<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">td</span>&gt;</span>Seattle,<span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"Washington"</span>&gt;</span>WA<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;<span class="name">tr</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">td</span>&gt;</span>June 11th<span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	    <span class="tag">&lt;<span class="name">td</span>&gt;</span>Sacramento,<span class="tag">&lt;<span class="name">abbr</span> <span class="attr">title</span>=<span class="string">"California"</span>&gt;</span>CA<span class="tag">&lt;/<span class="name">abbr</span>&gt;</span><span class="tag">&lt;/<span class="name">td</span>&gt;</span></div><div class="line">	  <span class="tag">&lt;/<span class="name">tr</span>&gt;</span></div><div class="line">	<span class="tag">&lt;/<span class="name">tbody</span>&gt;</span></div><div class="line">  <span class="tag">&lt;/<span class="name">table</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">body</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">html</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>给其加上样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">body</span>&#123;</div><div class="line">	<span class="attribute">font-family</span>: <span class="string">"Helvetica"</span>,<span class="string">"Arial"</span>,sans-serif;</div><div class="line">	<span class="attribute">background-color</span>: <span class="number">#fff</span>;</div><div class="line">	<span class="attribute">color</span>: <span class="number">#000</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">table</span>&#123;</div><div class="line">	<span class="attribute">margin</span>: auto;</div><div class="line">	<span class="attribute">border</span>: <span class="number">1px</span> solid <span class="number">#699</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">caption</span>&#123;</div><div class="line">	<span class="attribute">margin</span>: auto;</div><div class="line">	<span class="attribute">padding</span>: .<span class="number">2em</span>;</div><div class="line">	<span class="attribute">font-size</span>: <span class="number">1.2em</span>;</div><div class="line">	<span class="attribute">font-weight</span>: bold;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">th</span>&#123;</div><div class="line">	<span class="attribute">font-weight</span>: normal;</div><div class="line">	<span class="attribute">font-style</span>: italic;</div><div class="line">	<span class="attribute">text-align</span>: left;</div><div class="line">	<span class="attribute">border</span>: <span class="number">1px</span> dotted <span class="number">#699</span>;</div><div class="line">	<span class="attribute">background-color</span>: <span class="number">#9cc</span>;</div><div class="line">	<span class="attribute">color</span>: <span class="number">#000</span>;</div><div class="line">&#125;</div><div class="line"><span class="selector-tag">th</span>,<span class="selector-tag">td</span>&#123;</div><div class="line">	<span class="attribute">width</span>: <span class="number">10em</span>;</div><div class="line">	<span class="attribute">padding</span>: .<span class="number">5em</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>效果如下：<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS-DOM1.PNG" alt="CSS-DOM1"><br>让表格里的行更可读的常用技巧是交替改变它们的背景色，从而形成斑马线效果，使相邻的两行泾渭分明。<br>若浏览器支持CSS3，那就只需要如下两行样式：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(odd)</span> &#123;<span class="attribute">background-color</span>: <span class="number">#ffc</span>;&#125;</div><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:nth-child(even)</span> &#123;<span class="attribute">background-color</span>: <span class="number">#fff</span>;&#125;</div></pre></td></tr></table></figure></p>
+<p>如果nth-child()不可用，表格较小可以为每个奇数行（或每个偶数行）设置一个class属性即可。<br>如果nth-child()不可用，且表格很大的时候，可以编写一个函数来为表格添加斑马线，步骤：<br>1.把文档里的所有table元素找出来。<br>2.对每个table元素，创建odd变量并把它初始化为false。<br>3.遍历这个表格里的所有数据行。<br>4.如果变量odd的值是true，设置样式并把odd变量修改为false。<br>5.如果变量odd的值是false，不设置样式，但把odd变量修改为true。</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">stripeTables</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span>(!<span class="built_in">document</span>.getElementsByTagName) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		<span class="keyword">var</span> tables=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"table"</span>);</div><div class="line">		<span class="keyword">var</span> odd,rows;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;tables.length;i++)&#123;</div><div class="line">				<span class="keyword">var</span> odd=<span class="literal">false</span>;</div><div class="line">				rows=tables[i].getElementsByTagName(<span class="string">"td"</span>);</div><div class="line">				<span class="keyword">for</span>(<span class="keyword">var</span> j=<span class="number">0</span>;j&lt;rows.length;j++)&#123;</div><div class="line">						<span class="keyword">if</span>(odd==<span class="literal">true</span>)&#123;</div><div class="line">								rows[j].style.backgroundColor=<span class="string">"#aaa"</span>;</div><div class="line">								odd=<span class="literal">false</span>;</div><div class="line">							&#125;<span class="keyword">else</span>&#123;</div><div class="line">									odd=<span class="literal">true</span>;</div><div class="line">								&#125;</div><div class="line">					&#125;</div><div class="line">			&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure>
+<p>效果预览：<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS-DOM2.PNG" alt="CSS-DOM2"></p>
+<h2 id="响应事件"><a href="#响应事件" class="headerlink" title="响应事件"></a>响应事件</h2><p>CSS提供的:hover等伪class属性允许我们根据HTML元素的状态来改变样式。DOM也可以通过onmouseover等事件对HTML元素的状态变化做出响应。例如，想让某行鼠标指针悬停其上时其文本变为粗体：<br>CSS：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">tr</span><span class="selector-pseudo">:hover</span>&#123;</div><div class="line">		<span class="attribute">font-weight</span>: bold;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>DOM：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">highlightRows</span>(<span class="params"></span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span>(!<span class="built_in">document</span>.getElementsByTagName) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		<span class="keyword">var</span> rows=<span class="built_in">document</span>.getElementsByTagName(<span class="string">"tr"</span>);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;rows.length;i++)&#123;</div><div class="line">				rows[i].onmouseover=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">						rows[i].style.fontWeight=<span class="string">"bold"</span>;  <span class="comment">//错误，rows[i]改为this</span></div><div class="line">					&#125;</div><div class="line">				rows[i].onmouseout=<span class="function"><span class="keyword">function</span>(<span class="params"></span>)</span>&#123;</div><div class="line">						rows[i].style.fontWeight=<span class="string">"normal"</span>;  <span class="comment">//错误，同理</span></div><div class="line">					&#125;</div><div class="line">			&#125;</div><div class="line">	&#125;</div></pre></td></tr></table></figure></p>
+<p>在这一类场合，需要决定采用纯粹的CSS来解决，还是利用DOM来设置样式，你需要考虑一下因素：</p>
+<ul>
+<li>这个问题最简单的解决方案是什么；</li>
+<li>哪种解决方案会得到更多浏览器的支持。</li>
+</ul>
+<h1 id="className属性"><a href="#className属性" class="headerlink" title="className属性"></a>className属性</h1><p>与其使用DOM直接改变某个元素的样式，不如通过JavaScript代码去更新这个元素的class属性，这样还可以让表示层和行为层分离得更加彻底。可以通过setAttribute方法来做这件事。更简单的方法是更新className属性。className属性是一个可读/可写的属性，凡是元素节点都有这个属性。<br>你可以用className属性得到一个元素的class属性：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.className</div></pre></td></tr></table></figure></p>
+<p>也可以用className属性和赋值操作符设置一个元素的class属性：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">element.className=value;</div></pre></td></tr></table></figure></p>
+<p>注意：通过className属性设置某个元素的class属性时将替换（而不是追加）该元素原有的class属性设置。不过你也可以利用字符串拼接操作实现追加。</p>
+<h2 id="对函数进行抽象"><a href="#对函数进行抽象" class="headerlink" title="对函数进行抽象"></a>对函数进行抽象</h2><p>把一个具体的东西改进为一个较为通用的东西的过程叫做抽象（abstraction）。<br>例如styleHeaderSiblings函数，它仅适用于h1元素，你可以做如下改动：<br><figure class="highlight javascript"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">function</span> <span class="title">styleHeaderSiblings</span>(<span class="params">tag</span>)</span>&#123;</div><div class="line">		<span class="keyword">if</span>(!<span class="built_in">document</span>.getElementsByTagName) <span class="keyword">return</span> <span class="literal">false</span>;</div><div class="line">		<span class="keyword">var</span> elems=<span class="built_in">document</span>.getElementsByTagName(tag);  <span class="comment">//增加可读性，将headers改为elems</span></div><div class="line">		<span class="keyword">var</span> elem;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">var</span> i=<span class="number">0</span>;i&lt;elems.length;i++)&#123;</div><div class="line">				elem=getNextElement(elems[i].nextSibling);</div><div class="line">				elem.style.fontWeight=<span class="string">"bold"</span>;</div><div class="line">				elem.style.fontSize=<span class="string">"1.2em"</span>;</div><div class="line">			&#125;</div><div class="line">	&#125;</div><div class="line">addLoadEvent(<span class="function"><span class="keyword">function</span>(<span class="params"></span>)=</span>&#123;styleHeaderSiblings(<span class="string">"h1"</span>);&#125;);</div></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/JavaScript/" rel="tag">#JavaScript</a>
+          
+            <a href="/tags/CSS/" rel="tag">#CSS</a>
+          
+            <a href="/tags/DOM/" rel="tag">#DOM</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2016/11/09/充实文档的内容/" rel="next" title="充实文档的内容">
+                <i class="fa fa-chevron-left"></i> 充实文档的内容
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2016/11/12/Gvim下Emmet安装及使用教程/" rel="prev" title="Gvim下Emmet安装及使用教程">
+                Gvim下Emmet安装及使用教程 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2016/11/10/CSS-DOM/"
+           data-title="CSS-DOM" data-url="http://zlw.poker/2016/11/10/CSS-DOM/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungru,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">69</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">16</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">39</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#三位一体的网页"><span class="nav-number">1.</span> <span class="nav-text">三位一体的网页</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#结构层"><span class="nav-number">1.1.</span> <span class="nav-text">结构层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#表示层"><span class="nav-number">1.2.</span> <span class="nav-text">表示层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#行为层"><span class="nav-number">1.3.</span> <span class="nav-text">行为层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#分离"><span class="nav-number">1.4.</span> <span class="nav-text">分离</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#style属性"><span class="nav-number">2.</span> <span class="nav-text">style属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#获取样式"><span class="nav-number">2.1.</span> <span class="nav-text">获取样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置样式"><span class="nav-number">2.2.</span> <span class="nav-text">设置样式</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#何时该用DOM脚本设置样式"><span class="nav-number">3.</span> <span class="nav-text">何时该用DOM脚本设置样式</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#根据元素在节点树里的位置来设置样式"><span class="nav-number">3.1.</span> <span class="nav-text">根据元素在节点树里的位置来设置样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#根据某种条件反复设置某种样式"><span class="nav-number">3.2.</span> <span class="nav-text">根据某种条件反复设置某种样式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#响应事件"><span class="nav-number">3.3.</span> <span class="nav-text">响应事件</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#className属性"><span class="nav-number">4.</span> <span class="nav-text">className属性</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#对函数进行抽象"><span class="nav-number">4.1.</span> <span class="nav-text">对函数进行抽象</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
