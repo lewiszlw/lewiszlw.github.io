@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="hosts," />
+  <meta name="keywords" content="Java,设计模式," />
 
 
 
@@ -90,17 +90,19 @@
 
 
 
-<meta name="description" content="之前尝试过很多翻墙方式，下过各种代理，但大多有限制，无法长期免费使用，经小伙伴介绍说用修改hosts文件实现翻墙，自己试了下确实不错，上Google速度很快，方便查询资料文档和解决学习中遇到的问题。">
-<meta name="keywords" content="hosts">
+<meta name="description" content="观察者模式是软件设计模式的一种。在此种模式中，一个目标对象管理所有相依于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。此种模式通常被用来实时事件处理系统。">
+<meta name="keywords" content="Java,设计模式">
 <meta property="og:type" content="article">
-<meta property="og:title" content="修改hosts文件实现翻墙">
-<meta property="og:url" content="http://zlw.poker/2016/12/19/修改hosts文件实现翻墙/index.html">
+<meta property="og:title" content="设计模式之观察者模式">
+<meta property="og:url" content="http://zlw.poker/2017/07/07/设计模式之观察者模式/index.html">
 <meta property="og:site_name" content="Lewis&#39;s Blog">
-<meta property="og:description" content="之前尝试过很多翻墙方式，下过各种代理，但大多有限制，无法长期免费使用，经小伙伴介绍说用修改hosts文件实现翻墙，自己试了下确实不错，上Google速度很快，方便查询资料文档和解决学习中遇到的问题。">
-<meta property="og:updated_time" content="2016-12-19T12:56:22.000Z">
+<meta property="og:description" content="观察者模式是软件设计模式的一种。在此种模式中，一个目标对象管理所有相依于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。此种模式通常被用来实时事件处理系统。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F1.png">
+<meta property="og:updated_time" content="2017-07-07T11:20:17.715Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="修改hosts文件实现翻墙">
-<meta name="twitter:description" content="之前尝试过很多翻墙方式，下过各种代理，但大多有限制，无法长期免费使用，经小伙伴介绍说用修改hosts文件实现翻墙，自己试了下确实不错，上Google速度很快，方便查询资料文档和解决学习中遇到的问题。">
+<meta name="twitter:title" content="设计模式之观察者模式">
+<meta name="twitter:description" content="观察者模式是软件设计模式的一种。在此种模式中，一个目标对象管理所有相依于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。此种模式通常被用来实时事件处理系统。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F1.png">
 
 
 
@@ -121,10 +123,10 @@
 
 
 
-  <link rel="canonical" href="http://zlw.poker/2016/12/19/修改hosts文件实现翻墙/"/>
+  <link rel="canonical" href="http://zlw.poker/2017/07/07/设计模式之观察者模式/"/>
 
 
-  <title> 修改hosts文件实现翻墙 | Lewis's Blog </title>
+  <title> 设计模式之观察者模式 | Lewis's Blog </title>
 </head>
 
 <body itemscope itemtype="//schema.org/WebPage" lang="en">
@@ -281,7 +283,7 @@
             
             
               
-                修改hosts文件实现翻墙
+                设计模式之观察者模式
               
             
           </h1>
@@ -293,8 +295,8 @@
               <i class="fa fa-calendar-o"></i>
             </span>
             <span class="post-meta-item-text">Posted on</span>
-            <time itemprop="dateCreated" datetime="2016-12-19T11:30:04+08:00" content="2016-12-19">
-              2016-12-19
+            <time itemprop="dateCreated" datetime="2017-07-07T19:13:21+08:00" content="2017-07-07">
+              2017-07-07
             </time>
           </span>
 
@@ -307,8 +309,8 @@
               <span class="post-meta-item-text">In</span>
               
                 <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
-                  <a href="/categories/奇技淫巧/" itemprop="url" rel="index">
-                    <span itemprop="name">奇技淫巧</span>
+                  <a href="/categories/设计模式/" itemprop="url" rel="index">
+                    <span itemprop="name">设计模式</span>
                   </a>
                 </span>
 
@@ -323,8 +325,8 @@
             
               <span class="post-comments-count">
                 &nbsp; | &nbsp;
-                <a href="/2016/12/19/修改hosts文件实现翻墙/#comments" itemprop="discussionUrl">
-                  <span class="post-comments-count ds-thread-count" data-thread-key="2016/12/19/修改hosts文件实现翻墙/" itemprop="commentsCount"></span>
+                <a href="/2017/07/07/设计模式之观察者模式/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/07/设计模式之观察者模式/" itemprop="commentsCount"></span>
                 </a>
               </span>
             
@@ -348,18 +350,32 @@
       
 
       
-        <p>之前尝试过很多翻墙方式，下过各种代理，但大多有限制，无法长期免费使用，经小伙伴介绍说用修改hosts文件实现翻墙，自己试了下确实不错，上Google速度很快，方便查询资料文档和解决学习中遇到的问题。<br><a id="more"></a></p>
-<h1 id="hosts文件介绍"><a href="#hosts文件介绍" class="headerlink" title="hosts文件介绍"></a>hosts文件介绍</h1><p>hosts是一个没有扩展名的系统文件，可以用记事本等工具打开，其作用就是将一些常用的网址域名与其对应的IP地址建立一个关联“数据库”，当用户在浏览器中输入一个需要登录的网址时，系统会首先自动从hosts文件中寻找对应的IP地址，一旦找到，系统会立即打开对应网页，如果没有找到，则系统会再将网址提交DNS域名解析服务器进行IP地址的解析。</p>
-<p>浏览器访问网站，要首先通过DNS服务器把要访问的网站域名解析成一个唯一的IP地址，之后，浏览器才能对此网站进行定位并且访问其数据。<br>操作系统规定，在进行DNS请求以前，先检查系自己的Hosts文件中是否有这个域名和IP的映射关系。如果有，则直接访问这个IP地址指定的网络位置，如果没有，再向已知的DNS服务器提出域名解析请求。也就是说Hosts的IP解析优先级比DNS要高。</p>
-<h1 id="修改hosts文件"><a href="#修改hosts文件" class="headerlink" title="修改hosts文件"></a>修改hosts文件</h1><p>hosts文件位置：<br>不同系统位置可能不太一样，以我的win7为例，位置：C:\Windows\System32\drivers\etc\</p>
-<p>可以通过windows系统的查找功能搜索hosts文件位置</p>
-<p>注意：hosts文件具有系统属性，所以可能你找到了文件位置但没有显示hosts文件，可以打开【我的电脑】，依次点击【工具】、【文件夹选项】、【查看】，在【高级设置】中取消【勾选隐藏受保护的系统文件】即可。</p>
-<p>找到别人写好的hosts文件，直接将内容复制到自己电脑hosts文件里面即可（替换）。</p>
-<h1 id="推荐hosts文件"><a href="#推荐hosts文件" class="headerlink" title="推荐hosts文件"></a>推荐hosts文件</h1><ul>
-<li><a href="https://github.com/racaljk/hosts" target="_blank" rel="external">https://github.com/racaljk/hosts</a></li>
-<li><a href="https://github.com/StevenBlack/hosts" target="_blank" rel="external">https://github.com/StevenBlack/hosts</a></li>
-<li><a href="https://github.com/highsea/Hosts" target="_blank" rel="external">https://github.com/highsea/Hosts</a></li>
-</ul>
+        <p>观察者模式是软件设计模式的一种。在此种模式中，一个目标对象管理所有相依于它的观察者对象，并且在它本身的状态改变时主动发出通知。这通常透过呼叫各观察者所提供的方法来实现。此种模式通常被用来实时事件处理系统。<br><a id="more"></a><br>当对象间存在一对多关系时，则使用观察者模式（Observer Pattern）。比如，当一个对象被修改时，则会自动通知它的依赖对象。观察者模式属于行为型模式。</p>
+<h1 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h1><p><strong>意图</strong>：定义对象间的一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都得到通知并被自动更新。</p>
+<p><strong>主要解决</strong>：一个对象状态改变给其他对象通知的问题，而且要考虑到易用和低耦合，保证高度的协作。</p>
+<p><strong>何时使用</strong>：一个对象（目标对象）的状态发生改变，所有的依赖对象（观察者对象）都将得到通知，进行广播通知。</p>
+<p><strong>如何解决</strong>：使用面向对象技术，可以将这种依赖关系弱化。</p>
+<p><strong>关键代码</strong>：在抽象类里有一个 ArrayList 存放观察者们。</p>
+<p><strong>应用实例</strong>： 1、拍卖的时候，拍卖师观察最高标价，然后通知给其他竞价者竞价。 2、西游记里面悟空请求菩萨降服红孩儿，菩萨洒了一地水招来一个老乌龟，这个乌龟就是观察者，他观察菩萨洒水这个动作。</p>
+<p><strong>优点</strong>： 1、观察者和被观察者是抽象耦合的。 2、建立一套触发机制。</p>
+<p><strong>缺点</strong>： 1、如果一个被观察者对象有很多的直接和间接的观察者的话，将所有的观察者都通知到会花费很多时间。 2、如果在观察者和观察目标之间有循环依赖的话，观察目标会触发它们之间进行循环调用，可能导致系统崩溃。 3、观察者模式没有相应的机制让观察者知道所观察的目标对象是怎么发生变化的，而仅仅只是知道观察目标发生了变化。</p>
+<p><strong>使用场景</strong>： 1、有多个子类共有的方法，且逻辑相同。 2、重要的、复杂的方法，可以考虑作为模板方法。</p>
+<p><strong>注意事项</strong>： 1、JAVA 中已经有了对观察者模式的支持类。 2、避免循环引用。 3、如果顺序执行，某一观察者错误会导致系统卡壳，一般采用异步方式。</p>
+<h1 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h1><p><img src="http://ofolh8dcq.bkt.clouddn.com/%E8%AE%BE%E8%AE%A1%E6%A8%A1%E5%BC%8F%E4%B9%8B%E8%A7%82%E5%AF%9F%E8%80%85%E6%A8%A1%E5%BC%8F1.png" alt="设计模式之观察者模式1"></p>
+<h2 id="步骤1"><a href="#步骤1" class="headerlink" title="步骤1"></a>步骤1</h2><p>创建Subject类。</p>
+<p>Subject.java（Observer类是步骤2创建的，而不是java.util包内的）<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> java.util.ArrayList;</div><div class="line"><span class="keyword">import</span> java.util.List;</div><div class="line"></div><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">Subject</span> </span>&#123;</div><div class="line">	</div><div class="line">   <span class="keyword">private</span> List&lt;Observer&gt; observers </div><div class="line">      = <span class="keyword">new</span> ArrayList&lt;Observer&gt;();</div><div class="line">   <span class="keyword">private</span> <span class="keyword">int</span> state;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">getState</span><span class="params">()</span> </span>&#123;</div><div class="line">      <span class="keyword">return</span> state;</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">setState</span><span class="params">(<span class="keyword">int</span> state)</span> </span>&#123;</div><div class="line">      <span class="keyword">this</span>.state = state;</div><div class="line">      notifyAllObservers();</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">attach</span><span class="params">(Observer observer)</span></span>&#123;</div><div class="line">      observers.add(observer);		</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">notifyAllObservers</span><span class="params">()</span></span>&#123;</div><div class="line">      <span class="keyword">for</span> (Observer observer : observers) &#123;</div><div class="line">         observer.update();</div><div class="line">      &#125;</div><div class="line">   &#125; 	</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="步骤2"><a href="#步骤2" class="headerlink" title="步骤2"></a>步骤2</h2><p>创建 Observer 类。</p>
+<p>Observer.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="class"><span class="keyword">class</span> <span class="title">Observer</span> </span>&#123;</div><div class="line">   <span class="keyword">protected</span> Subject subject;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">abstract</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span></span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="步骤3"><a href="#步骤3" class="headerlink" title="步骤3"></a>步骤3</h2><p>创建实体观察者类。</p>
+<p>BinaryObserver.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">BinaryObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span></span>&#123;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="title">BinaryObserver</span><span class="params">(Subject subject)</span></span>&#123;</div><div class="line">      <span class="keyword">this</span>.subject = subject;</div><div class="line">      <span class="keyword">this</span>.subject.attach(<span class="keyword">this</span>);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</div><div class="line">      System.out.println( <span class="string">"Binary String: "</span> </div><div class="line">      + Integer.toBinaryString( subject.getState() ) ); </div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>OctalObserver.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">OctalObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span></span>&#123;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="title">OctalObserver</span><span class="params">(Subject subject)</span></span>&#123;</div><div class="line">      <span class="keyword">this</span>.subject = subject;</div><div class="line">      <span class="keyword">this</span>.subject.attach(<span class="keyword">this</span>);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</div><div class="line">     System.out.println( <span class="string">"Octal String: "</span> </div><div class="line">     + Integer.toOctalString( subject.getState() ) ); </div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>HexaObserver.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">HexaObserver</span> <span class="keyword">extends</span> <span class="title">Observer</span></span>&#123;</div><div class="line"></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="title">HexaObserver</span><span class="params">(Subject subject)</span></span>&#123;</div><div class="line">      <span class="keyword">this</span>.subject = subject;</div><div class="line">      <span class="keyword">this</span>.subject.attach(<span class="keyword">this</span>);</div><div class="line">   &#125;</div><div class="line"></div><div class="line">   <span class="meta">@Override</span></div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">update</span><span class="params">()</span> </span>&#123;</div><div class="line">      System.out.println( <span class="string">"Hex String: "</span> </div><div class="line">      + Integer.toHexString( subject.getState() ).toUpperCase() ); </div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="步骤4"><a href="#步骤4" class="headerlink" title="步骤4"></a>步骤4</h2><p>使用 Subject 和实体观察者对象。</p>
+<p>ObserverPatternDemo.java<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ObserverPatternDemo</span> </span>&#123;</div><div class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> </span>&#123;</div><div class="line">      Subject subject = <span class="keyword">new</span> Subject();</div><div class="line"></div><div class="line">      <span class="keyword">new</span> HexaObserver(subject);</div><div class="line">      <span class="keyword">new</span> OctalObserver(subject);</div><div class="line">      <span class="keyword">new</span> BinaryObserver(subject);</div><div class="line"></div><div class="line">      System.out.println(<span class="string">"First state change: 15"</span>);	</div><div class="line">      subject.setState(<span class="number">15</span>);</div><div class="line">      System.out.println(<span class="string">"Second state change: 10"</span>);	</div><div class="line">      subject.setState(<span class="number">10</span>);</div><div class="line">   &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<blockquote>
+<p><a href="http://www.runoob.com/design-pattern/observer-pattern.htm" target="_blank" rel="external">观察者模式|菜鸟教程</a></p>
+</blockquote>
 
       
     </div>
@@ -382,7 +398,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/hosts/" rel="tag">#hosts</a>
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/设计模式/" rel="tag">#设计模式</a>
           
         </div>
       
@@ -391,17 +409,13 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2016/12/19/文法和语言/" rel="next" title="文法和语言">
-                <i class="fa fa-chevron-left"></i> 文法和语言
+              <a href="/2017/07/03/经典排序算法总结（Java实现）/" rel="next" title="经典排序算法总结（Java实现）">
+                <i class="fa fa-chevron-left"></i> 经典排序算法总结（Java实现）
               </a>
             
           </div>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2016/12/19/内联元素和块级元素/" rel="prev" title="内联元素和块级元素">
-                内联元素和块级元素 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -427,8 +441,8 @@
           
   <div class="comments" id="comments">
     
-      <div class="ds-thread" data-thread-key="2016/12/19/修改hosts文件实现翻墙/"
-           data-title="修改hosts文件实现翻墙" data-url="http://zlw.poker/2016/12/19/修改hosts文件实现翻墙/">
+      <div class="ds-thread" data-thread-key="2017/07/07/设计模式之观察者模式/"
+           data-title="设计模式之观察者模式" data-url="http://zlw.poker/2017/07/07/设计模式之观察者模式/">
       </div>
     
   </div>
@@ -600,7 +614,7 @@
               
             
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#hosts文件介绍"><span class="nav-number">1.</span> <span class="nav-text">hosts文件介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#修改hosts文件"><span class="nav-number">2.</span> <span class="nav-text">修改hosts文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#推荐hosts文件"><span class="nav-number">3.</span> <span class="nav-text">推荐hosts文件</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#介绍"><span class="nav-number">1.</span> <span class="nav-text">介绍</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#实现"><span class="nav-number">2.</span> <span class="nav-text">实现</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤1"><span class="nav-number">2.1.</span> <span class="nav-text">步骤1</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤2"><span class="nav-number">2.2.</span> <span class="nav-text">步骤2</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤3"><span class="nav-number">2.3.</span> <span class="nav-text">步骤3</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#步骤4"><span class="nav-number">2.4.</span> <span class="nav-text">步骤4</span></a></li></ol></li></ol></div>
             
           </div>
         </section>
