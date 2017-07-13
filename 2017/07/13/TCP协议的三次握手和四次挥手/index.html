@@ -74,7 +74,7 @@
 <link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="TCP,计算机网络," />
+  <meta name="keywords" content="计算机网络,TCP," />
 
 
 
@@ -91,7 +91,7 @@
 
 
 <meta name="description" content="TCP（Transmission Control Protocol 传输控制协议）是一种面向连接的、可靠的、基于字节流的传输层通信协议。">
-<meta name="keywords" content="TCP,计算机网络">
+<meta name="keywords" content="计算机网络,TCP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TCP协议的三次握手和四次挥手">
 <meta property="og:url" content="http://zlw.poker/2017/07/13/TCP协议的三次握手和四次挥手/index.html">
@@ -101,7 +101,7 @@
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/TCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B2.png">
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/TCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B3.png">
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/TCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B4.png">
-<meta property="og:updated_time" content="2017-07-13T14:51:02.367Z">
+<meta property="og:updated_time" content="2017-07-13T14:53:56.978Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TCP协议的三次握手和四次挥手">
 <meta name="twitter:description" content="TCP（Transmission Control Protocol 传输控制协议）是一种面向连接的、可靠的、基于字节流的传输层通信协议。">
@@ -375,6 +375,7 @@
 <li>客户端收到服务器的SYN+ACK报文段，确认ACK后，发送Acknowledgment Number为y+1，SYN标志位为0，ACK标志位为1的报文段，发送完成后，客户端和服务器端都进入ESTABLISHED状态，完成TCP三次握手，客户端和服务器端成功地建立连接，可以开始传输数据了。</li>
 </ol>
 <h1 id="TCP连接释放——四次挥手"><a href="#TCP连接释放——四次挥手" class="headerlink" title="TCP连接释放——四次挥手"></a>TCP连接释放——四次挥手</h1><p><img src="http://ofolh8dcq.bkt.clouddn.com/TCP%E5%8D%8F%E8%AE%AE%E7%9A%84%E4%B8%89%E6%AC%A1%E6%8F%A1%E6%89%8B%E5%92%8C%E5%9B%9B%E6%AC%A1%E6%8C%A5%E6%89%8B4.png" alt="TCP协议的三次握手和四次挥手4"></p>
+<p>四次挥手过程：</p>
 <ol>
 <li>客户端发送Sequence Number为x+2，Acknowledgment Number为y+1的FIN报文段，客户端进入FIN_WAIT_1状态，即告诉服务端没有数据需要传输了，请求关闭连接；</li>
 <li>服务端收到客户端的FIN报文段后，向客户端应答一个Acknowledgment Number为Sequence Number+1的ACK报文段，即应答客户端你的请求我收到了，但是我还没准备好，请等待我的关闭请求。客户端收到后进入FIN_WAIT_2状态；</li>
@@ -413,9 +414,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/TCP/" rel="tag">#TCP</a>
-          
             <a href="/tags/计算机网络/" rel="tag">#计算机网络</a>
+          
+            <a href="/tags/TCP/" rel="tag">#TCP</a>
           
         </div>
       
