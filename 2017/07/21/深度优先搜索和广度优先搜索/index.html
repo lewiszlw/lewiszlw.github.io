@@ -1,0 +1,940 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Java,算法,Algorithm," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="图是一种复杂的非线性数据结构，深度优先搜索（Depth First Search）和广度优先搜索（Breadth First Search）是遍历图的两种最常见算法。">
+<meta name="keywords" content="Java,算法,Algorithm">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深度优先搜索和广度优先搜索">
+<meta property="og:url" content="http://zlw.poker/2017/07/21/深度优先搜索和广度优先搜索/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="图是一种复杂的非线性数据结构，深度优先搜索（Depth First Search）和广度优先搜索（Breadth First Search）是遍历图的两种最常见算法。">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A21">
+<meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A22">
+<meta property="og:updated_time" content="2017-07-26T15:06:38.908Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深度优先搜索和广度优先搜索">
+<meta name="twitter:description" content="图是一种复杂的非线性数据结构，深度优先搜索（Depth First Search）和广度优先搜索（Breadth First Search）是遍历图的两种最常见算法。">
+<meta name="twitter:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A21">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2017/07/21/深度优先搜索和广度优先搜索/"/>
+
+
+  <title> 深度优先搜索和广度优先搜索 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                深度优先搜索和广度优先搜索
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-07-21T22:35:24+08:00" content="2017-07-21">
+              2017-07-21
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Algorithms/" itemprop="url" rel="index">
+                    <span itemprop="name">Algorithms</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/07/21/深度优先搜索和广度优先搜索/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/07/21/深度优先搜索和广度优先搜索/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>图是一种复杂的非线性数据结构，深度优先搜索（Depth First Search）和广度优先搜索（Breadth First Search）是遍历图的两种最常见算法。<br><a id="more"></a></p>
+<h1 id="图的表示与相关概念"><a href="#图的表示与相关概念" class="headerlink" title="图的表示与相关概念"></a>图的表示与相关概念</h1><h2 id="图的相关概念"><a href="#图的相关概念" class="headerlink" title="图的相关概念"></a>图的相关概念</h2><p><strong>图的二元组定义：</strong><br>  图 G 由两个集合 V 和 E 组成，记为：<br>  G=(V, E) 。其中： V 是顶点的有穷非空集合,<br>  E 是 V 中顶点偶对(称为边)的有穷集。</p>
+<p>通常，也将图 G 的顶点集和边集分别记为 V(G) 和 E(G) 。 E(G) 可以是空集。若 E(G) 为空，则图 G 只有顶点而没有边。</p>
+<p><strong>有向图</strong>： 若图 G 中的每条边都是有方向的，则称 G 为有向图 (Digraph) 。<br><strong>无向图</strong>： 若图 G 中的每条边都是没有方向的，则称 G 为无向图 (Undigraph) 。<br><strong>完全图</strong>：若无向图中的每个顶点之间存在着一条边，有向图中的每两个顶点之间都存在着方向相反的两条边，则称此图为完全图。<br><strong>稠密图</strong>： 当一个图接近完全图时，则称它为稠密图。<br><strong>稀疏图</strong>：当一个图含有较少边数（即e&lt;&lt; n(n-1)）时，则称它为稀疏图。<br><strong>简单图</strong>：图中每条边的顶点均不相同。</p>
+<p><strong>邻接点</strong>：<br>有向图：如果 <u, v="">∈ E, 则称v为u的邻接点，u为v的逆邻接点。边<u, v="">与顶点u和v相关联，从u出发的边称为u的<em>出边</em>或<em>邻接边</em>，而指向顶点u的边称为u的<em>入边</em>或<em>逆邻接边</em>。<br>无向图：如果(u, v)∈ E, 则称u与v互为邻接点。</u,></u,></p>
+<p><strong>顶点的度、入度与出度</strong>：<br>依附与某顶点v的边数称为<strong>度</strong>；<br>在有向图中，顶点v的<strong>入度</strong>： 指以顶点为终点的边的数目。<strong>出度</strong>：指以顶点起始点的边的数目；<br>无向图中<strong>出度入度相等</strong>。</p>
+<p><strong>通路或路径</strong>：由m+1个顶点与m条边交替构成的一个序列。<br><strong>环路</strong>：如路径的第一个顶点和最后一个顶点相同，称之为环路。<br><strong>可达分量</strong>：有向图中，若顶点s到v有一条通路，称v是从s可达的。对于s，从s可达的所有顶点的集合叫可达分量。<br><strong>连通图</strong>：<em>无向图中</em>，若一个顶点到另一个顶点有路径，则称这2个顶点是连通的。如果图中任意2顶点都是连通的，则称该图是连通图。<br><strong>非连通图</strong>：无向图中，存在两个顶点之间是不连通的，则该无向图称为非连通图。<br><strong>强连通图</strong>：针对<em>有向图</em>而言的，如果有向图中任意两个顶点之间是连通的（注意方向问题，A—&gt;B，成立，但B—&gt;A不一定成立），则该有向图称为强连通图<br><strong>非强连通图</strong>：如果有向图中存在两个顶点之间是不连通的，则该有向图称为非强连通图<br><strong>权</strong>：与图中边有关的实数。<br><strong>带权图</strong>或<strong>网</strong>：边上具有权值的图。</p>
+<p><strong>最小生成树</strong>：<br>从图中的不同顶点或从同一顶点按不同的优先搜素过程可以得到不同的树。而对于一个连通网（连通带权图）来说，生成的树不同，每棵树的代价（树中每条边上权值之和）也可能不同，代价最小的生成树为图的最小生成树。</p>
+<p>常用的表示图的方法有两种：</p>
+<ol>
+<li>邻接矩阵</li>
+<li>邻接表</li>
+</ol>
+<h2 id="图的存储——邻接矩阵"><a href="#图的存储——邻接矩阵" class="headerlink" title="图的存储——邻接矩阵"></a>图的存储——邻接矩阵</h2><p>采用2个数组来表示图：一个是存储所有顶点信息的一维数组，一个是存储图中顶点之间关联关系的二维数组。这个二维数组称为邻接矩阵。</p>
+<p><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A21" alt="深度优先搜索和广度优先搜索1"><br><strong>邻接矩阵的特性</strong>：</p>
+<ol>
+<li>对于无向图a，邻接矩阵是一个对称矩阵。第i行(i列)非∞元素的个数正好是第i个顶点的度。</li>
+<li>对于有向图b，第i行非∞元素的个数是第i个顶点的出度、i列非∞元素的个数是第i个顶点的入度。</li>
+</ol>
+<p><strong>邻接矩阵的不足</strong>：<br>1、由n个顶点构成的图中最多可以有$n^2$条边，但大多数情况下，边的数目远远达不到这个量级，邻接矩阵中大多数单元都是闲置的。<br>2、矩阵结构是静态的，大小Ｎ需要预先估计，然后创建Ｎ*Ｎ的矩阵，而图的规模往往是动态变化的，Ｎ估计过大会造成空间浪费，过小则造成空间不够用。</p>
+<p><strong>实现源码</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MatrixGraph</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">char</span>[] mVexs;		<span class="comment">//顶点集合</span></div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[][] mMatrix;	<span class="comment">//邻接矩阵</span></div><div class="line"></div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 创建图</div><div class="line">	 * <span class="doctag">@param</span> vexs	顶点数组</div><div class="line">	 * <span class="doctag">@param</span> edges	边数组</div><div class="line">	 * 示例：char[] vexs=&#123;'a','b','c','d'&#125;;</div><div class="line">	 * char[][] edges=&#123;&#123;'a','b'&#125;, &#123;'a','c'&#125;, &#123;'b','d'&#125;&#125;;</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MatrixGraph</span><span class="params">(<span class="keyword">char</span>[] vexs, <span class="keyword">char</span>[][] edges)</span></span>&#123;</div><div class="line">		<span class="comment">//获取顶点数和边数</span></div><div class="line">		<span class="keyword">int</span> vlen=vexs.length;</div><div class="line">		<span class="keyword">int</span> elen=edges.length;</div><div class="line">		</div><div class="line">		<span class="comment">//初始化顶点</span></div><div class="line">		mVexs=<span class="keyword">new</span> <span class="keyword">char</span>[vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;vlen;i++)&#123;</div><div class="line">			mVexs[i]=vexs[i];</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//初始化边</span></div><div class="line">		mMatrix=<span class="keyword">new</span> <span class="keyword">int</span>[vlen][vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;elen;i++)&#123;</div><div class="line">			<span class="comment">//边的起始顶点和结束顶点</span></div><div class="line">			<span class="keyword">int</span> pStart=getPosition(edges[i][<span class="number">0</span>]);</div><div class="line">			<span class="keyword">int</span> pEnd=getPosition(edges[i][<span class="number">1</span>]);</div><div class="line">			</div><div class="line">			<span class="comment">//无向图</span></div><div class="line">			mMatrix[pStart][pEnd]=<span class="number">1</span>;</div><div class="line">			mMatrix[pEnd][pStart]=<span class="number">1</span>;</div><div class="line"></div><div class="line">			<span class="comment">/*有向图</span></div><div class="line">			*mMatrix[pStart][pEnd]=1;</div><div class="line">			*/</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//获取顶点顺序位置</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getPosition</span><span class="params">(<span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mVexs[i]==ch)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="图的存储——邻接表"><a href="#图的存储——邻接表" class="headerlink" title="图的存储——邻接表"></a>图的存储——邻接表</h2><p>邻接表是图的一种动态的链式存储方法，类似于树的孩子链表表示法。</p>
+<p><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%B7%B1%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A2%E5%92%8C%E5%B9%BF%E5%BA%A6%E4%BC%98%E5%85%88%E6%90%9C%E7%B4%A22" alt="深度优先搜索和广度优先搜索2"><br><strong>邻接表的特性</strong>：</p>
+<ol>
+<li>在无向图中，顶点ｖ的度为ｖ的邻接表中表表节点的个数。</li>
+<li>在有向图中，顶点ｖ的邻接表中边表的节点个数仅为ｖ的出度。入度需要遍历这个邻接表或者从逆邻接表中获取。</li>
+</ol>
+<p><strong>邻接表的不足</strong>：<br>判断2个顶点直接是否有边需要搜素2个顶点对应的邻接表。不如邻接矩阵方便。</p>
+<p><strong>实现源码</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListGraph</span> </span>&#123;</div><div class="line">	<span class="comment">//邻接表中表对应的链表的顶点</span></div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ENode</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> ivex;		<span class="comment">//该边所指向顶点的位置</span></div><div class="line">		ENode nextEdge;		<span class="comment">//指向下一条边的指针</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ENode</span><span class="params">(<span class="keyword">int</span> ivex)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.ivex=ivex;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ENode</span><span class="params">(<span class="keyword">int</span> ivex, ENode nextEdge)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.ivex=ivex;</div><div class="line">			<span class="keyword">this</span>.nextEdge=nextEdge;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//邻接表中表的顶点</span></div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">VNode</span></span>&#123;</div><div class="line">		<span class="keyword">char</span> data;		<span class="comment">//顶点信息</span></div><div class="line">		ENode firstEdge;	<span class="comment">//指向第一条依附该顶点的边</span></div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">VNode</span><span class="params">(<span class="keyword">char</span> data)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data=data;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">VNode</span><span class="params">(<span class="keyword">char</span> data, ENode firstEdge)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data=data;</div><div class="line">			<span class="keyword">this</span>.firstEdge=firstEdge;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//顶点数组</span></div><div class="line">	<span class="keyword">private</span> VNode[] mVexs;	</div><div class="line">	</div><div class="line">	<span class="comment">/**</span></div><div class="line">	 * 创建图</div><div class="line">	 * <span class="doctag">@param</span> vexs	顶点数组</div><div class="line">	 * <span class="doctag">@param</span> edges	边数组</div><div class="line">	 * 示例：char[] vexs=&#123;'a','b','c','d'&#125;;</div><div class="line">	 * char[][] edges=&#123;&#123;'a','b'&#125;, &#123;'a','c'&#125;, &#123;'b','d'&#125;&#125;;</div><div class="line">	 */</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ListGraph</span><span class="params">(<span class="keyword">char</span>[] vexs, <span class="keyword">char</span>[][] edges)</span></span>&#123;</div><div class="line">		<span class="comment">//获取顶点数和边数</span></div><div class="line">		<span class="keyword">int</span> vlen=vexs.length;</div><div class="line">		<span class="keyword">int</span> elen=edges.length;</div><div class="line">		</div><div class="line">		<span class="comment">//初始化顶点</span></div><div class="line">		mVexs=<span class="keyword">new</span> VNode[vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			mVexs[i]=<span class="keyword">new</span> VNode(vexs[i]);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="comment">//初始化边</span></div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;elen;i++)&#123;</div><div class="line">			<span class="comment">//边的起始顶点和结束顶点</span></div><div class="line">			<span class="keyword">int</span> pStart=getPosition(edges[i][<span class="number">0</span>]);</div><div class="line">			<span class="keyword">int</span> pEnd=getPosition(edges[i][<span class="number">1</span>]);</div><div class="line">			</div><div class="line">			<span class="comment">//无向图</span></div><div class="line">			ENode node1=<span class="keyword">new</span> ENode(pEnd);</div><div class="line">			<span class="keyword">if</span>(mVexs[pStart].firstEdge==<span class="keyword">null</span>)&#123;</div><div class="line">				mVexs[pStart].firstEdge=node1;</div><div class="line">			&#125;<span class="keyword">else</span> &#123;</div><div class="line">				linkLast(mVexs[pStart].firstEdge, node1);</div><div class="line">			&#125;</div><div class="line">			ENode node2=<span class="keyword">new</span> ENode(pStart);</div><div class="line">			<span class="keyword">if</span>(mVexs[pEnd].firstEdge==<span class="keyword">null</span>)&#123;</div><div class="line">				mVexs[pEnd].firstEdge=node2;</div><div class="line">			&#125;<span class="keyword">else</span> &#123;</div><div class="line">				linkLast(mVexs[pEnd].firstEdge, node2);</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			<span class="comment">/*有向图</span></div><div class="line">			*ENode node=new ENode(pEnd);</div><div class="line">			*if(mVexs[pStart].firstEdge==null)&#123;</div><div class="line">			*	mVexs[pStart].firstEdge=node;</div><div class="line">			*&#125;else &#123;</div><div class="line">			*	linkLast(mVexs[pStart].firstEdge, node);</div><div class="line">			*&#125;</div><div class="line">			*/</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//获取顶点顺序位置</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getPosition</span><span class="params">(<span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mVexs[i].data==ch)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//将node结点链接到list的最后</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(ENode list, ENode node)</span></span>&#123;</div><div class="line">		ENode p=list;</div><div class="line">		<span class="keyword">while</span>(p.nextEdge!=<span class="keyword">null</span>)&#123;</div><div class="line">			p=p.nextEdge;</div><div class="line">		&#125;</div><div class="line">		p.nextEdge=node;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="深度优先搜索"><a href="#深度优先搜索" class="headerlink" title="深度优先搜索"></a>深度优先搜索</h1><h2 id="基本思想"><a href="#基本思想" class="headerlink" title="基本思想"></a>基本思想</h2><p>假设初始状态是图中所有顶点均未被访问，则从某个顶点v出发，首先访问该顶点，然后依次从它的各个未被访问的邻接点出发深度优先搜索遍历图，直至图中所有和v有路径相通的顶点都被访问到。 若此时尚有其他顶点未被访问到，则另选一个未被访问的顶点作起始点，重复上述过程，直至图中所有顶点都被访问到为止。</p>
+<h2 id="实现源码"><a href="#实现源码" class="headerlink" title="实现源码"></a>实现源码</h2><p><strong>邻接矩阵</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MatrixGraph</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">char</span>[] mVexs;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[][] mMatrix;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MatrixGraph</span><span class="params">(<span class="keyword">char</span>[] vexs, <span class="keyword">char</span>[][] edges)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> vlen=vexs.length;</div><div class="line">		<span class="keyword">int</span> elen=edges.length;</div><div class="line">		</div><div class="line">		mVexs=<span class="keyword">new</span> <span class="keyword">char</span>[vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;vlen;i++)&#123;</div><div class="line">			mVexs[i]=vexs[i];</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		mMatrix=<span class="keyword">new</span> <span class="keyword">int</span>[vlen][vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;elen;i++)&#123;</div><div class="line">			<span class="keyword">int</span> pStart=getPosition(edges[i][<span class="number">0</span>]);</div><div class="line">			<span class="keyword">int</span> pEnd=getPosition(edges[i][<span class="number">1</span>]);</div><div class="line">			</div><div class="line">			<span class="comment">//无向图</span></div><div class="line">			mMatrix[pStart][pEnd]=<span class="number">1</span>;</div><div class="line">			mMatrix[pEnd][pStart]=<span class="number">1</span>;</div><div class="line"></div><div class="line">			<span class="comment">/*有向图</span></div><div class="line">			*mMatrix[pStart][pEnd]=1;</div><div class="line">			*/</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getPosition</span><span class="params">(<span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mVexs[i]==ch)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">//返回顶点v的第一个邻接顶点的索引</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">firstVertex</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(v&lt;<span class="number">0</span>||v&gt;(mVexs.length-<span class="number">1</span>))&#123;</div><div class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mMatrix[v][i]==<span class="number">1</span>)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//返回顶点v相对于w的下一个邻接顶点的索引</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">nextVertex</span><span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> w)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(v&lt;<span class="number">0</span>||v&gt;(mVexs.length-<span class="number">1</span>)||w&lt;<span class="number">0</span>||w&gt;(mVexs.length-<span class="number">1</span>))&#123;</div><div class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=w+<span class="number">1</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mMatrix[v][i]==<span class="number">1</span>)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">()</span></span>&#123;</div><div class="line">		<span class="comment">//初始化所有顶点都没有被访问</span></div><div class="line">		<span class="keyword">boolean</span>[] visited=<span class="keyword">new</span> <span class="keyword">boolean</span>[mVexs.length];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			visited[i]=<span class="keyword">false</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(!visited[i])&#123;</div><div class="line">				dfs(i, visited);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		System.out.println();</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">boolean</span>[] visited)</span></span>&#123;</div><div class="line">		visited[i]=<span class="keyword">true</span>;</div><div class="line">		System.out.printf(<span class="string">"%c"</span>, mVexs[i]);</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> w=firstVertex(i);w&gt;=<span class="number">0</span>;w=nextVertex(i, w))&#123;</div><div class="line">			<span class="keyword">if</span>(!visited[w])&#123;</div><div class="line">				dfs(w, visited);</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>邻接表</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListGraph</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ENode</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> ivex;</div><div class="line">		ENode nextEdge;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ENode</span><span class="params">(<span class="keyword">int</span> ivex)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.ivex=ivex;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ENode</span><span class="params">(<span class="keyword">int</span> ivex, ENode nextEdge)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.ivex=ivex;</div><div class="line">			<span class="keyword">this</span>.nextEdge=nextEdge;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">VNode</span></span>&#123;</div><div class="line">		<span class="keyword">char</span> data;</div><div class="line">		ENode firstEdge;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">VNode</span><span class="params">(<span class="keyword">char</span> data)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data=data;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">VNode</span><span class="params">(<span class="keyword">char</span> data, ENode firstEdge)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data=data;</div><div class="line">			<span class="keyword">this</span>.firstEdge=firstEdge;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> VNode[] mVexs;	</div><div class="line">	</div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ListGraph</span><span class="params">(<span class="keyword">char</span>[] vexs, <span class="keyword">char</span>[][] edges)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> vlen=vexs.length;</div><div class="line">		<span class="keyword">int</span> elen=edges.length;</div><div class="line">		</div><div class="line">		mVexs=<span class="keyword">new</span> VNode[vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			mVexs[i]=<span class="keyword">new</span> VNode(vexs[i]);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;elen;i++)&#123;</div><div class="line">			<span class="keyword">int</span> pStart=getPosition(edges[i][<span class="number">0</span>]);</div><div class="line">			<span class="keyword">int</span> pEnd=getPosition(edges[i][<span class="number">1</span>]);</div><div class="line">			</div><div class="line">			<span class="comment">//无向图</span></div><div class="line">			ENode node1=<span class="keyword">new</span> ENode(pEnd);</div><div class="line">			<span class="keyword">if</span>(mVexs[pStart].firstEdge==<span class="keyword">null</span>)&#123;</div><div class="line">				mVexs[pStart].firstEdge=node1;</div><div class="line">			&#125;<span class="keyword">else</span> &#123;</div><div class="line">				linkLast(mVexs[pStart].firstEdge, node1);</div><div class="line">			&#125;</div><div class="line">			ENode node2=<span class="keyword">new</span> ENode(pStart);</div><div class="line">			<span class="keyword">if</span>(mVexs[pEnd].firstEdge==<span class="keyword">null</span>)&#123;</div><div class="line">				mVexs[pEnd].firstEdge=node2;</div><div class="line">			&#125;<span class="keyword">else</span> &#123;</div><div class="line">				linkLast(mVexs[pEnd].firstEdge, node2);</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			<span class="comment">/*有向图</span></div><div class="line">			*ENode node=new ENode(pEnd);</div><div class="line">			*if(mVexs[pStart].firstEdge==null)&#123;</div><div class="line">			*	mVexs[pStart].firstEdge=node;</div><div class="line">			*&#125;else &#123;</div><div class="line">			*	linkLast(mVexs[pStart].firstEdge, node);</div><div class="line">			*&#125;</div><div class="line">			*/</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//获取顶点顺序位置</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getPosition</span><span class="params">(<span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mVexs[i].data==ch)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//将node结点链接到list的最后</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(ENode list, ENode node)</span></span>&#123;</div><div class="line">		ENode p=list;</div><div class="line">		<span class="keyword">while</span>(p.nextEdge!=<span class="keyword">null</span>)&#123;</div><div class="line">			p=p.nextEdge;</div><div class="line">		&#125;</div><div class="line">		p.nextEdge=node;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    <span class="comment">/*</span></div><div class="line">     * 深度优先搜索遍历图的递归实现</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">(<span class="keyword">int</span> i, <span class="keyword">boolean</span>[] visited)</span> </span>&#123;</div><div class="line">        ENode node;</div><div class="line"></div><div class="line">        visited[i] = <span class="keyword">true</span>;</div><div class="line">        System.out.printf(<span class="string">"%c "</span>, mVexs[i].data);</div><div class="line">        node = mVexs[i].firstEdge;</div><div class="line">        <span class="keyword">while</span> (node != <span class="keyword">null</span>) &#123;</div><div class="line">            <span class="keyword">if</span> (!visited[node.ivex])</div><div class="line">                dfs(node.ivex, visited);</div><div class="line">            node = node.nextEdge;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">     * 深度优先搜索遍历图</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">dfs</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">boolean</span>[] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[mVexs.length];       <span class="comment">// 顶点访问标记</span></div><div class="line"></div><div class="line">        <span class="comment">// 初始化所有顶点都没有被访问</span></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mVexs.length; i++)</div><div class="line">            visited[i] = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mVexs.length; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (!visited[i])</div><div class="line">                dfs(i, visited);</div><div class="line">        &#125;</div><div class="line">        System.out.printf(<span class="string">"\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="广度优先搜索"><a href="#广度优先搜索" class="headerlink" title="广度优先搜索"></a>广度优先搜索</h1><h2 id="基本思想-1"><a href="#基本思想-1" class="headerlink" title="基本思想"></a>基本思想</h2><p>从图中某顶点v出发，在访问了v之后依次访问v的各个未曾访问过的邻接点，然后分别从这些邻接点出发依次访问它们的邻接点，并使得先被访问的顶点的邻接点先于后被访问的顶点的邻接点被访问，直至图中所有已被访问的顶点的邻接点都被访问到。如果此时图中尚有顶点未被访问，则需要另选一个未曾被访问过的顶点作为新的起始点，重复上述过程，直至图中所有顶点都被访问到为止。</p>
+<p>换句话说，广度优先搜索遍历图的过程是以v为起点，由近至远，依次访问和v有路径相通且路径长度为1,2…的顶点。</p>
+<h2 id="实现源码-1"><a href="#实现源码-1" class="headerlink" title="实现源码"></a>实现源码</h2><p><strong>邻接矩阵</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MatrixGraph</span> </span>&#123;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="keyword">char</span>[] mVexs;</div><div class="line">	<span class="keyword">private</span> <span class="keyword">int</span>[][] mMatrix;</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">MatrixGraph</span><span class="params">(<span class="keyword">char</span>[] vexs, <span class="keyword">char</span>[][] edges)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> vlen=vexs.length;</div><div class="line">		<span class="keyword">int</span> elen=edges.length;</div><div class="line">		</div><div class="line">		mVexs=<span class="keyword">new</span> <span class="keyword">char</span>[vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;vlen;i++)&#123;</div><div class="line">			mVexs[i]=vexs[i];</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		mMatrix=<span class="keyword">new</span> <span class="keyword">int</span>[vlen][vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;elen;i++)&#123;</div><div class="line">			<span class="keyword">int</span> pStart=getPosition(edges[i][<span class="number">0</span>]);</div><div class="line">			<span class="keyword">int</span> pEnd=getPosition(edges[i][<span class="number">1</span>]);</div><div class="line">			</div><div class="line">			<span class="comment">//无向图</span></div><div class="line">			mMatrix[pStart][pEnd]=<span class="number">1</span>;</div><div class="line">			mMatrix[pEnd][pStart]=<span class="number">1</span>;</div><div class="line"></div><div class="line">			<span class="comment">/*有向图</span></div><div class="line">			*mMatrix[pStart][pEnd]=1;</div><div class="line">			*/</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//获取顶点顺序位置</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getPosition</span><span class="params">(<span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mVexs[i]==ch)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">//返回顶点v的第一个邻接顶点的索引</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">firstVertex</span><span class="params">(<span class="keyword">int</span> v)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(v&lt;<span class="number">0</span>||v&gt;(mVexs.length-<span class="number">1</span>))&#123;</div><div class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mMatrix[v][i]==<span class="number">1</span>)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//返回顶点v相对于w的下一个邻接顶点的索引</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">nextVertex</span><span class="params">(<span class="keyword">int</span> v, <span class="keyword">int</span> w)</span></span>&#123;</div><div class="line">		<span class="keyword">if</span>(v&lt;<span class="number">0</span>||v&gt;(mVexs.length-<span class="number">1</span>)||w&lt;<span class="number">0</span>||w&gt;(mVexs.length-<span class="number">1</span>))&#123;</div><div class="line">			<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=w+<span class="number">1</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mMatrix[v][i]==<span class="number">1</span>)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">    <span class="comment">/*</span></div><div class="line">     * 广度优先搜索（类似于树的层次遍历）</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> head = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> rear = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span>[] queue = <span class="keyword">new</span> <span class="keyword">int</span>[mVexs.length];            <span class="comment">// 辅组队列</span></div><div class="line">        <span class="keyword">boolean</span>[] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[mVexs.length];  <span class="comment">// 顶点访问标记</span></div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mVexs.length; i++)</div><div class="line">            visited[i] = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mVexs.length; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (!visited[i]) &#123;</div><div class="line">                visited[i] = <span class="keyword">true</span>;</div><div class="line">                System.out.printf(<span class="string">"%c "</span>, mVexs[i]);</div><div class="line">                queue[rear++] = i;  <span class="comment">// 入队列</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">while</span> (head != rear) &#123;</div><div class="line">                <span class="keyword">int</span> j = queue[head++];  <span class="comment">// 出队列</span></div><div class="line">                <span class="keyword">for</span> (<span class="keyword">int</span> k = firstVertex(j); k &gt;= <span class="number">0</span>; k = nextVertex(j, k)) &#123; <span class="comment">//k是为访问的邻接顶点</span></div><div class="line">                    <span class="keyword">if</span> (!visited[k]) &#123;</div><div class="line">                        visited[k] = <span class="keyword">true</span>;</div><div class="line">                        System.out.printf(<span class="string">"%c "</span>, mVexs[k]);</div><div class="line">                        queue[rear++] = k;</div><div class="line">                    &#125;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.printf(<span class="string">"\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p><strong>邻接表</strong>：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div><div class="line">89</div><div class="line">90</div><div class="line">91</div><div class="line">92</div><div class="line">93</div><div class="line">94</div><div class="line">95</div><div class="line">96</div><div class="line">97</div><div class="line">98</div><div class="line">99</div><div class="line">100</div><div class="line">101</div><div class="line">102</div><div class="line">103</div><div class="line">104</div><div class="line">105</div><div class="line">106</div><div class="line">107</div><div class="line">108</div><div class="line">109</div><div class="line">110</div><div class="line">111</div><div class="line">112</div><div class="line">113</div><div class="line">114</div><div class="line">115</div><div class="line">116</div><div class="line">117</div><div class="line">118</div><div class="line">119</div><div class="line">120</div><div class="line">121</div><div class="line">122</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">ListGraph</span> </span>&#123;</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">ENode</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> ivex;</div><div class="line">		ENode nextEdge;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ENode</span><span class="params">(<span class="keyword">int</span> ivex)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.ivex=ivex;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">ENode</span><span class="params">(<span class="keyword">int</span> ivex, ENode nextEdge)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.ivex=ivex;</div><div class="line">			<span class="keyword">this</span>.nextEdge=nextEdge;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="keyword">private</span> <span class="class"><span class="keyword">class</span> <span class="title">VNode</span></span>&#123;</div><div class="line">		<span class="keyword">char</span> data;</div><div class="line">		ENode firstEdge;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">VNode</span><span class="params">(<span class="keyword">char</span> data)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data=data;</div><div class="line">		&#125;</div><div class="line">		<span class="function"><span class="keyword">public</span> <span class="title">VNode</span><span class="params">(<span class="keyword">char</span> data, ENode firstEdge)</span></span>&#123;</div><div class="line">			<span class="keyword">this</span>.data=data;</div><div class="line">			<span class="keyword">this</span>.firstEdge=firstEdge;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line"></div><div class="line">	<span class="keyword">private</span> VNode[] mVexs;	</div><div class="line"></div><div class="line">	<span class="function"><span class="keyword">public</span> <span class="title">ListGraph</span><span class="params">(<span class="keyword">char</span>[] vexs, <span class="keyword">char</span>[][] edges)</span></span>&#123;</div><div class="line">		<span class="keyword">int</span> vlen=vexs.length;</div><div class="line">		<span class="keyword">int</span> elen=edges.length;</div><div class="line">		</div><div class="line">		mVexs=<span class="keyword">new</span> VNode[vlen];</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			mVexs[i]=<span class="keyword">new</span> VNode(vexs[i]);</div><div class="line">		&#125;</div><div class="line">		</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;elen;i++)&#123;</div><div class="line">			<span class="keyword">int</span> pStart=getPosition(edges[i][<span class="number">0</span>]);</div><div class="line">			<span class="keyword">int</span> pEnd=getPosition(edges[i][<span class="number">1</span>]);</div><div class="line">			</div><div class="line">			<span class="comment">//无向图</span></div><div class="line">			ENode node1=<span class="keyword">new</span> ENode(pEnd);</div><div class="line">			<span class="keyword">if</span>(mVexs[pStart].firstEdge==<span class="keyword">null</span>)&#123;</div><div class="line">				mVexs[pStart].firstEdge=node1;</div><div class="line">			&#125;<span class="keyword">else</span> &#123;</div><div class="line">				linkLast(mVexs[pStart].firstEdge, node1);</div><div class="line">			&#125;</div><div class="line">			ENode node2=<span class="keyword">new</span> ENode(pStart);</div><div class="line">			<span class="keyword">if</span>(mVexs[pEnd].firstEdge==<span class="keyword">null</span>)&#123;</div><div class="line">				mVexs[pEnd].firstEdge=node2;</div><div class="line">			&#125;<span class="keyword">else</span> &#123;</div><div class="line">				linkLast(mVexs[pEnd].firstEdge, node2);</div><div class="line">			&#125;</div><div class="line">			</div><div class="line">			<span class="comment">/*有向图</span></div><div class="line">			*ENode node=new ENode(pEnd);</div><div class="line">			*if(mVexs[pStart].firstEdge==null)&#123;</div><div class="line">			*	mVexs[pStart].firstEdge=node;</div><div class="line">			*&#125;else &#123;</div><div class="line">			*	linkLast(mVexs[pStart].firstEdge, node);</div><div class="line">			*&#125;</div><div class="line">			*/</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//获取顶点顺序位置</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">int</span> <span class="title">getPosition</span><span class="params">(<span class="keyword">char</span> ch)</span></span>&#123;</div><div class="line">		<span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;mVexs.length;i++)&#123;</div><div class="line">			<span class="keyword">if</span>(mVexs[i].data==ch)&#123;</div><div class="line">				<span class="keyword">return</span> i;</div><div class="line">			&#125;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">return</span> -<span class="number">1</span>;</div><div class="line">	&#125;</div><div class="line">	</div><div class="line">	<span class="comment">//将node结点链接到list的最后</span></div><div class="line">	<span class="function"><span class="keyword">private</span> <span class="keyword">void</span> <span class="title">linkLast</span><span class="params">(ENode list, ENode node)</span></span>&#123;</div><div class="line">		ENode p=list;</div><div class="line">		<span class="keyword">while</span>(p.nextEdge!=<span class="keyword">null</span>)&#123;</div><div class="line">			p=p.nextEdge;</div><div class="line">		&#125;</div><div class="line">		p.nextEdge=node;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">    <span class="comment">/*</span></div><div class="line">     * 广度优先搜索（类似于树的层次遍历）</div><div class="line">     */</div><div class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">bfs</span><span class="params">()</span> </span>&#123;</div><div class="line">        <span class="keyword">int</span> head = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span> rear = <span class="number">0</span>;</div><div class="line">        <span class="keyword">int</span>[] queue = <span class="keyword">new</span> <span class="keyword">int</span>[mVexs.length];            <span class="comment">// 辅组队列</span></div><div class="line">        <span class="keyword">boolean</span>[] visited = <span class="keyword">new</span> <span class="keyword">boolean</span>[mVexs.length];  <span class="comment">// 顶点访问标记</span></div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mVexs.length; i++)</div><div class="line">            visited[i] = <span class="keyword">false</span>;</div><div class="line"></div><div class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; mVexs.length; i++) &#123;</div><div class="line">            <span class="keyword">if</span> (!visited[i]) &#123;</div><div class="line">                visited[i] = <span class="keyword">true</span>;</div><div class="line">                System.out.printf(<span class="string">"%c "</span>, mVexs[i].data);</div><div class="line">                queue[rear++] = i;  <span class="comment">// 入队列</span></div><div class="line">            &#125;</div><div class="line"></div><div class="line">            <span class="keyword">while</span> (head != rear) &#123;</div><div class="line">                <span class="keyword">int</span> j = queue[head++];  <span class="comment">// 出队列</span></div><div class="line">                ENode node = mVexs[j].firstEdge;</div><div class="line">                <span class="keyword">while</span> (node != <span class="keyword">null</span>) &#123;</div><div class="line">                    <span class="keyword">int</span> k = node.ivex;</div><div class="line">                    <span class="keyword">if</span> (!visited[k])</div><div class="line">                    &#123;</div><div class="line">                        visited[k] = <span class="keyword">true</span>;</div><div class="line">                        System.out.printf(<span class="string">"%c "</span>, mVexs[k].data);</div><div class="line">                        queue[rear++] = k;</div><div class="line">                    &#125;</div><div class="line">                    node = node.nextEdge;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        System.out.printf(<span class="string">"\n"</span>);</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<hr>
+<blockquote>
+<p><a href="http://blog.csdn.net/oChangWen/article/details/50704130" target="_blank" rel="external">Java数据结构—-图的基础知识</a><br><a href="http://www.cnblogs.com/skywang12345/p/3711483.html" target="_blank" rel="external">图的遍历之 深度优先搜索和广度优先搜索</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Java/" rel="tag">#Java</a>
+          
+            <a href="/tags/算法/" rel="tag">#算法</a>
+          
+            <a href="/tags/Algorithm/" rel="tag">#Algorithm</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/21/项目部署过程/" rel="next" title="项目部署过程">
+                <i class="fa fa-chevron-left"></i> 项目部署过程
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/26/Java类加载机制/" rel="prev" title="Java类加载机制">
+                Java类加载机制 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/07/21/深度优先搜索和广度优先搜索/"
+           data-title="深度优先搜索和广度优先搜索" data-url="http://zlw.poker/2017/07/21/深度优先搜索和广度优先搜索/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungry,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">83</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">51</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://zlwloveyyf.github.io/" title="GiftForMyGirlfriend" target="_blank">GiftForMyGirlfriend</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#图的表示与相关概念"><span class="nav-number">1.</span> <span class="nav-text">图的表示与相关概念</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#图的相关概念"><span class="nav-number">1.1.</span> <span class="nav-text">图的相关概念</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的存储——邻接矩阵"><span class="nav-number">1.2.</span> <span class="nav-text">图的存储——邻接矩阵</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#图的存储——邻接表"><span class="nav-number">1.3.</span> <span class="nav-text">图的存储——邻接表</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#深度优先搜索"><span class="nav-number">2.</span> <span class="nav-text">深度优先搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思想"><span class="nav-number">2.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现源码"><span class="nav-number">2.2.</span> <span class="nav-text">实现源码</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#广度优先搜索"><span class="nav-number">3.</span> <span class="nav-text">广度优先搜索</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本思想-1"><span class="nav-number">3.1.</span> <span class="nav-text">基本思想</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实现源码-1"><span class="nav-number">3.2.</span> <span class="nav-text">实现源码</span></a></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
