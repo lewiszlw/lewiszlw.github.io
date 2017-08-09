@@ -101,7 +101,7 @@
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/HashMap%E5%8E%9F%E7%90%86%E5%88%9D%E6%8E%A22.png">
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/HashMap%E5%8E%9F%E7%90%86%E5%88%9D%E6%8E%A23.png">
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/HashMap%E5%8E%9F%E7%90%86%E5%88%9D%E6%8E%A24.png">
-<meta property="og:updated_time" content="2017-07-19T11:45:53.138Z">
+<meta property="og:updated_time" content="2017-07-29T03:10:46.895Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="HashMap原理初探">
 <meta name="twitter:description" content="HashMap是Java程序员使用频率最高的用于映射(键值对)处理的数据类型，学习下HashMap的原理对我们很有必要。">
@@ -371,6 +371,7 @@
 <h1 id="HashMap存取实现"><a href="#HashMap存取实现" class="headerlink" title="HashMap存取实现"></a>HashMap存取实现</h1><h2 id="确定哈希表数组索引位置"><a href="#确定哈希表数组索引位置" class="headerlink" title="确定哈希表数组索引位置"></a>确定哈希表数组索引位置</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line"><span class="comment">//方法一：</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> <span class="title">hash</span><span class="params">(Object key)</span> </span>&#123;   <span class="comment">//jdk1.8 &amp; jdk1.7</span></div><div class="line">     <span class="keyword">int</span> h;</div><div class="line">     <span class="comment">// h = key.hashCode() 为第一步 取hashCode值</span></div><div class="line">     <span class="comment">// h ^ (h &gt;&gt;&gt; 16)  为第二步 高位参与运算</span></div><div class="line">     <span class="keyword">return</span> (key == <span class="keyword">null</span>) ? <span class="number">0</span> : (h = key.hashCode()) ^ (h &gt;&gt;&gt; <span class="number">16</span>);</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">//方法二：</span></div><div class="line"><span class="function"><span class="keyword">static</span> <span class="keyword">int</span> <span class="title">indexFor</span><span class="params">(<span class="keyword">int</span> h, <span class="keyword">int</span> length)</span> </span>&#123;  <span class="comment">//jdk1.7的源码，jdk1.8没有这个方法，但是实现原理一样的</span></div><div class="line">     <span class="keyword">return</span> h &amp; (length-<span class="number">1</span>);  <span class="comment">//第三步 取模运算</span></div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p><img src="http://ofolh8dcq.bkt.clouddn.com/HashMap%E5%8E%9F%E7%90%86%E5%88%9D%E6%8E%A23.png" alt="HashMap原理初探3"></p>
 <p>这里的Hash算法本质上就是三步：<strong>取key的hashCode值、高位运算、取模运算</strong>。</p>
+<p>高位运算：右位移16位，正好是32bit的一半，自己的高半区和低半区做异或，就是为了<strong>混合原始哈希码的高位和低位，以此来加大低位的随机性</strong>。而且混合后的低位参杂了高位的部分特征，这样高位的信息也被变相保留下来。</p>
 <p>对于任意给定的对象，只要它的hashCode()返回值相同，那么程序调用方法一所计算得到的Hash码值总是相同的。我们首先想到的就是把hash值对数组长度取模运算，这样一来，元素的分布相对来说是比较均匀的。但是，模运算的消耗还是比较大的，在HashMap中是这样做的：调用方法二来计算该对象应该保存在table数组的哪个索引处。</p>
 <p>这个方法非常巧妙，它通过h &amp; (table.length -1)来得到该对象的保存位，而HashMap底层数组的长度总是2的n次方，这是HashMap在速度上的优化。当length总是2的n次方时，h&amp; (length-1)运算等价于对length取模，也就是h%length，但是&amp;比%具有更高的效率。</p>
 <p>注：位运算取模或者取余时，只适用于：求一个数X除以2的n次幂的模，即 X&amp;(2&lt;&lt;n-1)。</p>
@@ -386,7 +387,7 @@
 </ol>
 <hr>
 <blockquote>
-<p><a href="https://tech.meituan.com/java-hashmap.html" target="_blank" rel="external">Java 8系列之重新认识HashMap</a><br><a href="http://blog.csdn.net/vking_wang/article/details/14166593" target="_blank" rel="external">HashMap实现原理分析</a></p>
+<p><a href="https://tech.meituan.com/java-hashmap.html" target="_blank" rel="external">Java 8系列之重新认识HashMap</a><br><a href="http://blog.csdn.net/vking_wang/article/details/14166593" target="_blank" rel="external">HashMap实现原理分析</a><br><a href="https://www.zhihu.com/question/20733617" target="_blank" rel="external">JDK 源码中 HashMap 的 hash 方法原理是什么？</a></p>
 </blockquote>
 
       
@@ -503,7 +504,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">83</span>
+              <span class="site-state-item-count">85</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
