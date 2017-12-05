@@ -1,0 +1,1136 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,Django," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="当编写一个数据库驱动的Web应用时，第一步就是定义该应用的模型 —— 本质上，就是定义该模型所对应的数据库设计及其附带的元数据。模型是你的数据的唯一的、权威的信息源，它包含你所储存数据的必要字段和行为。通常，每个模型对应数据库中唯一的一张表。">
+<meta name="keywords" content="Python,Django">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django Model模型层学习">
+<meta property="og:url" content="http://zlw.poker/2017/11/29/Django-Model模型层学习/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="当编写一个数据库驱动的Web应用时，第一步就是定义该应用的模型 —— 本质上，就是定义该模型所对应的数据库设计及其附带的元数据。模型是你的数据的唯一的、权威的信息源，它包含你所储存数据的必要字段和行为。通常，每个模型对应数据库中唯一的一张表。">
+<meta property="og:updated_time" content="2017-12-05T04:00:04.504Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django Model模型层学习">
+<meta name="twitter:description" content="当编写一个数据库驱动的Web应用时，第一步就是定义该应用的模型 —— 本质上，就是定义该模型所对应的数据库设计及其附带的元数据。模型是你的数据的唯一的、权威的信息源，它包含你所储存数据的必要字段和行为。通常，每个模型对应数据库中唯一的一张表。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2017/11/29/Django-Model模型层学习/"/>
+
+
+  <title> Django Model模型层学习 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Django Model模型层学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-11-29T10:09:51+08:00" content="2017-11-29">
+              2017-11-29
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/11/29/Django-Model模型层学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/11/29/Django-Model模型层学习/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>当编写一个数据库驱动的Web应用时，第一步就是定义该应用的模型 —— 本质上，就是定义该模型所对应的数据库设计及其附带的元数据。模型是你的数据的唯一的、权威的信息源，它包含你所储存数据的必要字段和行为。通常，每个模型对应数据库中唯一的一张表。<br><a id="more"></a></p>
+<h2 id="Model层流程"><a href="#Model层流程" class="headerlink" title="Model层流程"></a>Model层流程</h2><h3 id="创建项目"><a href="#创建项目" class="headerlink" title="创建项目"></a>创建项目</h3><p>终端执行：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> django-admin startproject myproject</div></pre></td></tr></table></figure></p>
+<p>生成的项目目录：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">myproject/</div><div class="line">    manage.py</div><div class="line">    myproject/</div><div class="line">        __init__.py</div><div class="line">        settings.py</div><div class="line">        urls.py</div><div class="line">        wsgi.py</div></pre></td></tr></table></figure></p>
+<p>这些文件是：</p>
+<ul>
+<li>外层的myproject/根目录仅仅是项目的一个容器。它的命名对Django无关紧要，你可以把它重新命名为任何你喜欢的名字</li>
+<li>manage.py：一个命令行工具，可以使你用多种方式对Django项目进行交互</li>
+<li>内层的myproject/目录是你的项目的真正的Python包。它是你导入任何东西时将需要使用的Python包的名字（例如 myproject.urls）</li>
+<li>myprpject/__init__.py：一个空文件，它告诉Python这个目录应该被看做一个Python包</li>
+<li>myproject/settings.py：该Django 项目的配置</li>
+<li>myproject/urls.py：该Django项目的URL声明；你的Django站点的“目录”</li>
+<li>myproject/wsgi.py：用于你的项目的与WSGI兼容的Web服务器入口</li>
+</ul>
+<h3 id="建立数据库"><a href="#建立数据库" class="headerlink" title="建立数据库"></a>建立数据库</h3><p>编辑项目下的settings.py，在DATABASES ‘default’条目中修改：</p>
+<ul>
+<li><p>使用配置文件，如果使用PostgreSQL或者MySQL，确保已经建立好一个数据库</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line"><span class="comment">#settings.py</span></div><div class="line">DATABASES = &#123;</div><div class="line">    <span class="string">'default'</span>: &#123;</div><div class="line">        <span class="string">'ENGINE'</span>: <span class="string">'django.db.backends.mysql'</span>,</div><div class="line">        <span class="string">'OPTIONS'</span>: &#123;</div><div class="line">            <span class="string">'read_default_file'</span>: <span class="string">'conf/db.cnf'</span></div><div class="line">        &#125;,</div><div class="line">    &#125;,</div><div class="line">&#125;</div><div class="line"></div><div class="line"><span class="comment">#conf/db.cnf</span></div><div class="line">[client]</div><div class="line">host = localhost</div><div class="line">database = nero</div><div class="line">user = root</div><div class="line">password = <span class="number">123</span></div><div class="line">default-character-set = utf8</div></pre></td></tr></table></figure>
+</li>
+<li><p>直接在settings.py里配置：除了加入’ENGINE’，还需加上NAME、USER、PASSWORD、HOST等额外设置。</p>
+</li>
+</ul>
+<h3 id="创建模型"><a href="#创建模型" class="headerlink" title="创建模型"></a>创建模型</h3><p>首先创建应用，终端执行：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">python manage.py startapp myapp</div></pre></td></tr></table></figure></p>
+<p>模型一般放在app下的models.py文件：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># myapp/models.py</span></div><div class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">User</span><span class="params">(models.Model)</span>:</span></div><div class="line">    name = models.CharField(max_length=<span class="number">20</span>)</div><div class="line">    age = models.IntegerField(<span class="string">'年龄'</span>, default=<span class="number">0</span>)</div></pre></td></tr></table></figure></p>
+<p>1.每个模型都用一个类表示，该类继承自django.db.models.Model。每个模型都有一些类变量，在模型中每个类变量都代表了数据库中的一个字段。</p>
+<p>2.每个字段通过Field类的一个实例表示——例如字符字段CharField和日期字段DateTimeField。这种方法告诉Django，每个字段中保存着什么类型的数据。</p>
+<p>3.每个Field 实例的名字（例如name 或 age）就是字段的名字，并且是机器可读的格式。你将在Python代码中使用到它的值，并且你的数据库将把它用作表的列名。</p>
+<p>4.可以使用Field的第一个参数来指定一个人类可读的名字，这是可选的。它在Django的内省机制中有使用，而且可以兼作文档。 如果没有提供这个参数，Django将使用那个机器可读的名字（实例名）。</p>
+<h3 id="激活模型"><a href="#激活模型" class="headerlink" title="激活模型"></a>激活模型</h3><ol>
+<li><p>将应用安装到Django，编辑项目settings.py：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">INSTALLED_APPS = (</div><div class="line">    <span class="string">'django.contrib.admin'</span>,</div><div class="line">    <span class="string">'django.contrib.auth'</span>,</div><div class="line">    <span class="string">'django.contrib.contenttypes'</span>,</div><div class="line">    <span class="string">'django.contrib.sessions'</span>,</div><div class="line">    <span class="string">'django.contrib.messages'</span>,</div><div class="line">    <span class="string">'django.contrib.staticfiles'</span>,</div><div class="line">    <span class="string">'myapp'</span>,</div><div class="line">)</div></pre></td></tr></table></figure>
+</li>
+<li><p>运行命令：python manager.py makemigrations myapp<br>会在该myapp下建立 migrations目录，并记录下你所有的关于modes.py的改动，比如0001_initial.py， 但是这个改动还没有作用到数据库文件</p>
+</li>
+<li><p>运行命令：python manage.py sqlmigrate myapp 0001<br>sqlmigrate命令接收迁移文件的名字并返回它们的SQL语句，相当于查看文件，可以用来检查接下来需要执行的SQL操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">BEGIN;</div><div class="line">--</div><div class="line">-- Create model User</div><div class="line">--</div><div class="line">CREATE TABLE &quot;myapp_user&quot; (</div><div class="line">    &quot;id&quot; integer NOT NULL PRIMARY KEY AUTOINCREMENT, </div><div class="line">    &quot;name&quot; varchar(20) NOT NULL, </div><div class="line">    &quot;age&quot; integer NOT NULL</div><div class="line">);</div><div class="line">COMMIT;</div></pre></td></tr></table></figure>
+<ul>
+<li>表名是自动生成的，由app的名字（polls）和模型名字的小写字母组合而成，如myapp_user（可以重写此行为）</li>
+<li>主键（id）是自动添加的（可以重写此行为)</li>
+<li>按照惯例，Django会在外键的字段名后面添加 “_id”（可以重写此行为）</li>
+</ul>
+</li>
+<li>运行命令：python manage.py migrate<br>migrate命令会找出所有还没有被应用的迁移文件（Django使用数据库中一个叫做django_migrations的特殊表来追踪哪些迁移文件已经被应用过），并且在你的数据库上运行它们 —— 本质上来讲，就是使你的数据库模式和你改动后的模型进行同步</li>
+</ol>
+<h2 id="Model字段"><a href="#Model字段" class="headerlink" title="Model字段"></a>Model字段</h2><h3 id="字段选项"><a href="#字段选项" class="headerlink" title="字段选项"></a>字段选项</h3><p>以下参数都是全部类型可用，某些字段类型还会有特殊的参数</p>
+<h4 id="null"><a href="#null" class="headerlink" title="null"></a>null</h4><ul>
+<li>如果为True，Django将在数据库中将空值存储为NULL。默认值是 False。</li>
+<li>字符串字段例如CharField 和TextField 要避免使用null，因为空字符串值将始终储存为空字符串而不是NULL。如果字符串字段的null=True，那意味着对于“无数据”有两个可能的值：NULL 和空字符串。在大多数情况下，对于“无数据”声明两个值是赘余的，Django 的惯例是使用空字符串而不是NULL。</li>
+<li>如果你希望BooleanField 接受null 值，请用 NullBooleanField 代替。</li>
+</ul>
+<h4 id="blank"><a href="#blank" class="headerlink" title="blank"></a>blank</h4><ul>
+<li>如果为True，则该字段允许为空白。默认值是 False。</li>
+<li>注意它与null不同。null 纯粹是数据库范畴的概念，而blank 是数据验证范畴的。如果字段设置blank=True，表单验证时将允许输入空值。如果字段设置blank=False，则该字段为必填。</li>
+</ul>
+<h4 id="choices"><a href="#choices" class="headerlink" title="choices"></a>choices</h4><ul>
+<li>它是一个可迭代的结构（比如，列表或是元组），由可迭代的二元组组成（比如[(A, B), (A, B) …]），用来给这个字段提供选择项。</li>
+<li>每个元组中的第一个元素，是存储在数据库中的值；第二个元素是该选项更易理解的描述。比如：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">PARAGRAPH_TYPE = (</div><div class="line">    (<span class="number">0</span>, <span class="string">u'文本'</span>),</div><div class="line">    (<span class="number">1</span>, <span class="string">u'图片'</span>),</div><div class="line">)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="default"><a href="#default" class="headerlink" title="default"></a>default</h4><ul>
+<li>该字段的默认值。它可以是一个值或者一个可调用对象。如果是一个可调用对象，那么在每一次创建新对象的时候，它将会调用一次。</li>
+<li><p>这个默认值不可以是一个可变对象（如字典，列表，等等），因为对于所有模型的一个新的实例来说，它们指向同一个引用。如果需要使用可变对象（如字典），可以把它包装成一个可调用对象：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">contact_default</span><span class="params">()</span>:</span></div><div class="line">    <span class="keyword">return</span> &#123;<span class="string">"email"</span>: <span class="string">"to1@example.com"</span>&#125;</div><div class="line"></div><div class="line">contact_info = JSONField(<span class="string">"ContactInfo"</span>, default=contact_default)</div></pre></td></tr></table></figure>
+</li>
+<li><p>注意lambdas 函数不可作为如 default 这类可选参数的值，因为它们无法被 migrations命令序列化。</p>
+</li>
+</ul>
+<h4 id="primary-key"><a href="#primary-key" class="headerlink" title="primary_key"></a>primary_key</h4><ul>
+<li>若为 True, 则该字段会成为模型的主键字段。</li>
+<li>如果你没有在模型的任何字段上指定 primary_key=True, Django会自动添加一个 AutoField 字段来充当主键。 所以除非你想要覆盖默认的主键行为，否则不需要在任何字段上设定primary_key=True。</li>
+<li>primary_key=True 暗含着null=False 和unique=True. 一个对象上只能拥有一个主键。</li>
+<li>主键字段是只读的。如果你改变了一个已存在对象上的主键并且保存的话，会创建一个新的对象，而不是覆盖旧的。</li>
+<li>每个模型只能有一个字段指定primary_key=True（无论是显式声明还是自动添加）。</li>
+</ul>
+<h4 id="unique"><a href="#unique" class="headerlink" title="unique"></a>unique</h4><ul>
+<li>如果为 True, 这个字段在表中必须有唯一值。</li>
+<li>除了ManyToManyField、OneToOneField和FileField 以外的其他字段类型都可以使用这个设置。</li>
+<li>注意当设置unique 为True 时，你不需要再指定 db_index，因为unique 本身就意味着一个索引的创建。</li>
+</ul>
+<h4 id="db-index"><a href="#db-index" class="headerlink" title="db_index"></a>db_index</h4><ul>
+<li>若值为 True, 则 django-admin sqlindexes 将会为此字段输出 CREATE INDEX（创建索引）语句。</li>
+</ul>
+<h3 id="字段类型"><a href="#字段类型" class="headerlink" title="字段类型"></a>字段类型</h3><h4 id="AutoField"><a href="#AutoField" class="headerlink" title="AutoField"></a>AutoField</h4><ul>
+<li>一个根据实际ID自动增长的IntegerField</li>
+<li><p>默认情况下，Django 会给每个模型添加下面这个字段：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">id = models.AutoField(primary_key=<span class="keyword">True</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>如果你想指定一个自定义主键字段，只要在某个字段上指定 primary_key=True 即可。如果 Django 看到你显式地设置了 Field.primary_key，就不会自动添加 id 列。</p>
+</li>
+</ul>
+<h4 id="BooleanField"><a href="#BooleanField" class="headerlink" title="BooleanField"></a>BooleanField</h4><ul>
+<li>true/false 字段。</li>
+<li>如果Field.default没有指定的话， BooleanField 的默认值是 None。</li>
+</ul>
+<h4 id="CharField"><a href="#CharField" class="headerlink" title="CharField"></a>CharField</h4><ul>
+<li>一个用来存储从小到很大各种长度的字符串的地方，如果是巨大的文本类型, 可以用 TextField。</li>
+<li>须接收一个额外的参数：max_length</li>
+</ul>
+<h4 id="DateTimeField"><a href="#DateTimeField" class="headerlink" title="DateTimeField"></a>DateTimeField</h4><ul>
+<li>它是通过Python datetime.datetime实例表示的日期和时间。</li>
+<li>参数auto_now：每次保存对象时，自动设置该字段为当前时间。</li>
+<li>参数auto_now_add：当对象第一次被创建时自动设置当前时间。</li>
+</ul>
+<h4 id="FloatField"><a href="#FloatField" class="headerlink" title="FloatField"></a>FloatField</h4><ul>
+<li>用Python的一个float 实例来表示一个浮点数。</li>
+</ul>
+<h4 id="IntegerField"><a href="#IntegerField" class="headerlink" title="IntegerField"></a>IntegerField</h4><ul>
+<li>一个整数。在Django所支持的所有数据库中，从 -2147483648 到 2147483647 范围内的值是合法的。</li>
+</ul>
+<h3 id="关联字段"><a href="#关联字段" class="headerlink" title="关联字段"></a>关联字段</h3><h4 id="ForeignKey"><a href="#ForeignKey" class="headerlink" title="ForeignKey"></a>ForeignKey</h4><ul>
+<li>多对一关系。需要一个位置参数：与该模型关联的类。</li>
+<li>ForeignKey 会自动创建数据库索引。你可以通过设置db_index 为False 来取消。</li>
+<li>在幕后，Django 会在字段名上添加”_id” 来创建数据库中的列名。</li>
+<li>ForeignKey.related_name：这个名称用于让关联的对象反查到源对象。注意，当你为抽象模型定义关联关系的时，必须设置这个参数的值。</li>
+<li>ForeignKey.to_field：关联到的关联对象的字段名称。默认地，Django 使用关联对象的主键。</li>
+<li>ForeignKey.on_delete：外键删除约束。有：CASCADE（默认值）、PROTECT（抛出ProtectedError 以阻止被引用对象的删除）、SET_NULL、SET_DEFAULT（ForeignKey 值设置成它的默认值；此时必须设置ForeignKey 的default 参数）、DO_NOTHING等。</li>
+</ul>
+<h4 id="ManyToManyField"><a href="#ManyToManyField" class="headerlink" title="ManyToManyField"></a>ManyToManyField</h4><ul>
+<li>一个多对多关联。要求一个关键字参数：与该模型关联的类。</li>
+<li>关联的对象可以通过字段的RelatedManager 添加、删除和创建。</li>
+<li>ManyToManyField.related_name：这个名称用于让关联的对象反查到源对象。</li>
+</ul>
+<h4 id="OneToOneField"><a href="#OneToOneField" class="headerlink" title="OneToOneField"></a>OneToOneField</h4><ul>
+<li>一对一关联关系。概念上讲，这个字段很像是ForeignKey 设置了unique=True，不同的是它会直接返回关系另一边的单个对象。</li>
+<li>需要一个位置参数：与该模型关联的类。</li>
+</ul>
+<h3 id="元选项"><a href="#元选项" class="headerlink" title="元选项"></a>元选项</h3><h4 id="abstract"><a href="#abstract" class="headerlink" title="abstract"></a>abstract</h4><ul>
+<li>如果 abstract = True， 就表示模型是 抽象基类。<br>当你想将一些共有信息放进其它一些model的时候，抽象化类是十分有用的。你编写完基类之后，在 Meta类中设置 abstract=True ，这个模型就不会被用来创建任何数据表。取而代之的是，当它被用来作为一个其他model的基类时，它的字段将被加入那些子类中。如果抽象基类和它的子类有相同的字段名，那么将会出现error（并且Django将抛出一个exception）。</li>
+</ul>
+<h4 id="app-label"><a href="#app-label" class="headerlink" title="app_label"></a>app_label</h4><ul>
+<li>如果一个模型位于标准的位置之外（应用的models.py 或models 包），该模型必须定义它属于哪个应用。</li>
+</ul>
+<h4 id="db-table"><a href="#db-table" class="headerlink" title="db_table"></a>db_table</h4><ul>
+<li>该模型所用的数据表的名称。</li>
+</ul>
+<h4 id="ordering"><a href="#ordering" class="headerlink" title="ordering"></a>ordering</h4><ul>
+<li>对象默认的顺序，获取一个对象的列表时使用。</li>
+<li>它是一个字符串的列表或元组。每个字符串是一个字段名，前面带有可选的“-”前缀表示倒序。前面没有“-”的字段表示正序。使用”?”来表示随机排序。先按照pub_date的倒序排序，再按照 author 的正序排序，这样写：<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ordering = [<span class="string">'-pub_date'</span>, <span class="string">'author'</span>]</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="管理器"><a href="#管理器" class="headerlink" title="管理器"></a>管理器</h3><p>每个非抽象的Model 类必须给自己添加一个Manager实例。Django 确保在你的模型类中至少有一个默认的Manager。如果你没有添加自己的Manager，Django 将添加一个属性objects，它包含默认的Manager 实例。如果你添加自己的Manager实例的属性，默认值则不会出现。</p>
+<h2 id="CURD操作"><a href="#CURD操作" class="headerlink" title="CURD操作"></a>CURD操作</h2><p>一旦你建立好数据模型，Django 会自动为你生成一套数据库抽象的API，可以让你创建、检索、更新和删除对象。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> models</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Blog</span><span class="params">(models.Model)</span>:</span></div><div class="line">    name = models.CharField(max_length=<span class="number">100</span>)</div><div class="line">    tagline = models.TextField()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></div><div class="line">        <span class="keyword">return</span> self.name</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Author</span><span class="params">(models.Model)</span>:</span></div><div class="line">    name = models.CharField(max_length=<span class="number">50</span>)</div><div class="line">    email = models.EmailField()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></div><div class="line">        <span class="keyword">return</span> self.name</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Entry</span><span class="params">(models.Model)</span>:</span></div><div class="line">    blog = models.ForeignKey(Blog)</div><div class="line">    headline = models.CharField(max_length=<span class="number">255</span>)</div><div class="line">    body_text = models.TextField()</div><div class="line">    pub_date = models.DateField()</div><div class="line">    mod_date = models.DateField()</div><div class="line">    authors = models.ManyToManyField(Author)</div><div class="line">    n_comments = models.IntegerField()</div><div class="line">    n_pingbacks = models.IntegerField()</div><div class="line">    rating = models.IntegerField()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>              <span class="comment"># __unicode__ on Python 2</span></div><div class="line">        <span class="keyword">return</span> self.headline</div></pre></td></tr></table></figure></p>
+<h3 id="创建对象"><a href="#创建对象" class="headerlink" title="创建对象"></a>创建对象</h3><ol>
+<li><p>save()方法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">b = Blog(name=<span class="string">'Beatles Blog'</span>, tagline=<span class="string">'All the latest Beatles news.'</span>)</div><div class="line">b.save()	<span class="comment"># 返回保存实例</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>create()方法：如果你的model中有一个你手动设置主键，并且这个值已经存在于数据库中，调用 create()将会失败并且触发 IntegrityError，因为主键必须是唯一的</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Blog.objects.create(name=<span class="string">'Beatles Blog'</span>, tagline=<span class="string">'All the latest Beatles news.'</span>)	<span class="comment"># 返回保存实例</span></div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h3 id="保存对象改动"><a href="#保存对象改动" class="headerlink" title="保存对象改动"></a>保存对象改动</h3><ul>
+<li>save()方法<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">b.name = <span class="string">'New name'</span></div><div class="line">b.save()	<span class="comment"># update</span></div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h4 id="保存ForeignKey和ManyToManyField字段"><a href="#保存ForeignKey和ManyToManyField字段" class="headerlink" title="保存ForeignKey和ManyToManyField字段"></a>保存ForeignKey和ManyToManyField字段</h4><ul>
+<li><p>更新ForeignKey 字段的方式和保存普通字段相同 —— 只要把一个正确类型的对象赋值给该字段</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">entry = Entry.objects.get(pk=<span class="number">1</span>)</div><div class="line">cheese_blog = Blog.objects.get(name=<span class="string">"Cheddar Talk"</span>)</div><div class="line">entry.blog = cheese_blog</div><div class="line">entry.save()</div></pre></td></tr></table></figure>
+</li>
+<li><p>更新ManyToManyField 的方式有一些不同 —— 需要使用字段的<strong>add()</strong>方法来增加关联关系的记录（可以同时增加多个）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">joe = Author.objects.create(name=<span class="string">"Joe"</span>)</div><div class="line">entry.authors.add(joe)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="获取对象"><a href="#获取对象" class="headerlink" title="获取对象"></a>获取对象</h3><p>通过模型中的管理器构造一个查询集，来从你的数据库中获取对象。</p>
+<h4 id="获取所有对象"><a href="#获取所有对象" class="headerlink" title="获取所有对象"></a>获取所有对象</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">all_entries = Entry.objects.all()</div></pre></td></tr></table></figure>
+<h4 id="使用过滤器获取对象"><a href="#使用过滤器获取对象" class="headerlink" title="使用过滤器获取对象"></a>使用过滤器获取对象</h4><ul>
+<li>filter(**kwargs)：返回一个新的查询集，它包含满足查询参数的对象</li>
+<li>exclude(**kwargs)：返回一个新的查询集，它包含不满足查询参数的对象<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.filter(pub_date__year=<span class="number">2006</span>)</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<ol>
+<li>链式过滤：查询集的筛选结果本身还是查询集，所以可以将筛选语句链接在一起。</li>
+<li>过滤后的查询集是独立的：每次你筛选一个查询集，得到的都是全新的另一个查询集，它和之前的查询集之间没有任何绑定关系。每次筛选都会创建一个独立的查询集，它可以被存储及反复使用。</li>
+<li>查询集是惰性执行的：查询集 是惰性执行的 —— 创建查询集不会带来任何数据库的访问。你可以将过滤器保持一整天，直到查询集需要求值时，Django才会真正运行这个查询。</li>
+</ol>
+<p>查询的关键字参数的基本形式是<strong>field__lookuptype=value</strong>：</p>
+<ul>
+<li>exact：“精确”匹配</li>
+<li>iexact：大小写不敏感的匹配</li>
+<li>contains：大小写敏感的包含关系测试（LIKE）</li>
+<li>startswith, endswith：分别表示以XXX开头和以XXX结尾，大小写敏感</li>
+</ul>
+<h4 id="使用get获取单个对象"><a href="#使用get获取单个对象" class="headerlink" title="使用get获取单个对象"></a>使用get获取单个对象</h4><p>返回查到的第一个满足条件的对象<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">one_entry = Entry.objects.get(pk=<span class="number">1</span>)</div></pre></td></tr></table></figure></p>
+<p>注意：<br>如果没有结果满足查询，get() 将引发一个DoesNotExist 异常，这个异常是正在查询的模型类的一个属性；如果有多条记录满足get() 的查询条件，Django 也将报错。这种情况将引发MultipleObjectsReturned，它同样是模型类自身的一个属性。</p>
+<h4 id="限制查询集"><a href="#限制查询集" class="headerlink" title="限制查询集"></a>限制查询集</h4><p>可以使用Python 的切片语法来限制查询集记录的数目 。它等同于SQL 的LIMIT 和OFFSET 子句。不支持负的索引（例如Entry.objects.all()[-1]）。<br><strong>注意</strong>：通常，查询集 的切片返回一个新的查询集 —— 它不会执行查询。有一个例外，是如果你使用Python 切片语法中”step”参数。例如，下面的语句将返回前10 个对象中每隔2个对象，它将真实执行查询</p>
+<h4 id="跨关联关系查询"><a href="#跨关联关系查询" class="headerlink" title="跨关联关系查询"></a>跨关联关系查询</h4><p>Django 提供一种强大而又直观的方式来“处理”查询中的关联关系，它在后台自动帮你处理JOIN。 若要跨越关联关系，只需使用关联的模型字段的名称，并使用双下划线分隔，直至你想要的字段（这种跨越可以是任意的深度）：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.filter(blog__name=<span class="string">'Beatles Blog'</span>)</div></pre></td></tr></table></figure></p>
+<p>跨越多值（filter举例，exclude略有不同）：</p>
+<ol>
+<li><p>选择所有包含<strong>同时满足</strong>两个条件的entry的blog，这两个条件是headline 包含Lennon 和发表时间是2008 （同一个entry 满足两个条件）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(entry__headline__contains=<span class="string">'Lennon'</span>, entry__pub_date__year=<span class="number">2008</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>选择满足以下条件的blog实例：blog的enrty的headline属性值是“Lennon”，<strong>或者</strong>entry的发表时间是2008（两个条件至少满足一个，也可以同时满足）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(entry__headline__contains=<span class="string">'Lennon'</span>).filter(entry__pub_date__year=<span class="number">2008</span>)</div></pre></td></tr></table></figure>
+</li>
+</ol>
+<h4 id="查询快捷方式pk"><a href="#查询快捷方式pk" class="headerlink" title="查询快捷方式pk"></a>查询快捷方式pk</h4><p>为了方便，Django 提供一个查询快捷方式pk ，它表示“primary key” 的意思。<br>在Blog 模型示例中，主键是id 字段，所以下面三条语句是等同的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">Blog.objects.get(id__exact=<span class="number">14</span>) <span class="comment"># Explicit form</span></div><div class="line">Blog.objects.get(id=<span class="number">14</span>) <span class="comment"># __exact is implied</span></div><div class="line">Blog.objects.get(pk=<span class="number">14</span>) <span class="comment"># pk implies id__exact</span></div><div class="line"></div><div class="line">Blog.objects.filter(pk__gt=<span class="number">14</span>)</div><div class="line">Entry.objects.filter(blog__pk=<span class="number">3</span>)</div></pre></td></tr></table></figure></p>
+<h3 id="删除对象"><a href="#删除对象" class="headerlink" title="删除对象"></a>删除对象</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Blog.objects.get(id=<span class="number">14</span>).delete()</div><div class="line">Entry.objects.filter(pub_date__year=<span class="number">2005</span>).delete()</div></pre></td></tr></table></figure>
+<h3 id="一次更新多个对象"><a href="#一次更新多个对象" class="headerlink" title="一次更新多个对象"></a>一次更新多个对象</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.filter(pub_date__year=<span class="number">2007</span>).update(headline=<span class="string">'Everything is the same'</span>)</div></pre></td></tr></table></figure>
+<p>update() 方法会立即执行并返回查询匹配的行数（如果有些行已经具有新的值，返回的行数可能和被更新的行数不相等）。</p>
+<h3 id="关联的对象"><a href="#关联的对象" class="headerlink" title="关联的对象"></a>关联的对象</h3><h4 id="多对一、多对多关系"><a href="#多对一、多对多关系" class="headerlink" title="多对一、多对多关系"></a>多对一、多对多关系</h4><ol>
+<li><p>前向查询<br>如果一个模型具有ForeignKey，那么该模型的实例将可以通过属性访问关联的（外部）对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">e = Entry.objects.get(id=<span class="number">2</span>)</div><div class="line">e.blog <span class="comment"># Returns the related Blog object.</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>反向查询<br>如果模型I有一个ForeignKey，那么该ForeignKey 所指的模型II实例可以通过一个管理器返回前面有ForeignKey的模型I的所有实例。默认情况下，这个管理器的名字为foo_set（你可以在ForeignKey 定义时设置related_name 参数来覆盖foo_set 的名称），其中foo 是源模型的小写名称。该管理器返回的查询集可以用上一节提到的方式进行过滤和操作。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">b = Blog.objects.get(id=<span class="number">1</span>)</div><div class="line">b.entry_set.all() <span class="comment"># Returns all Entry objects related to Blog.</span></div><div class="line"></div><div class="line"><span class="comment"># b.entry_set is a Manager that returns QuerySets.</span></div><div class="line">b.entry_set.filter(headline__contains=<span class="string">'Lennon'</span>)</div><div class="line">b.entry_set.count()</div></pre></td></tr></table></figure>
+</li>
+<li><p>处理关联对象的其他方法</p>
+<ul>
+<li>add(obj1, obj2, …)<br>添加一指定的模型对象到关联的对象集中</li>
+<li>create(**kwargs)<br>创建一个新的对象，将它保存并放在关联的对象集中。返回新创建的对象</li>
+<li>remove(obj1, obj2, …)<br>从关联的对象集中删除指定的模型对象</li>
+<li>clear()<br>从关联的对象集中删除所有的对象</li>
+</ul>
+</li>
+</ol>
+<h4 id="通过关联对象进行查询"><a href="#通过关联对象进行查询" class="headerlink" title="通过关联对象进行查询"></a>通过关联对象进行查询</h4><p>当你指定查询需要匹配的一个值时，你可以使用一个对象实例或者对象的主键的值。<br>例如，如果你有一个id=5 的Blog 对象b，下面的三个查询将是完全一样的：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Entry.objects.filter(blog=b) <span class="comment"># Query using object instance</span></div><div class="line">Entry.objects.filter(blog=b.id) <span class="comment"># Query using id from instance</span></div><div class="line">Entry.objects.filter(blog=<span class="number">5</span>) <span class="comment"># Query using id directly</span></div></pre></td></tr></table></figure></p>
+<h3 id="使用原始SQL查询"><a href="#使用原始SQL查询" class="headerlink" title="使用原始SQL查询"></a>使用原始SQL查询</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># 1.Manager.raw()方法，返回模型实例</span></div><div class="line">Person.objects.raw(<span class="string">'SELECT id, first_name, last_name, birth_date FROM myapp_person'</span>)</div><div class="line"></div><div class="line"><span class="comment"># 2.获取原始数据</span></div><div class="line"><span class="keyword">from</span> django.db <span class="keyword">import</span> connection</div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">my_custom_sql</span><span class="params">(self)</span>:</span></div><div class="line">    cursor = connection.cursor()</div><div class="line">    cursor.execute(<span class="string">"UPDATE bar SET foo = 1 WHERE baz = %s"</span>, [self.baz])</div><div class="line">    cursor.execute(<span class="string">"SELECT foo FROM bar WHERE baz = %s"</span>, [self.baz])</div><div class="line">    row = cursor.fetchone()</div><div class="line">    <span class="keyword">return</span> row</div></pre></td></tr></table></figure>
+<h2 id="QuerySet-API"><a href="#QuerySet-API" class="headerlink" title="QuerySet API"></a>QuerySet API</h2><p>除了上面使用到的，还有以下常用的API：</p>
+<ol>
+<li>order_by<br>默认情况下，QuerySet 根据模型Meta 类的ordering 选项排序。你可以使用order_by 方法给每个QuerySet 指定特定的排序。</li>
+<li>reverse<br>reverse() 方法反向排序QuerySet 中返回的元素。第二次调用reverse() 将恢复到原有的排序。</li>
+<li>distinct<br>返回一个在SQL 查询中使用SELECT DISTINCT 的新QuerySet。它将去除查询结果中重复的行。</li>
+<li><p>values<br>返回一个ValuesQuerySet —— QuerySet 的一个子类，迭代时返回字典而不是模型实例对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">Blog.objects.filter(name__startswith=<span class="string">'Beatles'</span>).values()</div><div class="line"><span class="comment"># [&#123;'id': 1, 'name': 'Beatles Blog', 'tagline': 'All the latest Beatles news.'&#125;]</span></div><div class="line"></div><div class="line">Blog.objects.values(<span class="string">'id'</span>, <span class="string">'name'</span>)</div><div class="line"><span class="comment"># [&#123;'id': 1, 'name': 'Beatles Blog'&#125;]</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>values_list<br>与values() 类似，只是在迭代时返回的是元组而不是字典。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Entry.objects.values_list(<span class="string">'id'</span>, <span class="string">'headline'</span>)</div><div class="line"><span class="comment"># [(1, 'First entry'), ...]</span></div></pre></td></tr></table></figure>
+</li>
+<li><p>all<br>返回当前QuerySet（或QuerySet 子类） 的副本。</p>
+</li>
+<li>select_related<br>返回一个QuerySet，当执行它的查询时它沿着外键关系查询关联的对象的数据。它会生成一个复杂的查询并引起性能的损耗，但是在以后使用外键关系时将不需要数据库查询。</li>
+<li>get_or_create<br>一个通过给出的kwargs 来查询对象的便捷方法（如果你的模型中的所有字段都有默认值，可以为空），需要的话创建一个对象。</li>
+<li>update_or_create</li>
+<li>count()<br>返回在数据库中对应的 QuerySet.对象的个数。 count() 永远不会引发异常。</li>
+<li><p>latest<br>使用作为日期字段提供的field_name，按日期返回表中的最新对象。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Entry.objects.latest(<span class="string">'pub_date'</span>)</div></pre></td></tr></table></figure>
+</li>
+<li><p>earliest<br>除非方向更改，否则像latest()。</p>
+</li>
+<li>first<br>first()返回结果集的第一个对象, 当没有找到时返回None.如果 QuerySet 没有设置排序,则将会自动按主键进行排序</li>
+<li>last<br>last()工作方式类似first()，只是返回的是查询集中最后一个对象。</li>
+<li>exists<br>如果QuerySet 包含任何结果，则返回True，否则返回False。</li>
+</ol>
+<hr>
+<blockquote>
+<p><a href="http://python.usyiyi.cn/translate/django_182/index.html" target="_blank" rel="external">Django 文档 — Django 1.8.2 中文文档</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/Django/" rel="tag">#Django</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/27/闭包/" rel="next" title="闭包">
+                <i class="fa fa-chevron-left"></i> 闭包
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/11/29/Django-Model模型层学习/"
+           data-title="Django Model模型层学习" data-url="http://zlw.poker/2017/11/29/Django-Model模型层学习/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungry,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">89</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">54</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://zlwloveyyf.github.io/" title="GiftForMyGirlfriend" target="_blank">GiftForMyGirlfriend</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Model层流程"><span class="nav-number">1.</span> <span class="nav-text">Model层流程</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建项目"><span class="nav-number">1.1.</span> <span class="nav-text">创建项目</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#建立数据库"><span class="nav-number">1.2.</span> <span class="nav-text">建立数据库</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#创建模型"><span class="nav-number">1.3.</span> <span class="nav-text">创建模型</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#激活模型"><span class="nav-number">1.4.</span> <span class="nav-text">激活模型</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Model字段"><span class="nav-number">2.</span> <span class="nav-text">Model字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#字段选项"><span class="nav-number">2.1.</span> <span class="nav-text">字段选项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#null"><span class="nav-number">2.1.1.</span> <span class="nav-text">null</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#blank"><span class="nav-number">2.1.2.</span> <span class="nav-text">blank</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#choices"><span class="nav-number">2.1.3.</span> <span class="nav-text">choices</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#default"><span class="nav-number">2.1.4.</span> <span class="nav-text">default</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#primary-key"><span class="nav-number">2.1.5.</span> <span class="nav-text">primary_key</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unique"><span class="nav-number">2.1.6.</span> <span class="nav-text">unique</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#db-index"><span class="nav-number">2.1.7.</span> <span class="nav-text">db_index</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#字段类型"><span class="nav-number">2.2.</span> <span class="nav-text">字段类型</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#AutoField"><span class="nav-number">2.2.1.</span> <span class="nav-text">AutoField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#BooleanField"><span class="nav-number">2.2.2.</span> <span class="nav-text">BooleanField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#CharField"><span class="nav-number">2.2.3.</span> <span class="nav-text">CharField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DateTimeField"><span class="nav-number">2.2.4.</span> <span class="nav-text">DateTimeField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FloatField"><span class="nav-number">2.2.5.</span> <span class="nav-text">FloatField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IntegerField"><span class="nav-number">2.2.6.</span> <span class="nav-text">IntegerField</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联字段"><span class="nav-number">2.3.</span> <span class="nav-text">关联字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#ForeignKey"><span class="nav-number">2.3.1.</span> <span class="nav-text">ForeignKey</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ManyToManyField"><span class="nav-number">2.3.2.</span> <span class="nav-text">ManyToManyField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#OneToOneField"><span class="nav-number">2.3.3.</span> <span class="nav-text">OneToOneField</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#元选项"><span class="nav-number">2.4.</span> <span class="nav-text">元选项</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#abstract"><span class="nav-number">2.4.1.</span> <span class="nav-text">abstract</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#app-label"><span class="nav-number">2.4.2.</span> <span class="nav-text">app_label</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#db-table"><span class="nav-number">2.4.3.</span> <span class="nav-text">db_table</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ordering"><span class="nav-number">2.4.4.</span> <span class="nav-text">ordering</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#管理器"><span class="nav-number">2.5.</span> <span class="nav-text">管理器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#CURD操作"><span class="nav-number">3.</span> <span class="nav-text">CURD操作</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建对象"><span class="nav-number">3.1.</span> <span class="nav-text">创建对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存对象改动"><span class="nav-number">3.2.</span> <span class="nav-text">保存对象改动</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#保存ForeignKey和ManyToManyField字段"><span class="nav-number">3.2.1.</span> <span class="nav-text">保存ForeignKey和ManyToManyField字段</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#获取对象"><span class="nav-number">3.3.</span> <span class="nav-text">获取对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#获取所有对象"><span class="nav-number">3.3.1.</span> <span class="nav-text">获取所有对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用过滤器获取对象"><span class="nav-number">3.3.2.</span> <span class="nav-text">使用过滤器获取对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#使用get获取单个对象"><span class="nav-number">3.3.3.</span> <span class="nav-text">使用get获取单个对象</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#限制查询集"><span class="nav-number">3.3.4.</span> <span class="nav-text">限制查询集</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#跨关联关系查询"><span class="nav-number">3.3.5.</span> <span class="nav-text">跨关联关系查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#查询快捷方式pk"><span class="nav-number">3.3.6.</span> <span class="nav-text">查询快捷方式pk</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#删除对象"><span class="nav-number">3.4.</span> <span class="nav-text">删除对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#一次更新多个对象"><span class="nav-number">3.5.</span> <span class="nav-text">一次更新多个对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#关联的对象"><span class="nav-number">3.6.</span> <span class="nav-text">关联的对象</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#多对一、多对多关系"><span class="nav-number">3.6.1.</span> <span class="nav-text">多对一、多对多关系</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#通过关联对象进行查询"><span class="nav-number">3.6.2.</span> <span class="nav-text">通过关联对象进行查询</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用原始SQL查询"><span class="nav-number">3.7.</span> <span class="nav-text">使用原始SQL查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#QuerySet-API"><span class="nav-number">4.</span> <span class="nav-text">QuerySet API</span></a></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
