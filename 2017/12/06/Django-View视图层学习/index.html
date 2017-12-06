@@ -90,17 +90,17 @@
 
 
 
-<meta name="description" content="对于高质量的Web 应用来说，使用简洁、优雅的URL 模式是一个非常值得重视的细节。Django 让你随心所欲设计你的URL，不受框架束缚。">
+<meta name="description" content="View视图层主要封装负责处理用户请求和返回响应的逻辑。">
 <meta name="keywords" content="Python,Django">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Django View视图层学习">
 <meta property="og:url" content="http://zlw.poker/2017/12/06/Django-View视图层学习/index.html">
 <meta property="og:site_name" content="Lewis&#39;s Blog">
-<meta property="og:description" content="对于高质量的Web 应用来说，使用简洁、优雅的URL 模式是一个非常值得重视的细节。Django 让你随心所欲设计你的URL，不受框架束缚。">
-<meta property="og:updated_time" content="2017-12-06T10:11:34.790Z">
+<meta property="og:description" content="View视图层主要封装负责处理用户请求和返回响应的逻辑。">
+<meta property="og:updated_time" content="2017-12-06T10:16:04.608Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Django View视图层学习">
-<meta name="twitter:description" content="对于高质量的Web 应用来说，使用简洁、优雅的URL 模式是一个非常值得重视的细节。Django 让你随心所欲设计你的URL，不受框架束缚。">
+<meta name="twitter:description" content="View视图层主要封装负责处理用户请求和返回响应的逻辑。">
 
 
 
@@ -348,8 +348,9 @@
       
 
       
-        <p>对于高质量的Web 应用来说，使用简洁、优雅的URL 模式是一个非常值得重视的细节。Django 让你随心所欲设计你的URL，不受框架束缚。<br><a id="more"></a></p>
-<h2 id="URL路由"><a href="#URL路由" class="headerlink" title="URL路由"></a>URL路由</h2><h3 id="Django-如何处理一个请求"><a href="#Django-如何处理一个请求" class="headerlink" title="Django 如何处理一个请求"></a>Django 如何处理一个请求</h3><p>当一个用户请求Django 站点的一个页面，下面是Django 系统决定执行哪个Python 代码遵循的算法：</p>
+        <p>View视图层主要封装负责处理用户请求和返回响应的逻辑。<br><a id="more"></a></p>
+<h2 id="URL路由"><a href="#URL路由" class="headerlink" title="URL路由"></a>URL路由</h2><p>对于高质量的Web 应用来说，使用简洁、优雅的URL 模式是一个非常值得重视的细节。Django 让你随心所欲设计你的URL，不受框架束缚。</p>
+<h3 id="Django-如何处理一个请求"><a href="#Django-如何处理一个请求" class="headerlink" title="Django 如何处理一个请求"></a>Django 如何处理一个请求</h3><p>当一个用户请求Django 站点的一个页面，下面是Django 系统决定执行哪个Python 代码遵循的算法：</p>
 <ol>
 <li>Django 决定要使用的根URLconf 模块。通常，这个值就是ROOT_URLCONF 的设置，但是如果进来的HttpRequest 对象具有一个urlconf 属性（通过中间件request_processing 设置），则使用这个值来替换ROOT_URLCONF 设置。</li>
 <li>Django 加载该Python 模块并寻找可用的urlpatterns。它是django.conf.urls.url() 实例的一个Python 列表。</li>
