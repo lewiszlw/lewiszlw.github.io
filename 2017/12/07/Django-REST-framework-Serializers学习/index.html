@@ -1,0 +1,985 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Microsoft YaHei:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.4.0" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.0.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Python,Django,Django-REST-framework," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.0.2" />
+
+
+
+
+
+
+<meta name="description" content="Serializers（序列化器）允许诸如查询集和模型实例等复杂的数据转换为Python内置数据类型，然后可以方便渲染成JSON，XML或其他内容类型。Serializers还提供反序列化，在首次验证传入数据之后，可以将解析的数据转换回复杂的类型。">
+<meta name="keywords" content="Python,Django,Django-REST-framework">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Django-REST-framework Serializers学习">
+<meta property="og:url" content="http://zlw.poker/2017/12/07/Django-REST-framework-Serializers学习/index.html">
+<meta property="og:site_name" content="Lewis&#39;s Blog">
+<meta property="og:description" content="Serializers（序列化器）允许诸如查询集和模型实例等复杂的数据转换为Python内置数据类型，然后可以方便渲染成JSON，XML或其他内容类型。Serializers还提供反序列化，在首次验证传入数据之后，可以将解析的数据转换回复杂的类型。">
+<meta property="og:updated_time" content="2017-12-08T10:36:04.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Django-REST-framework Serializers学习">
+<meta name="twitter:description" content="Serializers（序列化器）允许诸如查询集和模型实例等复杂的数据转换为Python内置数据类型，然后可以方便渲染成JSON，XML或其他内容类型。Serializers还提供反序列化，在首次验证传入数据之后，可以将解析的数据转换回复杂的类型。">
+
+
+
+<script type="text/javascript" id="hexo.configuration">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    scheme: 'Mist',
+    sidebar: {"position":"left","display":"post"},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    }
+  };
+</script>
+
+
+
+
+  <link rel="canonical" href="http://zlw.poker/2017/12/07/Django-REST-framework-Serializers学习/"/>
+
+
+  <title> Django-REST-framework Serializers学习 | Lewis's Blog </title>
+</head>
+
+<body itemscope itemtype="//schema.org/WebPage" lang="en">
+
+  
+
+
+
+
+
+
+
+
+  <div style="display: none;">
+    <script src="//s95.cnzz.com/z_stat.php?id=1260624965&web_id=1260624965" language="JavaScript"></script>
+  </div>
+
+
+
+
+
+  
+  
+    
+  
+
+  <div class="container one-collumn sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="//schema.org/WPHeader">
+      <div class="header-inner"><div class="site-meta ">
+  
+
+  <div class="custom-logo-site-title">
+    <a href="/"  class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <span class="site-title">Lewis's Blog</span>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+  <p class="site-subtitle"></p>
+</div>
+
+<div class="site-nav-toggle">
+  <button>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+    <span class="btn-bar"></span>
+  </button>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  <div class="popup">
+ <span class="search-icon fa fa-search"></span>
+ <input type="text" id="local-search-input">
+ <div id="local-search-result"></div>
+ <span class="popup-btn-close">close</span>
+</div>
+
+
+    </div>
+  
+</nav>
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="//schema.org/Article">
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+            
+            
+              
+                Django-REST-framework Serializers学习
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            <span class="post-meta-item-icon">
+              <i class="fa fa-calendar-o"></i>
+            </span>
+            <span class="post-meta-item-text">Posted on</span>
+            <time itemprop="dateCreated" datetime="2017-12-07T11:39:01+08:00" content="2017-12-07">
+              2017-12-07
+            </time>
+          </span>
+
+          
+            <span class="post-category" >
+              &nbsp; | &nbsp;
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+              
+                <span itemprop="about" itemscope itemtype="https://schema.org/Thing">
+                  <a href="/categories/Python/" itemprop="url" rel="index">
+                    <span itemprop="name">Python</span>
+                  </a>
+                </span>
+
+                
+                
+
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                &nbsp; | &nbsp;
+                <a href="/2017/12/07/Django-REST-framework-Serializers学习/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count ds-thread-count" data-thread-key="2017/12/07/Django-REST-framework-Serializers学习/" itemprop="commentsCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+		  
+
+          
+          
+
+          
+        </div>
+      </header>
+    
+
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Serializers（序列化器）允许诸如查询集和模型实例等复杂的数据转换为Python内置数据类型，然后可以方便渲染成JSON，XML或其他内容类型。Serializers还提供反序列化，在首次验证传入数据之后，可以将解析的数据转换回复杂的类型。<br><a id="more"></a></p>
+<h2 id="序列化器基础"><a href="#序列化器基础" class="headerlink" title="序列化器基础"></a>序列化器基础</h2><h3 id="声明"><a href="#声明" class="headerlink" title="声明"></a>声明</h3><p>以Comment对象为例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> datetime <span class="keyword">import</span> datetime</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">Comment</span><span class="params">(object)</span>:</span></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, email, content, created=None)</span>:</span></div><div class="line">        self.email = email</div><div class="line">        self.content = content</div><div class="line">        self.created = created <span class="keyword">or</span> datetime.now()</div><div class="line"></div><div class="line">comment = Comment(email=<span class="string">'leila@example.com'</span>, content=<span class="string">'foo bar'</span>)</div></pre></td></tr></table></figure></p>
+<p>继承Serializer来声明是一个序列化器：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">from</span> rest_framework <span class="keyword">import</span> serializers</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentSerializer</span><span class="params">(serializers.Serializer)</span>:</span></div><div class="line">    email = serializers.EmailField()</div><div class="line">    content = serializers.CharField(max_length=<span class="number">200</span>)</div><div class="line">    created = serializers.DateTimeField()</div></pre></td></tr></table></figure></p>
+<p>CommentSerializer可以用来序列化和反序列话与Comment对象相关的数据。</p>
+<h3 id="序列化"><a href="#序列化" class="headerlink" title="序列化"></a>序列化</h3><p>序列化可以将Comment对象序列化为一个dict：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">serializer = CommentSerializer(comment)</div><div class="line">serializer.data</div><div class="line"><span class="comment"># &#123;'email': 'leila@example.com', 'content': 'foo bar', 'created': '2016-01-27T15:17:10.375877'&#125;</span></div><div class="line"></div><div class="line">json = JSONRenderer().render(serializer.data)</div><div class="line">json</div><div class="line"><span class="comment"># b'&#123;"email":"leila@example.com","content":"foo bar","created":"2016-01-27T15:17:10.375877"&#125;'</span></div></pre></td></tr></table></figure></p>
+<h3 id="反序列化"><a href="#反序列化" class="headerlink" title="反序列化"></a>反序列化</h3><p>反序列化可以将dict内置数据类型转化为相应的object：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">serializer = CommentSerializer(data=data) <span class="comment"># data是dict类型</span></div><div class="line">serializer.is_valid()</div><div class="line"><span class="comment"># True</span></div><div class="line">serializer.validated_data</div><div class="line"><span class="comment"># &#123;'content': 'foo bar', 'email': 'leila@example.com', 'created': datetime.datetime(2012, 08, 22, 16, 20, 09, 822243)&#125;</span></div></pre></td></tr></table></figure></p>
+<h3 id="保存实例"><a href="#保存实例" class="headerlink" title="保存实例"></a>保存实例</h3><p>如果想基于验证数据返回完整的对象实例，需要实现相应方法：<code>create()</code>和<code>update()</code>。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentSerializer</span><span class="params">(serializers.Serializer)</span>:</span></div><div class="line">    email = serializers.EmailField()</div><div class="line">    content = serializers.CharField(max_length=<span class="number">200</span>)</div><div class="line">    created = serializers.DateTimeField()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self, validated_data)</span>:</span></div><div class="line">        <span class="keyword">return</span> Comment(**validated_data)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self, instance, validated_data)</span>:</span></div><div class="line">        instance.email = validated_data.get(<span class="string">'email'</span>, instance.email)</div><div class="line">        instance.content = validated_data.get(<span class="string">'content'</span>, instance.content)</div><div class="line">        instance.created = validated_data.get(<span class="string">'created'</span>, instance.created)</div><div class="line">        <span class="keyword">return</span> instance</div></pre></td></tr></table></figure></p>
+<p>如果对象实例是Django模型，并且你需要确保这些方法能将对象保存到数据库：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self, validated_data)</span>:</span></div><div class="line">    <span class="keyword">return</span> Comment.objects.create(**validated_data)</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self, instance, validated_data)</span>:</span></div><div class="line">    instance.email = validated_data.get(<span class="string">'email'</span>, instance.email)</div><div class="line">    instance.content = validated_data.get(<span class="string">'content'</span>, instance.content)</div><div class="line">    instance.created = validated_data.get(<span class="string">'created'</span>, instance.created)</div><div class="line">    instance.save()</div><div class="line">    <span class="keyword">return</span> instance</div></pre></td></tr></table></figure></p>
+<p>当反序列化数据后，可以调用<strong>save()</strong>方法来返回一个基于验证数据的对象实例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">comment = serializer.save()</div></pre></td></tr></table></figure></p>
+<p>调用<strong>save()</strong>方法会创建一个新实例，或者更新一个已有实例，取决于实例化序列化器时是否传递了一个已经存在的实例：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="comment"># .save() will create a new instance.</span></div><div class="line">serializer = CommentSerializer(data=data)</div><div class="line"></div><div class="line"><span class="comment"># .save() will update the existing `comment` instance.</span></div><div class="line">serializer = CommentSerializer(comment, data=data)</div></pre></td></tr></table></figure></p>
+<h3 id="验证"><a href="#验证" class="headerlink" title="验证"></a>验证</h3><p>当反序列化数据时，在你打算获取验证数据或者保持对象实例前，你通常需要调用<code>is_valid()</code>。如果验证发送错误，<code>errors</code>属性将显示错误信息：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">serializer = CommentSerializer(data=&#123;<span class="string">'email'</span>: <span class="string">'foobar'</span>, <span class="string">'content'</span>: <span class="string">'baz'</span>&#125;)</div><div class="line">serializer.is_valid()</div><div class="line"><span class="comment"># False</span></div><div class="line">serializer.errors</div><div class="line"><span class="comment"># &#123;'email': [u'Enter a valid e-mail address.'], 'created': [u'This field is required.']&#125;</span></div></pre></td></tr></table></figure></p>
+<h4 id="raise-exception"><a href="#raise-exception" class="headerlink" title="raise_exception"></a>raise_exception</h4><p>is_valid()方法带有一个可选<code>raise_exception</code>标志，如果引发serializers.ValidationError默认会返回HTTP 400 Bad Request响应。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">serializer.is_valid(raise_exception=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<h4 id="字段级验证"><a href="#字段级验证" class="headerlink" title="字段级验证"></a>字段级验证</h4><p>可以通过添加<code>validate_&lt;field_name&gt;()</code>方法自定义字段级验证，这些方法只有一个参数——需要验证的字段值，它返回字段值或者引发ValidationError异常：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">BlogPostSerializer</span><span class="params">(serializers.Serializer)</span>:</span></div><div class="line">    title = serializers.CharField(max_length=<span class="number">100</span>)</div><div class="line">    content = serializers.CharField()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">validate_title</span><span class="params">(self, value)</span>:</span></div><div class="line">        <span class="keyword">if</span> <span class="string">'django'</span> <span class="keyword">not</span> <span class="keyword">in</span> value.lower():</div><div class="line">            <span class="keyword">raise</span> serializers.ValidationError(<span class="string">"Blog post is not about Django"</span>)</div><div class="line">        <span class="keyword">return</span> value</div></pre></td></tr></table></figure></p>
+<h4 id="对象级验证"><a href="#对象级验证" class="headerlink" title="对象级验证"></a>对象级验证</h4><p>需要访问多个字段进行验证，可以添加<code>validate()</code>方法，它只有一个参数——字段值组成的dict，返回dict或者引发ValidationError异常：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">EventSerializer</span><span class="params">(serializers.Serializer)</span>:</span></div><div class="line">    description = serializers.CharField(max_length=<span class="number">100</span>)</div><div class="line">    start = serializers.DateTimeField()</div><div class="line">    finish = serializers.DateTimeField()</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">validate</span><span class="params">(self, data)</span>:</span></div><div class="line">        <span class="keyword">if</span> data[<span class="string">'start'</span>] &gt; data[<span class="string">'finish'</span>]:</div><div class="line">            <span class="keyword">raise</span> serializers.ValidationError(<span class="string">"finish must occur after start"</span>)</div><div class="line">        <span class="keyword">return</span> data</div></pre></td></tr></table></figure></p>
+<h4 id="验证器"><a href="#验证器" class="headerlink" title="验证器"></a>验证器</h4><p>序列化器的每个字段可以在声明时传入一个或多个验证器：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">multiple_of_ten</span><span class="params">(value)</span>:</span></div><div class="line">    <span class="keyword">if</span> value % <span class="number">10</span> != <span class="number">0</span>:</div><div class="line">        <span class="keyword">raise</span> serializers.ValidationError(<span class="string">'Not a multiple of ten'</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">GameRecord</span><span class="params">(serializers.Serializer)</span>:</span></div><div class="line">    score = IntegerField(validators=[multiple_of_ten])</div><div class="line">    ...</div></pre></td></tr></table></figure></p>
+<h3 id="访问初始数据和实例"><a href="#访问初始数据和实例" class="headerlink" title="访问初始数据和实例"></a>访问初始数据和实例</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, instance=None, data=empty, **kwargs)</span>:</span></div><div class="line">    self.instance = instance</div><div class="line">    <span class="keyword">if</span> data <span class="keyword">is</span> <span class="keyword">not</span> empty:</div><div class="line">        self.initial_data = data</div><div class="line">    self.partial = kwargs.pop(<span class="string">'partial'</span>, <span class="keyword">False</span>)</div><div class="line">    self._context = kwargs.pop(<span class="string">'context'</span>, &#123;&#125;)</div><div class="line">    kwargs.pop(<span class="string">'many'</span>, <span class="keyword">None</span>)</div><div class="line">    super(BaseSerializer, self).__init__(**kwargs)</div></pre></td></tr></table></figure>
+<p>访问初始数据：将数据传递给序列化器时，为修改的数据将作为<code>.initial_data</code>。如果data关键字参数没有被传递，那么.initial_data属性将不存在。</p>
+<p>访问实例：将初始对象或查询集传递给序列化程序实例时，该对象将变为可用<code>.instance</code>。如果没有初始对象被传递，那么.instance属性将为None。</p>
+<h3 id="处理嵌套对象"><a href="#处理嵌套对象" class="headerlink" title="处理嵌套对象"></a>处理嵌套对象</h3><p>对象某些属性可能不是简单的数据类型，如字符串、日期等，可能是一个复杂的数据结构，例如：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSerializer</span><span class="params">(serializers.Serializer)</span>:</span></div><div class="line">    email = serializers.EmailField()</div><div class="line">    username = serializers.CharField(max_length=<span class="number">100</span>)</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CommentSerializer</span><span class="params">(serializers.Serializer)</span>:</span></div><div class="line">    user = UserSerializer()</div><div class="line">    content = serializers.CharField(max_length=<span class="number">200</span>)</div><div class="line">    created = serializers.DateTimeField()</div></pre></td></tr></table></figure></p>
+<p>如果嵌套表示可以选择性接受None值，则应将该required=False标志传递给嵌套序列化程序：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">user = UserSerializer(required=<span class="keyword">False</span>)</div></pre></td></tr></table></figure></p>
+<p>如果嵌套表示应该是项目列表，则应将该many=True标志传递给嵌套序列化：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">users = UserSerializer(many=<span class="keyword">True</span>)</div></pre></td></tr></table></figure></p>
+<h3 id="处理嵌套数据"><a href="#处理嵌套数据" class="headerlink" title="处理嵌套数据"></a>处理嵌套数据</h3><p>反序列化支持处理嵌套数据，如反序列化为对象并保存或更新：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></div><div class="line">    profile = ProfileSerializer()</div><div class="line"></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></div><div class="line">        model = User</div><div class="line">        fields = (<span class="string">'username'</span>, <span class="string">'email'</span>, <span class="string">'profile'</span>)</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self, validated_data)</span>:</span></div><div class="line">        profile_data = validated_data.pop(<span class="string">'profile'</span>)</div><div class="line">        user = User.objects.create(**validated_data)</div><div class="line">        Profile.objects.create(user=user, **profile_data)</div><div class="line">        <span class="keyword">return</span> user</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update</span><span class="params">(self, instance, validated_data)</span>:</span></div><div class="line">        profile_data = validated_data.pop(<span class="string">'profile'</span>)</div><div class="line">        profile = instance.profile</div><div class="line"></div><div class="line">        instance.username = validated_data.get(<span class="string">'username'</span>, instance.username)</div><div class="line">        instance.email = validated_data.get(<span class="string">'email'</span>, instance.email)</div><div class="line">        instance.save()</div><div class="line"></div><div class="line">        profile.is_premium_member = profile_data.get(</div><div class="line">            <span class="string">'is_premium_member'</span>,</div><div class="line">            profile.is_premium_member</div><div class="line">        )</div><div class="line">        profile.has_support_contract = profile_data.get(</div><div class="line">            <span class="string">'has_support_contract'</span>,</div><div class="line">            profile.has_support_contract</div><div class="line">         )</div><div class="line">        profile.save()</div><div class="line"></div><div class="line">        <span class="keyword">return</span> instance</div></pre></td></tr></table></figure></p>
+<p>更好的方法是在模型管理器中编写这些方法，然后在序列化器中调用这些方法即可：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">UserManager</span><span class="params">(models.Manager)</span>:</span></div><div class="line">    ...</div><div class="line"></div><div class="line">    <span class="function"><span class="keyword">def</span> <span class="title">create</span><span class="params">(self, username, email, is_premium_member=False, has_support_contract=False)</span>:</span></div><div class="line">        user = User(username=username, email=email)</div><div class="line">        user.save()</div><div class="line">        profile = Profile(</div><div class="line">            user=user,</div><div class="line">            is_premium_member=is_premium_member,</div><div class="line">            has_support_contract=has_support_contract</div><div class="line">        )</div><div class="line">        profile.save()</div><div class="line">        <span class="keyword">return</span> user</div></pre></td></tr></table></figure></p>
+<h2 id="ModelSerializer"><a href="#ModelSerializer" class="headerlink" title="ModelSerializer"></a>ModelSerializer</h2><p>ModelSerializer提高了一个快捷方式用于自动创建一个与模型字段对应的序列化器，它会：</p>
+<ol>
+<li>根据模型自动生成相应字段</li>
+<li>自动生成相关的验证器，如unique_together验证器</li>
+<li>默认简单实现create()和update()</li>
+</ol>
+<h3 id="检查各个字段"><a href="#检查各个字段" class="headerlink" title="检查各个字段"></a>检查各个字段</h3><p>输入命令：python manage.py shell，打开Django shell：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">from</span> myapp.serializers <span class="keyword">import</span> AccountSerializer</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>serializer = AccountSerializer()</div><div class="line"><span class="meta">&gt;&gt;&gt; </span>print(repr(serializer))</div><div class="line">AccountSerializer():</div><div class="line">    id = IntegerField(label=<span class="string">'ID'</span>, read_only=<span class="keyword">True</span>)</div><div class="line">    name = CharField(allow_blank=<span class="keyword">True</span>, max_length=<span class="number">100</span>, required=<span class="keyword">False</span>)</div><div class="line">    owner = PrimaryKeyRelatedField(queryset=User.objects.all())</div></pre></td></tr></table></figure></p>
+<h3 id="指定字段"><a href="#指定字段" class="headerlink" title="指定字段"></a>指定字段</h3><p>在Meta类中，可以field指定需要序列化的字段，也可以用exclude去除无需序列化的字段：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></div><div class="line">        model = Account</div><div class="line">        fields = (<span class="string">'id'</span>, <span class="string">'account_name'</span>, <span class="string">'users'</span>, <span class="string">'created'</span>)</div><div class="line">        <span class="comment"># exclude = ('users',) 去除‘user’字段</span></div></pre></td></tr></table></figure></p>
+<p>field = ‘__all__’表示使用模型中所有字段。</p>
+<h3 id="嵌套字段"><a href="#嵌套字段" class="headerlink" title="嵌套字段"></a>嵌套字段</h3><p>如果一个model有外键的时候，默认显示的是外键的id，此时要显示外键的所有值，可以设置depth，会把外键的所有值显示出来<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></div><div class="line">        model = Account</div><div class="line">        fields = (<span class="string">'id'</span>, <span class="string">'account_name'</span>, <span class="string">'users'</span>, <span class="string">'created'</span>)</div><div class="line">        depth = <span class="number">1</span></div></pre></td></tr></table></figure></p>
+<p>该depth选项应设置为一个整数值，指示在还原为平面表示之前应该遍历的关系的深度。</p>
+<h3 id="添加或重写字段"><a href="#添加或重写字段" class="headerlink" title="添加或重写字段"></a>添加或重写字段</h3><p>可以在继承ModelSerializer的类中声明字段来添加额外字段，或者重写默认字段：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">AccountSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></div><div class="line">    account_id = serializers.CharField(source=<span class="string">'id'</span>, read_only=<span class="keyword">True</span>)</div><div class="line">    groups = serializers.PrimaryKeyRelatedField(many=<span class="keyword">True</span>)</div><div class="line"></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></div><div class="line">        model = Account</div></pre></td></tr></table></figure></p>
+<p>source关键字可以指定覆盖哪一个模型字段。</p>
+<h3 id="只读字段"><a href="#只读字段" class="headerlink" title="只读字段"></a>只读字段</h3><ol>
+<li>可以在定义字段时加上read_only=True</li>
+<li>元选项read_only_fields = (‘account_name’, )</li>
+<li>设置了editable=False和AutoField字段默认只读</li>
+</ol>
+<h3 id="额外关键字参数"><a href="#额外关键字参数" class="headerlink" title="额外关键字参数"></a>额外关键字参数</h3><p>可以使用extra_kwargs元选项在字段上指定任意附加关键字参数，这样可以不用在序列化器上显示声明这个字段：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CreateUserSerializer</span><span class="params">(serializers.ModelSerializer)</span>:</span></div><div class="line">    <span class="class"><span class="keyword">class</span> <span class="title">Meta</span>:</span></div><div class="line">        model = User</div><div class="line">        fields = (<span class="string">'email'</span>, <span class="string">'username'</span>, <span class="string">'password'</span>)</div><div class="line">        extra_kwargs = &#123;<span class="string">'password'</span>: &#123;<span class="string">'write_only'</span>: <span class="keyword">True</span>&#125;&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="序列化器字段"><a href="#序列化器字段" class="headerlink" title="序列化器字段"></a>序列化器字段</h2><h3 id="常用参数"><a href="#常用参数" class="headerlink" title="常用参数"></a>常用参数</h3><h4 id="read-only"><a href="#read-only" class="headerlink" title="read_only"></a>read_only</h4><ul>
+<li>API输出中包含只读字段，但在创建或更新操作期间不应将其包含在输入中。序列化程序输入中包含的任何“read_only”字段都将被忽略</li>
+<li>默认False</li>
+</ul>
+<h4 id="write-only"><a href="#write-only" class="headerlink" title="write_only"></a>write_only</h4><ul>
+<li>将其设置True为确保在更新或创建实例时可以使用该字段，但在序列化表示时不包括该字段</li>
+<li>默认False</li>
+</ul>
+<h4 id="required"><a href="#required" class="headerlink" title="required"></a>required</h4><ul>
+<li>如果在反序列化过程中没有提供字段，通常会出现错误。如果在反序列化过程中不需要此字段，则设置为false</li>
+<li>默认True</li>
+</ul>
+<h4 id="allow-null"><a href="#allow-null" class="headerlink" title="allow_null"></a>allow_null</h4><ul>
+<li>通常情况下，如果None传递到序列化程序字段会引发错误。将此关键字参数设置为True，None会被视为有效值。</li>
+<li>默认False</li>
+</ul>
+<h4 id="default"><a href="#default" class="headerlink" title="default"></a>default</h4><ul>
+<li>设置了默认值，如果没有提供输入值，该值将用于字段。如果没有设置，默认行为是根本不填充属性。</li>
+</ul>
+<h4 id="source"><a href="#source" class="headerlink" title="source"></a>source</h4><p>将用于填充字段的属性的名称。可能只是一个只带self参数的方法URLField(source=’get_absolute_url’)，或者可能使用<code>.</code>符号来遍历属性，比如EmailField(source=’user.email’)</p>
+<h4 id="validators"><a href="#validators" class="headerlink" title="validators"></a>validators</h4><p>验证函数列表会被应用到输入字段输入，并且提出一个验证错误或者简单地返回</p>
+<h3 id="常用字段"><a href="#常用字段" class="headerlink" title="常用字段"></a>常用字段</h3><h4 id="CharField"><a href="#CharField" class="headerlink" title="CharField"></a>CharField</h4><ul>
+<li>文本表示。可以选择验证文本是短于max_length还是长于min_length</li>
+<li>对应于django.db.models.fields.CharField或django.db.models.fields.TextField</li>
+</ul>
+<h4 id="EmailField"><a href="#EmailField" class="headerlink" title="EmailField"></a>EmailField</h4><ul>
+<li>文本表示，将文本验证为有效的电子邮件地址</li>
+<li>对应于 django.db.models.fields.EmailField</li>
+</ul>
+<h4 id="IntegerField"><a href="#IntegerField" class="headerlink" title="IntegerField"></a>IntegerField</h4><ul>
+<li>整数表示</li>
+<li>对应于django.db.models.fields.IntegerField，django.db.models.fields.SmallIntegerField，django.db.models.fields.PositiveIntegerField和django.db.models.fields.PositiveSmallIntegerField</li>
+</ul>
+<h4 id="FloatField"><a href="#FloatField" class="headerlink" title="FloatField"></a>FloatField</h4><ul>
+<li>浮点表示</li>
+<li>对应于django.db.models.fields.FloatField</li>
+</ul>
+<h4 id="DateTimeField"><a href="#DateTimeField" class="headerlink" title="DateTimeField"></a>DateTimeField</h4><ul>
+<li>日期和时间表示</li>
+<li>对应于django.db.models.fields.DateTimeField</li>
+</ul>
+<h4 id="自定义字段"><a href="#自定义字段" class="headerlink" title="自定义字段"></a>自定义字段</h4><p>如果你想创建一个自定义字段，你需要子类Field，然后重写.to_representation()和.to_internal_value()方法之一或两者。这两个方法用于在初始数据类型和原始序列化数据类型之间进行转换：</p>
+<ul>
+<li>to_representation()：调用该方法将初始数据类型转换为基本的可序列化数据类型</li>
+<li>to_internal_value()：调用该方法将原始数据类型恢复为其内部的python表示形式</li>
+</ul>
+<hr>
+<blockquote>
+<p><a href="http://www.django-rest-framework.org/" target="_blank" rel="external">Home - Django REST framework</a></p>
+</blockquote>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Python/" rel="tag">#Python</a>
+          
+            <a href="/tags/Django/" rel="tag">#Django</a>
+          
+            <a href="/tags/Django-REST-framework/" rel="tag">#Django-REST-framework</a>
+          
+        </div>
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/12/06/Django-View视图层学习/" rel="next" title="Django View视图层学习">
+                <i class="fa fa-chevron-left"></i> Django View视图层学习
+              </a>
+            
+          </div>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+      <div class="ds-thread" data-thread-key="2017/12/07/Django-REST-framework-Serializers学习/"
+           data-title="Django-REST-framework Serializers学习" data-url="http://zlw.poker/2017/12/07/Django-REST-framework-Serializers学习/">
+      </div>
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel ">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="//schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="http://ofolh8dcq.bkt.clouddn.com/webwxgetmsgimg.jpg"
+               alt="Lewis" />
+          <p class="site-author-name" itemprop="name">Lewis</p>
+          <p class="site-description motion-element" itemprop="description">Stay hungry,stay foolish</p>
+        </div>
+        <nav class="site-state motion-element">
+          <div class="site-state-item site-state-posts">
+            <a href="/archives">
+              <span class="site-state-item-count">91</span>
+              <span class="site-state-item-name">posts</span>
+            </a>
+          </div>
+
+          
+            <div class="site-state-item site-state-categories">
+              <a href="/categories">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">categories</span>
+              </a>
+            </div>
+          
+
+          
+            <div class="site-state-item site-state-tags">
+              <a href="/tags">
+                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-name">tags</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/lewiszlw" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                  GitHub
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://facebook.com/100011178331317" target="_blank" title="Facebook">
+                  
+                    <i class="fa fa-fw fa-facebook"></i>
+                  
+                  Facebook
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://www.linkedin.com/in/林伟-张-85b55a12b" target="_blank" title="Linkedin">
+                  
+                    <i class="fa fa-fw fa-linkedin"></i>
+                  
+                  Linkedin
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://weibo.com/3152668301" target="_blank" title="微博">
+                  
+                    <i class="fa fa-fw fa-weibo"></i>
+                  
+                  微博
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/tian-qian-zhu-wu-ya" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                  知乎
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://shang.qq.com/email/stop/email_stop.html?qq=597422850&sig=a1c657365db7e82805ea4b2351081fc3ebcde159f8ae49b1&tttt=1" target="_blank" title="QQ">
+                  
+                    <i class="fa fa-fw fa-qq"></i>
+                  
+                  QQ
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+		
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://zlwloveyyf.github.io/" title="GiftForMyGirlfriend" target="_blank">GiftForMyGirlfriend</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://gyh.me/" title="GYH-nobystander" target="_blank">GYH-nobystander</a>
+                </li>
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://youngjjj.me/" title="YoungJJJ" target="_blank">YoungJJJ</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+		
+		
+
+      </section>
+
+      
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+            
+              
+            
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化器基础"><span class="nav-number">1.</span> <span class="nav-text">序列化器基础</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#声明"><span class="nav-number">1.1.</span> <span class="nav-text">声明</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#序列化"><span class="nav-number">1.2.</span> <span class="nav-text">序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#反序列化"><span class="nav-number">1.3.</span> <span class="nav-text">反序列化</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#保存实例"><span class="nav-number">1.4.</span> <span class="nav-text">保存实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#验证"><span class="nav-number">1.5.</span> <span class="nav-text">验证</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#raise-exception"><span class="nav-number">1.5.1.</span> <span class="nav-text">raise_exception</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#字段级验证"><span class="nav-number">1.5.2.</span> <span class="nav-text">字段级验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#对象级验证"><span class="nav-number">1.5.3.</span> <span class="nav-text">对象级验证</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#验证器"><span class="nav-number">1.5.4.</span> <span class="nav-text">验证器</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#访问初始数据和实例"><span class="nav-number">1.6.</span> <span class="nav-text">访问初始数据和实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理嵌套对象"><span class="nav-number">1.7.</span> <span class="nav-text">处理嵌套对象</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#处理嵌套数据"><span class="nav-number">1.8.</span> <span class="nav-text">处理嵌套数据</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ModelSerializer"><span class="nav-number">2.</span> <span class="nav-text">ModelSerializer</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#检查各个字段"><span class="nav-number">2.1.</span> <span class="nav-text">检查各个字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#指定字段"><span class="nav-number">2.2.</span> <span class="nav-text">指定字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌套字段"><span class="nav-number">2.3.</span> <span class="nav-text">嵌套字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#添加或重写字段"><span class="nav-number">2.4.</span> <span class="nav-text">添加或重写字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#只读字段"><span class="nav-number">2.5.</span> <span class="nav-text">只读字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#额外关键字参数"><span class="nav-number">2.6.</span> <span class="nav-text">额外关键字参数</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#序列化器字段"><span class="nav-number">3.</span> <span class="nav-text">序列化器字段</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#常用参数"><span class="nav-number">3.1.</span> <span class="nav-text">常用参数</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#read-only"><span class="nav-number">3.1.1.</span> <span class="nav-text">read_only</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#write-only"><span class="nav-number">3.1.2.</span> <span class="nav-text">write_only</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#required"><span class="nav-number">3.1.3.</span> <span class="nav-text">required</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#allow-null"><span class="nav-number">3.1.4.</span> <span class="nav-text">allow_null</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#default"><span class="nav-number">3.1.5.</span> <span class="nav-text">default</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#source"><span class="nav-number">3.1.6.</span> <span class="nav-text">source</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#validators"><span class="nav-number">3.1.7.</span> <span class="nav-text">validators</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#常用字段"><span class="nav-number">3.2.</span> <span class="nav-text">常用字段</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#CharField"><span class="nav-number">3.2.1.</span> <span class="nav-text">CharField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#EmailField"><span class="nav-number">3.2.2.</span> <span class="nav-text">EmailField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#IntegerField"><span class="nav-number">3.2.3.</span> <span class="nav-text">IntegerField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#FloatField"><span class="nav-number">3.2.4.</span> <span class="nav-text">FloatField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#DateTimeField"><span class="nav-number">3.2.5.</span> <span class="nav-text">DateTimeField</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义字段"><span class="nav-number">3.2.6.</span> <span class="nav-text">自定义字段</span></a></li></ol></li></ol></li></ol></div>
+            
+          </div>
+        </section>
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy;  2016 - 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Lewis</span>
+</div>
+
+<div class="powered-by">
+  Powered by <a class="theme-link" href="https://hexo.io">Hexo</a>
+</div>
+
+<div class="theme-info">
+  Theme -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Mist
+  </a>
+</div>
+
+        
+
+        
+      </div>
+    </footer>
+
+    <div class="back-to-top">
+      <i class="fa fa-arrow-up"></i>
+    </div>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.0.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.0.2"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.0.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.0.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.0.2"></script>
+
+
+
+  
+
+  
+    
+  
+
+  <script type="text/javascript">
+    var duoshuoQuery = {short_name:"lewiszlw"};
+    (function() {
+      var ds = document.createElement('script');
+      ds.type = 'text/javascript';ds.async = true;
+      ds.id = 'duoshuo-script';
+      ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+      ds.charset = 'UTF-8';
+      (document.getElementsByTagName('head')[0]
+      || document.getElementsByTagName('body')[0]).appendChild(ds);
+    })();
+  </script>
+
+  
+    
+    <script src="/lib/ua-parser-js/dist/ua-parser.min.js?v=0.7.9"></script>
+    <script src="/js/src/hook-duoshuo.js"></script>
+  
+
+
+
+
+
+
+  
+  
+  <script type="text/javascript">
+    // Popup Window;
+    var isfetched = false;
+    // Search DB path;
+    var search_path = "search.xml";
+    if (search_path.length == 0) {
+       search_path = "search.xml";
+    }
+    var path = "/" + search_path;
+    // monitor main search box;
+
+    function proceedsearch() {
+      $("body").append('<div class="popoverlay">').css('overflow', 'hidden');
+      $('.popup').toggle();
+
+    }
+    // search function;
+    var searchFunc = function(path, search_id, content_id) {
+    'use strict';
+    $.ajax({
+        url: path,
+        dataType: "xml",
+        async: true,
+        success: function( xmlResponse ) {
+            // get the contents from search data
+            isfetched = true;
+            $('.popup').detach().appendTo('.header-inner');
+            var datas = $( "entry", xmlResponse ).map(function() {
+                return {
+                    title: $( "title", this ).text(),
+                    content: $("content",this).text(),
+                    url: $( "url" , this).text()
+                };
+            }).get();
+            var $input = document.getElementById(search_id);
+            var $resultContent = document.getElementById(content_id);
+            $input.addEventListener('input', function(){
+                var matchcounts = 0;
+                var str='<ul class=\"search-result-list\">';
+                var keywords = this.value.trim().toLowerCase().split(/[\s\-]+/);
+                $resultContent.innerHTML = "";
+                if (this.value.trim().length > 1) {
+                // perform local searching
+                datas.forEach(function(data) {
+                    var isMatch = false;
+                    var content_index = [];
+                    var data_title = data.title.trim().toLowerCase();
+                    var data_content = data.content.trim().replace(/<[^>]+>/g,"").toLowerCase();
+                    var data_url = decodeURIComponent(data.url);
+                    var index_title = -1;
+                    var index_content = -1;
+                    var first_occur = -1;
+                    // only match artiles with not empty titles and contents
+                    if(data_title != '') {
+                        keywords.forEach(function(keyword, i) {
+                            index_title = data_title.indexOf(keyword);
+                            index_content = data_content.indexOf(keyword);
+                            if( index_title >= 0 || index_content >= 0 ){
+                                isMatch = true;
+								if (i == 0) {
+                                    first_occur = index_content;
+                                }
+                            } 
+							
+                        });
+                    }
+                    // show search results
+                    if (isMatch) {
+                        matchcounts += 1;
+                        str += "<li><a href='"+ data_url +"' class='search-result-title'>"+ data_title +"</a>";
+                        var content = data.content.trim().replace(/<[^>]+>/g,"");
+                        if (first_occur >= 0) {
+                            // cut out 100 characters
+                            var start = first_occur - 20;
+                            var end = first_occur + 80;
+                            if(start < 0){
+                                start = 0;
+                            }
+                            if(start == 0){
+                                end = 50;
+                            }
+                            if(end > content.length){
+                                end = content.length;
+                            }
+                            var match_content = content.substring(start, end);
+                            // highlight all keywords
+                            keywords.forEach(function(keyword){
+                                var regS = new RegExp(keyword, "gi");
+                                match_content = match_content.replace(regS, "<b class=\"search-keyword\">"+keyword+"</b>");
+                            });
+
+                            str += "<p class=\"search-result\">" + match_content +"...</p>"
+                        }
+                        str += "</li>";
+                    }
+                })};
+                str += "</ul>";
+                if (matchcounts == 0) { str = '<div id="no-result"><i class="fa fa-frown-o fa-5x" /></div>' }
+                if (keywords == "") { str = '<div id="no-result"><i class="fa fa-search fa-5x" /></div>' }
+                $resultContent.innerHTML = str;
+            });
+            proceedsearch();
+        }
+    });}
+
+    // handle and trigger popup window;
+    $('.popup-trigger').click(function(e) {
+      e.stopPropagation();
+      if (isfetched == false) {
+        searchFunc(path, 'local-search-input', 'local-search-result');
+      } else {
+        proceedsearch();
+      };
+
+    });
+
+    $('.popup-btn-close').click(function(e){
+      $('.popup').hide();
+      $(".popoverlay").remove();
+      $('body').css('overflow', '');
+    });
+    $('.popup').click(function(e){
+      e.stopPropagation();
+    });
+  </script>
+
+
+  
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Queue(function() {
+      var all = MathJax.Hub.getAllJax(), i;
+      for (i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+      }
+    });
+  </script>
+  <script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+
+
+  
+
+  
+
+  
+
+  
+  <script type="text/javascript" src="/js/src/love.js"></script>
+</body>
+</html>
