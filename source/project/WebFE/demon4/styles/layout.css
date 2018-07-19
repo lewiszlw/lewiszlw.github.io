@@ -1,0 +1,10 @@
+#contain div{
+		width:100px;
+		height:100px;
+		background-color:#000000;
+		float:left;
+		margin:10px 10px 10px 10px;
+}
+#contain{
+		margin:0 auto;
+}
