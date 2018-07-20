@@ -30,7 +30,7 @@ class ListUsers(APIView):
 ```
 
 ### API策略属性
-这些属性是执行视图前后进行的一些切面操作：
+这些属性是执行视图前后进行一些切面操作：
 - renderer\_classes
 - parser\_classes
 - permission\_classes
