@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Lewis&#39;s Blog">
 <meta property="og:description" content="Q：代码中增加微博秀后，本地运行正常，但上传站点后却显示一片空白原因是github网站是https链接，而weibo.com是http，不支持https。所以当访问站点lewiszlw.github.io时，http资源是不会加载的。但可以通过CNAME绑定域名解决。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-12-17T18:20:10.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="增加微博秀遇到的一些问题">
 <meta name="twitter:description" content="Q：代码中增加微博秀后，本地运行正常，但上传站点后却显示一片空白原因是github网站是https链接，而weibo.com是http，不支持https。所以当访问站点lewiszlw.github.io时，http资源是不会加载的。但可以通过CNAME绑定域名解决。">
@@ -351,7 +351,7 @@
       
         <h2 id="Q：代码中增加微博秀后，本地运行正常，但上传站点后却显示一片空白"><a href="#Q：代码中增加微博秀后，本地运行正常，但上传站点后却显示一片空白" class="headerlink" title="Q：代码中增加微博秀后，本地运行正常，但上传站点后却显示一片空白"></a>Q：代码中增加微博秀后，本地运行正常，但上传站点后却显示一片空白</h2><p>原因是github网站是https链接，而weibo.com是http，不支持https。所以当访问站<br>点lewiszlw.github.io时，http资源是不会加载的。但可以通过CNAME绑定域名解决。<br><a id="more"></a></p>
 <h2 id="Q：如何用CNAME绑定域名"><a href="#Q：如何用CNAME绑定域名" class="headerlink" title="Q：如何用CNAME绑定域名"></a>Q：如何用CNAME绑定域名</h2><p>在hexo文件中source文件里创建CNAME文件，不要后缀，然后用notepad++打开，里面<br>写上你的域名。然后到域名解析里面添加条a记录。ip地址可以通过ping yourname.github.io<br>获取。</p>
-<h2 id="Q：如何增加微博秀？"><a href="#Q：如何增加微博秀？" class="headerlink" title="Q：如何增加微博秀？"></a>Q：如何增加微博秀？</h2><h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h3><p>访问<a href="http://weibo.com/login.php?url=http%3A%2F%2Fapp.weibo.com%2Ftool%2Fweiboshow" target="_blank" rel="external">微博秀网站</a>，登录自己微博账号后复制其中代码，  </p>
+<h2 id="Q：如何增加微博秀？"><a href="#Q：如何增加微博秀？" class="headerlink" title="Q：如何增加微博秀？"></a>Q：如何增加微博秀？</h2><h3 id="Step1"><a href="#Step1" class="headerlink" title="Step1:"></a>Step1:</h3><p>访问<a href="http://weibo.com/login.php?url=http%3A%2F%2Fapp.weibo.com%2Ftool%2Fweiboshow" target="_blank" rel="noopener">微博秀网站</a>，登录自己微博账号后复制其中代码，  </p>
 <h3 id="Step2"><a href="#Step2" class="headerlink" title="Step2:"></a>Step2:</h3><p>在hexo主题文件配置widget文件夹里面，添加weibo.ejs文件，并将Step1中复制的代码粘贴  到文件里面。</p>
 <h3 id="Step3"><a href="#Step3" class="headerlink" title="Step3:"></a>Step3:</h3><p>在hexo主题配置文件_config.yml里面的_widget属性下添加- weibo。注意空格。</p>
 <h3 id="Step4"><a href="#Step4" class="headerlink" title="Step4:"></a>Step4:</h3><p>运行hexo s，进入localhost:4000查看效果。</p>
@@ -470,7 +470,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -487,7 +487,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

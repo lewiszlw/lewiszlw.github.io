@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Lewis&#39;s Blog">
 <meta property="og:description" content="许多基础数据类型都和对象的集合有关。具体来说，数据类型的值就是一组对象的集合，所有操作都是关于添加、删除或是访问集合中的对象。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-02-17T09:31:14.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="背包、队列和栈">
 <meta name="twitter:description" content="许多基础数据类型都和对象的集合有关。具体来说，数据类型的值就是一组对象的集合，所有操作都是关于添加、删除或是访问集合中的对象。">
@@ -451,10 +451,10 @@
 </table>
 <h2 id="泛型"><a href="#泛型" class="headerlink" title="泛型"></a>泛型</h2><p>集合类的抽象数据类型的一个关键特性是我们应该可以用它们<strong>存储任意类型的数据</strong>，Java机制——<strong>泛型</strong>可以做到这点。</p>
 <p>在每份API中，类名后的&lt;Item&gt;记号将Item定义为一个类型参数，它是一个象征性的占位符，表示的是用例将会用到的某种数据类型。</p>
-<h2 id="自动装箱"><a href="#自动装箱" class="headerlink" title="自动装箱"></a>自动装箱</h2><p>类型参数Item必须实例化为引用类型。原始数据类型的封装类型（Boolean、Byte、Character、Double、Float、Integer、Long和Short）就是原始数据类型所对应的引用类型。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Statck&lt;Integer&gt; statck=<span class="keyword">new</span> Statck&lt;Integer&gt;();</div><div class="line">statck.push(<span class="number">17</span>);   <span class="comment">//自动装箱（int -&gt; Integer）</span></div><div class="line"><span class="keyword">int</span> i=statck.pop();   <span class="comment">//自动拆箱（Integer -&gt; int）</span></div></pre></td></tr></table></figure></p>
+<h2 id="自动装箱"><a href="#自动装箱" class="headerlink" title="自动装箱"></a>自动装箱</h2><p>类型参数Item必须实例化为引用类型。原始数据类型的封装类型（Boolean、Byte、Character、Double、Float、Integer、Long和Short）就是原始数据类型所对应的引用类型。<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Statck&lt;Integer&gt; statck=<span class="keyword">new</span> Statck&lt;Integer&gt;();</span><br><span class="line">statck.push(<span class="number">17</span>);   <span class="comment">//自动装箱（int -&gt; Integer）</span></span><br><span class="line"><span class="keyword">int</span> i=statck.pop();   <span class="comment">//自动拆箱（Integer -&gt; int）</span></span><br></pre></td></tr></table></figure></p>
 <p>自动装箱：自动将一个原始数据类型转换为一个封装类型。<br>自动拆箱：自动将一个封装类型转换为一个原始数据类型。</p>
-<h2 id="可迭代的集合类型"><a href="#可迭代的集合类型" class="headerlink" title="可迭代的集合类型"></a>可迭代的集合类型</h2><p>例如用例在Queue中维护一个交易集合，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Queue&lt;Transaction&gt; collection=new Queue&lt;Transaction&gt;();</div></pre></td></tr></table></figure></p>
-<p>如果集合是可迭代的，用例用一行语句就可以打印出交易的列表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">for(Transaction t : collection)</div><div class="line">&#123;StdOut.println(t);&#125;</div></pre></td></tr></table></figure></p>
+<h2 id="可迭代的集合类型"><a href="#可迭代的集合类型" class="headerlink" title="可迭代的集合类型"></a>可迭代的集合类型</h2><p>例如用例在Queue中维护一个交易集合，如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Queue&lt;Transaction&gt; collection=new Queue&lt;Transaction&gt;();</span><br></pre></td></tr></table></figure></p>
+<p>如果集合是可迭代的，用例用一行语句就可以打印出交易的列表：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">for(Transaction t : collection)</span><br><span class="line">&#123;StdOut.println(t);&#125;</span><br></pre></td></tr></table></figure></p>
 <h2 id="背包"><a href="#背包" class="headerlink" title="背包"></a>背包</h2><p>背包是一种不支持从中删除元素的集合数据类型——它的目的就是帮助用例收集元素并迭代遍历所有收集到的元素（用例也可以检查背包是否为空或者获取背包中的元素的数量）。迭代的顺序不确定且与用例无关。</p>
 <h2 id="先进先出队列"><a href="#先进先出队列" class="headerlink" title="先进先出队列"></a>先进先出队列</h2><p>先进先出队列（或简称队列）是一种基于先进先出（FIFO）策略的集合类型。在应用程序中使用队列的主要原因是在用集合保存元素的同时保存它们的相对顺序：使它们入列顺序和出列顺序相同。</p>
 <h2 id="下压栈"><a href="#下压栈" class="headerlink" title="下压栈"></a>下压栈</h2><p>下压栈（或简称栈）是一种基于后进后出（LIFO）策略的集合类型。在应用程序中使用栈迭代器的一个典型原因是在用集合保存元素的同时颠倒它们的相对顺序。</p>
@@ -604,7 +604,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -621,7 +621,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

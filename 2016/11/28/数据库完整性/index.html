@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Lewis&#39;s Blog">
 <meta property="og:description" content="数据库的完整性是指数据的正确性和相容性。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-01-04T05:53:18.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="数据库完整性">
 <meta name="twitter:description" content="数据库的完整性是指数据的正确性和相容性。">
@@ -473,7 +473,7 @@
 </ol>
 <h1 id="完整性约束命名子句"><a href="#完整性约束命名子句" class="headerlink" title="完整性约束命名子句"></a>完整性约束命名子句</h1><ol>
 <li><p>完整性约束命名子句</p>
-<figure class="highlight"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">CONSTRAINT &lt;完整性约束条件名&gt;&lt;完整性约束条件&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CONSTRAINT &lt;完整性约束条件名&gt;&lt;完整性约束条件&gt;</span><br></pre></td></tr></table></figure>
 <p>&lt;完整性约束条件&gt;包括NOT NULL,UNIQUE,PRIMARY KEY,FOREIGN KEY,CHECK短语等。</p>
 </li>
 <li>修改表中的完整性限制<br>可以使用ALTER TABLE语句修改表中的完整性约束。</li>
@@ -502,7 +502,7 @@
 <li>任何用户对表的增、删、改操作均由服务器自动激活相应的触发器</li>
 <li>触发器可以实施更为复杂的检查和操作，具有更精细和更强大的数据控制能力 </li>
 </ul>
-<h2 id="定义触发器"><a href="#定义触发器" class="headerlink" title="定义触发器"></a>定义触发器</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> &lt;触发器名&gt;              <span class="comment">/*每当触发事件发生时，该触发器被激活*/</span> </div><div class="line">&#123;<span class="keyword">BEFORE</span> | <span class="keyword">AFTER</span>&#125; &lt;触发事件&gt; <span class="keyword">ON</span> &lt;表名&gt;  <span class="comment">/*指明触发器激活的时间是在执行触发事件前或后*/</span></div><div class="line"><span class="keyword">REFERENCING</span> <span class="keyword">NEW</span>|<span class="keyword">OLD</span> <span class="keyword">ROW</span> <span class="keyword">AS</span>&lt;变量&gt;       <span class="comment">/*REFERENCING指出引用的变量*/</span></div><div class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> &#123;<span class="keyword">ROW</span> | <span class="keyword">STATEMENT</span>&#125;             <span class="comment">/*定义触发器的类型，指明动作体执行的频率*/</span></div><div class="line">[<span class="keyword">WHEN</span> &lt;触发条件&gt;]&lt;触发动作体&gt;          <span class="comment">/*仅当触发条件为真时才执行触发动作体*/</span></div></pre></td></tr></table></figure>
+<h2 id="定义触发器"><a href="#定义触发器" class="headerlink" title="定义触发器"></a>定义触发器</h2><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">CREATE</span> <span class="keyword">TRIGGER</span> &lt;触发器名&gt;              <span class="comment">/*每当触发事件发生时，该触发器被激活*/</span> </span><br><span class="line">&#123;<span class="keyword">BEFORE</span> | <span class="keyword">AFTER</span>&#125; &lt;触发事件&gt; <span class="keyword">ON</span> &lt;表名&gt;  <span class="comment">/*指明触发器激活的时间是在执行触发事件前或后*/</span></span><br><span class="line"><span class="keyword">REFERENCING</span> <span class="keyword">NEW</span>|<span class="keyword">OLD</span> <span class="keyword">ROW</span> <span class="keyword">AS</span>&lt;变量&gt;       <span class="comment">/*REFERENCING指出引用的变量*/</span></span><br><span class="line"><span class="keyword">FOR</span> <span class="keyword">EACH</span> &#123;<span class="keyword">ROW</span> | <span class="keyword">STATEMENT</span>&#125;             <span class="comment">/*定义触发器的类型，指明动作体执行的频率*/</span></span><br><span class="line">[<span class="keyword">WHEN</span> &lt;触发条件&gt;]&lt;触发动作体&gt;          <span class="comment">/*仅当触发条件为真时才执行触发动作体*/</span></span><br></pre></td></tr></table></figure>
 <p>触发器又叫做事件-条件-动作（event-condition-action）规则。当特定的系统事件发生时，对规则的条件进行检查，如果条件成立则执行规则中的动作，否则不执行该动作。规则中的动作体可以很复杂，通常是一段SQL存储过程。<br>定义触发器的语法说明</p>
 <ol>
 <li>表的拥有者才可以在表上创建触发器</li>
@@ -662,7 +662,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -679,7 +679,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

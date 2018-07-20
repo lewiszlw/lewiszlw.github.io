@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Lewis&#39;s Blog">
 <meta property="og:description" content="写这个主要是因为我用IDE（eclipse neon版本）编译运行一个Java程序时要在console用到EOF快捷键，在IDE上按下EOF快捷键没有反应，Google了下好像是bug，所以选择用命令行来运行下写的程序。可是遇到了许多问题，于是写篇博客记录下。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-01-10T05:58:52.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Linux下用命令行编译Java程序">
 <meta name="twitter:description" content="写这个主要是因为我用IDE（eclipse neon版本）编译运行一个Java程序时要在console用到EOF快捷键，在IDE上按下EOF快捷键没有反应，Google了下好像是bug，所以选择用命令行来运行下写的程序。可是遇到了许多问题，于是写篇博客记录下。">
@@ -350,7 +350,7 @@
 
       
         <p>写这个主要是因为我用IDE（eclipse neon版本）编译运行一个Java程序时要在console用到EOF快捷键，在IDE上按下EOF快捷键没有反应，Google了下好像是bug，所以选择用命令行来运行下写的程序。可是遇到了许多问题，于是写篇博客记录下。<br><a id="more"></a></p>
-<h1 id="编译命令"><a href="#编译命令" class="headerlink" title="编译命令"></a>编译命令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">javac [options] sourcefile</div></pre></td></tr></table></figure>
+<h1 id="编译命令"><a href="#编译命令" class="headerlink" title="编译命令"></a>编译命令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac [options] sourcefile</span><br></pre></td></tr></table></figure>
 <p>javac命令用于编译Java源文件（.java），生成字节码文件（.class）。</p>
 <p>option:</p>
 <ul>
@@ -359,7 +359,7 @@
 <li>-sourcepath用于搜索编译所需的源文件（即java文件），指定要搜索的源文件的位置，如jar、zip或其他包含java文件的目录</li>
 </ul>
 <p>sourcefile：源文件位置</p>
-<h1 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java [options] classfile [arguments]</div></pre></td></tr></table></figure>
+<h1 id="执行命令"><a href="#执行命令" class="headerlink" title="执行命令"></a>执行命令</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java [options] classfile [arguments]</span><br></pre></td></tr></table></figure>
 <p>java命令用于执行.class文件。</p>
 <p>option：<br>命令行选项，一般用于 -classpath 指定要执行的文件所在的位置以及需要用到的类路径，包括jar、zip和class文件目录，会覆盖CLASSPATH的设定。</p>
 <p>classfile：字节码文件位置</p>
@@ -371,14 +371,14 @@
 <li>/src 用于存放Java源文件</li>
 </ul>
 <p>例如编写好了test.java放在src/package1/下，需要引入第三方库lib1.jar和lib2.jar（存放在lib文件夹a）。</p>
-<p><strong>编译Java源文件</strong><br>工程文件目录下执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">javac -d bin -sourcepath src -cp lib/lib1.jar:lib/lib2.jar src/package1/test.java</div></pre></td></tr></table></figure></p>
+<p><strong>编译Java源文件</strong><br>工程文件目录下执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">javac -d bin -sourcepath src -cp lib/lib1.jar:lib/lib2.jar src/package1/test.java</span><br></pre></td></tr></table></figure></p>
 <p>注：多个包之间用“:”连接。如果依赖其他类文件，则需要加上-sourcepath src。</p>
-<p><strong>执行.class文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">java -cp bin:lib/lib1.jar:lib/lib2.jar package1.test</div></pre></td></tr></table></figure></p>
+<p><strong>执行.class文件</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">java -cp bin:lib/lib1.jar:lib/lib2.jar package1.test</span><br></pre></td></tr></table></figure></p>
 <hr>
 <p>参考文章：</p>
 <ul>
-<li><a href="http://blog.csdn.net/huagong_adu/article/details/6929817" target="_blank" rel="external">如何用javac 和java 编译运行整个Java工程</a></li>
-<li><a href="http://www.wangmingkuo.com/java/linux%E4%B8%8B%E7%BC%96%E8%AF%91%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Cjava%E7%A8%8B%E5%BA%8F%EF%BC%88%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%E6%88%96%E8%80%85/" target="_blank" rel="external">Linux下编译使用命令行编译运行java程序（多个文件或者整个工程）</a></li>
+<li><a href="http://blog.csdn.net/huagong_adu/article/details/6929817" target="_blank" rel="noopener">如何用javac 和java 编译运行整个Java工程</a></li>
+<li><a href="http://www.wangmingkuo.com/java/linux%E4%B8%8B%E7%BC%96%E8%AF%91%E4%BD%BF%E7%94%A8%E5%91%BD%E4%BB%A4%E8%A1%8C%E7%BC%96%E8%AF%91%E8%BF%90%E8%A1%8Cjava%E7%A8%8B%E5%BA%8F%EF%BC%88%E5%A4%9A%E4%B8%AA%E6%96%87%E4%BB%B6%E6%88%96%E8%80%85/" target="_blank" rel="noopener">Linux下编译使用命令行编译运行java程序（多个文件或者整个工程）</a></li>
 </ul>
 
       
@@ -495,7 +495,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -512,7 +512,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

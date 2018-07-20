@@ -100,7 +100,7 @@
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E5%AE%9A%E4%BD%8D1.PNG">
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/CSS%E5%AE%9A%E4%BD%8D2.PNG">
-<meta property="og:updated_time" content="2016-12-22T16:07:08.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS定位">
 <meta name="twitter:description" content="定位的基本思想很简单，它允许你定义元素框相对于其正常位置应该出现的位置，或者相对于父元素、另一个元素甚至浏览器窗口本身的位置。">
@@ -355,7 +355,7 @@
         <p>定位的基本思想很简单，它允许你定义元素框相对于其正常位置应该出现的位置，或者相对于父元素、另一个元素甚至浏览器窗口本身的位置。<br><a id="more"></a></p>
 <h1 id="CSS定位概述"><a href="#CSS定位概述" class="headerlink" title="CSS定位概述"></a>CSS定位概述</h1><h2 id="一切皆为框"><a href="#一切皆为框" class="headerlink" title="一切皆为框"></a>一切皆为框</h2><p>div、h1 或 p 元素常常被称为块级元素。这意味着这些元素显示为一块内容，即“<strong>块框</strong>”。与之相反，span 和 strong 等元素称为“行内元素”，这是因为它们的内容显示在行中，即“<strong>行内框</strong>”。</p>
 <p>可以使用 display 属性改变生成的框的类型。这意味着，通过将 display 属性设置为 block，可以让行内元素（比如 &lt;a&gt; 元素）表现得像块级元素一样。还可以通过把 display 设置为 none，让生成的元素根本没有框。这样的话，该框及其所有内容就不再显示，不占用文档中的空间。</p>
-<p>但是在一种情况下，即使没有进行显式定义，也会创建块级元素。这种情况发生在把一些文本添加到一个块级元素（比如 div）的开头。即使没有把这些文本定义为段落，它也会被当作段落对待：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></div><div class="line">some text</div><div class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Some more text.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></div><div class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<p>但是在一种情况下，即使没有进行显式定义，也会创建块级元素。这种情况发生在把一些文本添加到一个块级元素（比如 div）的开头。即使没有把这些文本定义为段落，它也会被当作段落对待：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">div</span>&gt;</span></span><br><span class="line">some text</span><br><span class="line"><span class="tag">&lt;<span class="name">p</span>&gt;</span>Some more text.<span class="tag">&lt;/<span class="name">p</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>在这种情况下，这个框称为<strong>无名块框</strong>，因为它不与专门定义的元素相关联。</p>
 <h2 id="CSS定位机制"><a href="#CSS定位机制" class="headerlink" title="CSS定位机制"></a>CSS定位机制</h2><p>CSS 有三种基本的定位机制：普通流、浮动和绝对定位。</p>
 <p>除非专门指定，否则所有框都在普通流中定位。也就是说，普通流中的元素的位置由元素在 (X)HTML 中的位置决定。</p>
@@ -386,18 +386,18 @@
 <li>z-index    设置元素的堆叠顺序。</li>
 </ul>
 <h1 id="CSS相对定位"><a href="#CSS相对定位" class="headerlink" title="CSS相对定位"></a>CSS相对定位</h1><p>如果对一个元素进行相对定位，它将出现在它所在的位置上。然后，可以通过设置垂直或水平位置，让这个元素“相对于”它的起点进行移动。</p>
-<p>例如：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#box_relative</span>&#123;</div><div class="line">		<span class="attribute">position</span>: relative;</div><div class="line">		<span class="attribute">left</span>: <span class="number">30px</span>;</div><div class="line">		<span class="attribute">top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#box_relative</span>&#123;</span><br><span class="line">		<span class="attribute">position</span>: relative;</span><br><span class="line">		<span class="attribute">left</span>: <span class="number">30px</span>;</span><br><span class="line">		<span class="attribute">top</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>效果：<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS%E5%AE%9A%E4%BD%8D1.PNG" alt="CSS定位1"></p>
 <h1 id="CSS绝对定位"><a href="#CSS绝对定位" class="headerlink" title="CSS绝对定位"></a>CSS绝对定位</h1><p>设置为绝对定位的元素框从文档流完全删除，并相对于其包含块定位，包含块可能是文档中的另一个元素或者是初始包含块。元素原先在正常文档流中所占的空间会关闭，就好像该元素原来不存在一样。元素定位后生成一个块级框，而不论原来它在正常流中生成何种类型的框。</p>
 <p>绝对定位使元素的位置与文档流无关，因此不占据空间。这一点与相对定位不同，相对定位实际上被看作普通流定位模型的一部分，因为元素的位置相对于它在普通流中的位置。</p>
-<p>例如：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-id">#box_absolute</span>&#123;</div><div class="line">		<span class="attribute">position</span>: absolute;</div><div class="line">		<span class="attribute">left</span>: <span class="number">30px</span>;</div><div class="line">		<span class="attribute">top</span>: <span class="number">20px</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-id">#box_absolute</span>&#123;</span><br><span class="line">		<span class="attribute">position</span>: absolute;</span><br><span class="line">		<span class="attribute">left</span>: <span class="number">30px</span>;</span><br><span class="line">		<span class="attribute">top</span>: <span class="number">20px</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>效果：<br><img src="http://ofolh8dcq.bkt.clouddn.com/CSS%E5%AE%9A%E4%BD%8D2.PNG" alt="CSS定位2"></p>
 <p>绝对定位的元素的位置相对于最近的已定位祖先元素，如果元素没有已定位的祖先元素，那么它的位置相对于最初的包含块。通俗地讲，用绝对定位时，父元素要求有position属性才行，否则将依据父的父，父的父的父，……，直至body。</p>
 <p>注意：因为绝对定位的框与文档流无关，所以它们可以覆盖页面上的其它元素。可以通过设置 z-index 属性来控制这些框的堆放次序。</p>
 <p>z-index定义和用法：<br>z-index 属性设置元素的堆叠顺序。拥有更高堆叠顺序的元素总是会处于堆叠顺序较低的元素的前面。<br>说明：<br>该属性设置一个定位元素沿 z 轴的位置，z 轴定义为垂直延伸到显示区的轴。如果为正数，则离用户更近，为负数则表示离用户更远。<br>注释：<br>元素可拥有负的 z-index 属性值。Z-index 仅能在定位元素上奏效（例如 position:absolute;）！</p>
 <hr>
 <blockquote>
-<p>参考文档：<a href="http://www.w3school.com.cn/css/css_positioning.asp" target="_blank" rel="external">www.w3school.com.cn</a></p>
+<p>参考文档：<a href="http://www.w3school.com.cn/css/css_positioning.asp" target="_blank" rel="noopener">www.w3school.com.cn</a></p>
 </blockquote>
 
       
@@ -512,7 +512,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -529,7 +529,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

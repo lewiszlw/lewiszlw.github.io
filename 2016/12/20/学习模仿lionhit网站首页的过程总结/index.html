@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Lewis&#39;s Blog">
 <meta property="og:description" content="今天学习模仿了lionhit以前网站首页的页面，学习到了很多新知识，也遇到了许多问题，现在写篇博客总结一下。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2016-12-21T23:43:40.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="学习模仿lionhit网站首页的过程总结">
 <meta name="twitter:description" content="今天学习模仿了lionhit以前网站首页的页面，学习到了很多新知识，也遇到了许多问题，现在写篇博客总结一下。">
@@ -368,7 +368,7 @@
 </ul>
 <p>问题：<br>由于每台电脑安装的字体可能不一样，写HTML页面时可能你用的字体在别人的电脑上没有。</p>
 <p>解决办法：<br>font-family: “微软雅黑” , SimHei , sans-serif;<br>意思是先在用户电脑上查找是否有微软雅黑字体，如果有则使用微软雅黑字体，否则查找SimHei，如果有则使用SimHei字体，如果还是没有，则在用户电脑上随便选一种无衬线字体（sans-serif）。</p>
-<h3 id="文字竖直居中放置"><a href="#文字竖直居中放置" class="headerlink" title="文字竖直居中放置"></a>文字竖直居中放置</h3><p>文字竖直居中放置方法：<br>设置行高line-height等于height高度。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">div</span>&#123;</div><div class="line">				<span class="attribute">height</span>: <span class="number">25px</span>;</div><div class="line">				<span class="attribute">line-height</span>: <span class="number">25px</span>;</div><div class="line">				<span class="attribute">overflow</span>: hidden;</div><div class="line">		&#125;</div></pre></td></tr></table></figure></p>
+<h3 id="文字竖直居中放置"><a href="#文字竖直居中放置" class="headerlink" title="文字竖直居中放置"></a>文字竖直居中放置</h3><p>文字竖直居中放置方法：<br>设置行高line-height等于height高度。<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">div</span>&#123;</span><br><span class="line">				<span class="attribute">height</span>: <span class="number">25px</span>;</span><br><span class="line">				<span class="attribute">line-height</span>: <span class="number">25px</span>;</span><br><span class="line">				<span class="attribute">overflow</span>: hidden;</span><br><span class="line">		&#125;</span><br></pre></td></tr></table></figure></p>
 <p>使用overflow: hidden;的设置是为了防止内容超出容器或者产生自动换行，这样就达不到竖直居中的效果了。</p>
 <p>文字竖直居中放置原理：<br>文本存在于文档流中，文档流指将窗体自上而下分成一行行，并在每行中按从左至右的顺序排放元素。文字在每行中居中显示，由于窗体存在多行，所以文字看起来就在右上方。当把行高设置成窗体高时，窗体中只存在一行，所以文字看起来就居中显示了。</p>
 <h3 id="img替换元素"><a href="#img替换元素" class="headerlink" title="img替换元素"></a>img替换元素</h3><p>问题：<br>如果img是块状元素，可是多个img标签显示的图片并排放置；如果img是内联元素，可是又能设置它的宽高。<br>img图片与其他元素会有3px的像素间隔。</p>
@@ -506,7 +506,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -523,7 +523,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

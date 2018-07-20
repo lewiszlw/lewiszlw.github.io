@@ -98,7 +98,7 @@
 <meta property="og:site_name" content="Lewis&#39;s Blog">
 <meta property="og:description" content="关于CSS规则如何为HTML添加样式，并解释层叠的工作机制——当元素的同一个样式属性有多种样式值的时候，CSS就要靠层叠机制来决定最终应用哪种样式。">
 <meta property="og:locale" content="en">
-<meta property="og:updated_time" content="2017-01-13T07:35:40.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="CSS工作原理">
 <meta name="twitter:description" content="关于CSS规则如何为HTML添加样式，并解释层叠的工作机制——当元素的同一个样式属性有多种样式值的时候，CSS就要靠层叠机制来决定最终应用哪种样式。">
@@ -371,13 +371,13 @@
 <p>另，样式表中链接其他样式的方法：@import url(css/styles2.css)</p>
 <h2 id="CSS规则命名惯例"><a href="#CSS规则命名惯例" class="headerlink" title="CSS规则命名惯例"></a>CSS规则命名惯例</h2><ol>
 <li><p>第一种方法：多个声明包含在一条规则里。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>; <span class="attribute">font-weight</span>:bold;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>; <span class="attribute">font-weight</span>:bold;&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>第二种方法：多个选择符组合在一起。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span>,<span class="selector-tag">h2</span>,<span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>; <span class="attribute">font-weight</span>:bold;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span>,<span class="selector-tag">h2</span>,<span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>; <span class="attribute">font-weight</span>:bold;&#125;</span><br></pre></td></tr></table></figure>
 </li>
 <li><p>第三种方法：多条规则应用给一个选择符。</p>
-<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">h1</span>,<span class="selector-tag">h2</span>,<span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>;&#125;</div><div class="line"><span class="selector-tag">h3</span>&#123;<span class="attribute">font-weight</span>: italic;&#125;</div></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">h1</span>,<span class="selector-tag">h2</span>,<span class="selector-tag">h3</span>&#123;<span class="attribute">color</span>:red; <span class="attribute">font-size</span>:<span class="number">12px</span>;&#125;</span><br><span class="line"><span class="selector-tag">h3</span>&#123;<span class="attribute">font-weight</span>: italic;&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <p>所有用于选择特定元素的选择符又分三种：</p>
@@ -386,32 +386,32 @@
 <li>ID和类选择符：基于id和class属性的值选择元素</li>
 <li>属性选择符：基于属性的有无和特征选择元素</li>
 </ul>
-<h1 id="上下文选择符"><a href="#上下文选择符" class="headerlink" title="上下文选择符"></a>上下文选择符</h1><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1 标签2 &#123;声明&#125;</div></pre></td></tr></table></figure></p>
+<h1 id="上下文选择符"><a href="#上下文选择符" class="headerlink" title="上下文选择符"></a>上下文选择符</h1><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">标签1 标签2 &#123;声明&#125;</span><br></pre></td></tr></table></figure></p>
 <p>其中，标签2就是我们想要选择的目标，而且只有在标签1是其祖先元素（不一定是父元素）的情况下才会被选中。</p>
-<h1 id="特殊的上下文选择符"><a href="#特殊的上下文选择符" class="headerlink" title="特殊的上下文选择符"></a>特殊的上下文选择符</h1><h2 id="子选择符"><a href="#子选择符" class="headerlink" title="子选择符"></a>子选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1&gt;标签2</div></pre></td></tr></table></figure></p>
+<h1 id="特殊的上下文选择符"><a href="#特殊的上下文选择符" class="headerlink" title="特殊的上下文选择符"></a>特殊的上下文选择符</h1><h2 id="子选择符"><a href="#子选择符" class="headerlink" title="子选择符"></a>子选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">标签1&gt;标签2</span><br></pre></td></tr></table></figure></p>
 <p>注意：标签2必须是标签1的子元素。</p>
-<h2 id="紧邻同胞选择符"><a href="#紧邻同胞选择符" class="headerlink" title="紧邻同胞选择符"></a>紧邻同胞选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1+标签2</div></pre></td></tr></table></figure></p>
+<h2 id="紧邻同胞选择符"><a href="#紧邻同胞选择符" class="headerlink" title="紧邻同胞选择符"></a>紧邻同胞选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">标签1+标签2</span><br></pre></td></tr></table></figure></p>
 <p>标签2必须紧跟在其同胞标签1的后面。</p>
-<h2 id="一般同胞选择符"><a href="#一般同胞选择符" class="headerlink" title="一般同胞选择符"></a>一般同胞选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签1~标签2</div></pre></td></tr></table></figure></p>
+<h2 id="一般同胞选择符"><a href="#一般同胞选择符" class="headerlink" title="一般同胞选择符"></a>一般同胞选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">标签1~标签2</span><br></pre></td></tr></table></figure></p>
 <p>标签2必须跟（不一定紧跟）在其同胞标签1后面。</p>
 <h2 id="通用选择符"><a href="#通用选择符" class="headerlink" title="通用选择符"></a>通用选择符</h2><p>通用选择符*是一个通配符，它匹配任何元素。</p>
-<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">p *&#123;color:green;&#125;</div></pre></td></tr></table></figure></p>
+<p>例如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">p *&#123;color:green;&#125;</span><br></pre></td></tr></table></figure></p>
 <p>会把p包含的所有元素的文本变成绿色。<br>注：所有子元素文本变成绿色，但p标签的文本不变色。</p>
 <p>如果通配符前面没有标签，则表示网页所有元素。</p>
 <h1 id="ID和类选择符"><a href="#ID和类选择符" class="headerlink" title="ID和类选择符"></a>ID和类选择符</h1><h2 id="类属性"><a href="#类属性" class="headerlink" title="类属性"></a>类属性</h2><p>body标签中包含的任何HTML元素都可以添加class属性。</p>
-<h3 id="类选择符"><a href="#类选择符" class="headerlink" title="类选择符"></a>类选择符</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.类名</div></pre></td></tr></table></figure></p>
-<h3 id="标签带类选择符"><a href="#标签带类选择符" class="headerlink" title="标签带类选择符"></a>标签带类选择符</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签.类名</div></pre></td></tr></table></figure></p>
+<h3 id="类选择符"><a href="#类选择符" class="headerlink" title="类选择符"></a>类选择符</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.类名</span><br></pre></td></tr></table></figure></p>
+<h3 id="标签带类选择符"><a href="#标签带类选择符" class="headerlink" title="标签带类选择符"></a>标签带类选择符</h3><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">标签.类名</span><br></pre></td></tr></table></figure></p>
 <h3 id="多类选择符"><a href="#多类选择符" class="headerlink" title="多类选择符"></a>多类选择符</h3><p>可以给元素添加多个类：class=”class1 class2”。</p>
-<p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">.类名1.类名2</div></pre></td></tr></table></figure></p>
+<p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.类名1.类名2</span><br></pre></td></tr></table></figure></p>
 <blockquote>
 <p>不要乱用类<br>不要像使用ID一样，每个类都指定一个不同的类名，然后再为每个类编写规则。实际上，继承和上下文选择符能让不同的标签共享样式，从而降低你需要编写和维护的CSS量。</p>
 </blockquote>
-<h2 id="ID属性"><a href="#ID属性" class="headerlink" title="ID属性"></a>ID属性</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">#ID名&#123;声明&#125;</div></pre></td></tr></table></figure></p>
-<p><strong>用于页内导航的ID：</strong>（俗称锚点）<br>例如下面这个链接，其目标是同一页的另一个位置：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#bio"</span>&gt;</span>Biography<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div></pre></td></tr></table></figure></p>
+<h2 id="ID属性"><a href="#ID属性" class="headerlink" title="ID属性"></a>ID属性</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#ID名&#123;声明&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>用于页内导航的ID：</strong>（俗称锚点）<br>例如下面这个链接，其目标是同一页的另一个位置：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#bio"</span>&gt;</span>Biography<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
 <p>若只有“#”，那么点击链接会返回页面顶部。如果没有“#”，浏览器就会尝试加载bio目录下的默认页面了。<br>另外，如果你暂时不知道某个href应该放什么URL，也可以用#作为占位符，但不能把该属性留空。因为href属性值为空的链接的行为跟正常链接不一样。这样团队中其他人将来可以用中间层（比如PHP）变量替换#，以便动态接收来自数据库的URL。</p>
-<h1 id="属性选择符"><a href="#属性选择符" class="headerlink" title="属性选择符"></a>属性选择符</h1><h2 id="属性名选择符"><a href="#属性名选择符" class="headerlink" title="属性名选择符"></a>属性名选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签名[属性名]</div></pre></td></tr></table></figure></p>
+<h1 id="属性选择符"><a href="#属性选择符" class="headerlink" title="属性选择符"></a>属性选择符</h1><h2 id="属性名选择符"><a href="#属性名选择符" class="headerlink" title="属性名选择符"></a>属性名选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">标签名[属性名]</span><br></pre></td></tr></table></figure></p>
 <p>例如：img[title]{border:2px solid blue;}，带有title属性的img标签会被选择。</p>
-<h2 id="属性值选择符"><a href="#属性值选择符" class="headerlink" title="属性值选择符"></a>属性值选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">标签名[属性名=&quot;属性值&quot;]</div></pre></td></tr></table></figure></p>
+<h2 id="属性值选择符"><a href="#属性值选择符" class="headerlink" title="属性值选择符"></a>属性值选择符</h2><p>格式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">标签名[属性名=&quot;属性值&quot;]</span><br></pre></td></tr></table></figure></p>
 <p>选择任何带有值为属性值的属性名的标签名。</p>
 <h1 id="伪类"><a href="#伪类" class="headerlink" title="伪类"></a>伪类</h1><p>伪类分为两种：</p>
 <ul>
@@ -428,7 +428,7 @@
 </ul>
 </li>
 <li>:focus伪类<br>表单中的文本字段在用户单击它时会获得焦点，然后用户才能在其中输入字符。</li>
-<li>:target伪类<br>例如下面例子，CSS规则：#more_info:target{background:#eee;}，会在用户单击链接转向ID为more_info的元素时，为该元素添加浅灰色背景。<figure class="highlight html"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#more_info"</span>&gt;</span>More Information<span class="tag">&lt;/<span class="name">a</span>&gt;</span></div><div class="line"><span class="tag">&lt;<span class="name">h2</span> <span class="attr">id</span>=<span class="string">"more_info"</span>&gt;</span>This is the information you are looking for.<span class="tag">&lt;<span class="name">h2</span>&gt;</span></div></pre></td></tr></table></figure>
+<li>:target伪类<br>例如下面例子，CSS规则：#more_info:target{background:#eee;}，会在用户单击链接转向ID为more_info的元素时，为该元素添加浅灰色背景。<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">a</span> <span class="attr">href</span>=<span class="string">"#more_info"</span>&gt;</span>More Information<span class="tag">&lt;/<span class="name">a</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">h2</span> <span class="attr">id</span>=<span class="string">"more_info"</span>&gt;</span>This is the information you are looking for.<span class="tag">&lt;<span class="name">h2</span>&gt;</span></span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h2 id="结构化伪类"><a href="#结构化伪类" class="headerlink" title="结构化伪类"></a>结构化伪类</h2><p>常见的结构化伪类：</p>
@@ -440,7 +440,7 @@
 <ol>
 <li>::first-letter伪元素<br>例如：p::first-letter{font-size: 300%;}，可以得到段落首字符放大的效果。</li>
 <li>::first-line伪元素<br>可以选中文本段落的第一行。</li>
-<li>::before和::after伪元素<br>用于在特定定元素前面或后面添加特殊内容。<br>例如给<code>&lt;p class=&quot;age&quot;&gt;25&lt;/p&gt;</code>添加一下标签会得到：Age：25 years.<figure class="highlight css"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="selector-tag">p</span><span class="selector-class">.age</span><span class="selector-pseudo">::before</span>&#123;<span class="attribute">content</span>:<span class="string">"Age："</span>;&#125;</div><div class="line"><span class="selector-tag">p</span><span class="selector-class">.age</span><span class="selector-pseudo">::after</span>&#123;<span class="attribute">content</span>:<span class="string">" years."</span>;&#125;</div></pre></td></tr></table></figure>
+<li>::before和::after伪元素<br>用于在特定定元素前面或后面添加特殊内容。<br>例如给<code>&lt;p class=&quot;age&quot;&gt;25&lt;/p&gt;</code>添加一下标签会得到：Age：25 years.<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="selector-tag">p</span><span class="selector-class">.age</span><span class="selector-pseudo">::before</span>&#123;<span class="attribute">content</span>:<span class="string">"Age："</span>;&#125;</span><br><span class="line"><span class="selector-tag">p</span><span class="selector-class">.age</span><span class="selector-pseudo">::after</span>&#123;<span class="attribute">content</span>:<span class="string">" years."</span>;&#125;</span><br></pre></td></tr></table></figure>
 </li>
 </ol>
 <h1 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h1><p>CSS中的祖先元素会向后代传递一样东西：CSS属性的值。<br>例如：<br><code>`css
@@ -632,7 +632,7 @@ body{font-family: helvetica,arial,sans-serif;}</code><br>文档中的所有元�
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -649,7 +649,7 @@ body{font-family: helvetica,arial,sans-serif;}</code><br>文档中的所有元�
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>

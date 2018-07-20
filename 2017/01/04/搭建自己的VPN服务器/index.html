@@ -99,7 +99,7 @@
 <meta property="og:description" content="接触VPN还是从室友那里听说的。想到自己也经常访问国外网站，租一个VPS也不贵，所以就决定折腾一下。">
 <meta property="og:locale" content="en">
 <meta property="og:image" content="http://ofolh8dcq.bkt.clouddn.com/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84VPN%E6%9C%8D%E5%8A%A1%E5%99%A81.png">
-<meta property="og:updated_time" content="2017-01-06T15:35:06.000Z">
+<meta property="og:updated_time" content="2018-07-20T02:22:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="搭建自己的VPN服务器">
 <meta name="twitter:description" content="接触VPN还是从室友那里听说的。想到自己也经常访问国外网站，租一个VPS也不贵，所以就决定折腾一下。">
@@ -352,9 +352,9 @@
 
       
         <p>接触VPN还是从室友那里听说的。想到自己也经常访问国外网站，租一个VPS也不贵，所以就决定折腾一下。<br><a id="more"></a></p>
-<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>VPS（Virtual Private Server）：<br>虚拟专用服务器，是指通过虚拟化技术在独立服务器中运行的专用服务器。每个使用VPS技术的虚拟独立服务器拥有各自独立的公网IP地址、操作系统、硬盘空间、内存空间、CPU资源等，还可以进行安装程序、重启服务器等操作，与运行一台独立服务器完全相同。（<a href="https://zh.wikipedia.org/wiki/%E8%99%9A%E6%8B%9F%E4%B8%93%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8" target="_blank" rel="external">维基百科</a>）</p>
-<p>VPN（Vitrual Private Network）：<br>虚拟专用网络。在公用网络上建立专用网络，进行加密通讯。在企业网络中有广泛应用。VPN网关通过对数据包的加密和数据包目标地址的转换实现远程访问。VPN有多种分类方式，主要是按协议进行分类。VPN可通过服务器、硬件、软件等多种方式实现。（<a href="https://zh.wikipedia.org/wiki/%E8%99%9B%E6%93%AC%E7%A7%81%E4%BA%BA%E7%B6%B2%E8%B7%AF" target="_blank" rel="external">维基百科</a>）</p>
-<h1 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h1><p>我的操作系统是Ubuntu16.04 LTS，我选择租赁<a href="https://www.digitalocean.com/" target="_blank" rel="external">DigitalOcean</a>公司的虚拟服务器。价格每月5刀，如果是学生的话可以用学校邮箱申请GitHub student pack，里面有50刀DigitalOcean优惠码，够你免费用很久。</p>
+<h1 id="概念"><a href="#概念" class="headerlink" title="概念"></a>概念</h1><p>VPS（Virtual Private Server）：<br>虚拟专用服务器，是指通过虚拟化技术在独立服务器中运行的专用服务器。每个使用VPS技术的虚拟独立服务器拥有各自独立的公网IP地址、操作系统、硬盘空间、内存空间、CPU资源等，还可以进行安装程序、重启服务器等操作，与运行一台独立服务器完全相同。（<a href="https://zh.wikipedia.org/wiki/%E8%99%9A%E6%8B%9F%E4%B8%93%E7%94%A8%E6%9C%8D%E5%8A%A1%E5%99%A8" target="_blank" rel="noopener">维基百科</a>）</p>
+<p>VPN（Vitrual Private Network）：<br>虚拟专用网络。在公用网络上建立专用网络，进行加密通讯。在企业网络中有广泛应用。VPN网关通过对数据包的加密和数据包目标地址的转换实现远程访问。VPN有多种分类方式，主要是按协议进行分类。VPN可通过服务器、硬件、软件等多种方式实现。（<a href="https://zh.wikipedia.org/wiki/%E8%99%9B%E6%93%AC%E7%A7%81%E4%BA%BA%E7%B6%B2%E8%B7%AF" target="_blank" rel="noopener">维基百科</a>）</p>
+<h1 id="搭建过程"><a href="#搭建过程" class="headerlink" title="搭建过程"></a>搭建过程</h1><p>我的操作系统是Ubuntu16.04 LTS，我选择租赁<a href="https://www.digitalocean.com/" target="_blank" rel="noopener">DigitalOcean</a>公司的虚拟服务器。价格每月5刀，如果是学生的话可以用学校邮箱申请GitHub student pack，里面有50刀DigitalOcean优惠码，够你免费用很久。</p>
 <h2 id="注册DigitalOcean账号"><a href="#注册DigitalOcean账号" class="headerlink" title="注册DigitalOcean账号"></a>注册DigitalOcean账号</h2><p>很简单，主要是中间第二步，没有国外信用卡就选择PayPal方式，PayPal类似支付宝，你可以申请一个PayPal账号然后添加自己的国内银行卡号。</p>
 <h2 id="创建VPS"><a href="#创建VPS" class="headerlink" title="创建VPS"></a>创建VPS</h2><p>登陆后，选择右上角Create Droplet</p>
 <p>操作系统我选的是Ubuntu 14.04×64</p>
@@ -364,36 +364,36 @@
 <p>最后确认点击最下面Create</p>
 <p>等待半分钟就会创建成功</p>
 <h2 id="SSH登录服务器"><a href="#SSH登录服务器" class="headerlink" title="SSH登录服务器"></a>SSH登录服务器</h2><p>SSH 是一种远程登录计算机系统的协议，它帮助我们实现在服务器端的VPN配置。</p>
-<p>终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh root@your_domain_or_ip</div></pre></td></tr></table></figure></p>
+<p>终端输入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@your_domain_or_ip</span><br></pre></td></tr></table></figure></p>
 <p>ip可以到你的DigitalOcean账号上查看。</p>
 <p>第一次登录会让你修改密码，原密码DigitalOcean公司会发给你的注册邮箱上。</p>
-<h2 id="服务器端安装Shadowsocks"><a href="#服务器端安装Shadowsocks" class="headerlink" title="服务器端安装Shadowsocks"></a>服务器端安装Shadowsocks</h2><p>SSH登录服务器后<br>终端执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">apt-get install python-pip</div><div class="line">pip install shadowsocks</div></pre></td></tr></table></figure></p>
-<p>创建shadowsocks.json配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /etc/shadowsocks.json</div></pre></td></tr></table></figure></p>
-<p>在文件里面写入一下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">		    &quot;server&quot;:&quot;your_server_ip&quot;,</div><div class="line">			&quot;server_port&quot;:8388,</div><div class="line">			&quot;local_address&quot;: &quot;127.0.0.1&quot;,</div><div class="line">			&quot;local_port&quot;:1080,</div><div class="line">			&quot;password&quot;:&quot;your_password&quot;,</div><div class="line">			&quot;timeout&quot;:300,</div><div class="line">			&quot;method&quot;:&quot;aes-256-cfb&quot;,</div><div class="line">			&quot;fast_open&quot;: false</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>启动shadowsocks<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssserver -c /etc/shadowsocks.json -d start</div></pre></td></tr></table></figure></p>
-<h2 id="本机安装Shadowsocks"><a href="#本机安装Shadowsocks" class="headerlink" title="本机安装Shadowsocks"></a>本机安装Shadowsocks</h2><p>我选择的是安装命令行shadowsocks，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">apt-get install python-pip</div><div class="line">pip install shadowsocks</div></pre></td></tr></table></figure></p>
+<h2 id="服务器端安装Shadowsocks"><a href="#服务器端安装Shadowsocks" class="headerlink" title="服务器端安装Shadowsocks"></a>服务器端安装Shadowsocks</h2><p>SSH登录服务器后<br>终端执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure></p>
+<p>创建shadowsocks.json配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /etc/shadowsocks.json</span><br></pre></td></tr></table></figure></p>
+<p>在文件里面写入一下内容：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">		    &quot;server&quot;:&quot;your_server_ip&quot;,</span><br><span class="line">			&quot;server_port&quot;:8388,</span><br><span class="line">			&quot;local_address&quot;: &quot;127.0.0.1&quot;,</span><br><span class="line">			&quot;local_port&quot;:1080,</span><br><span class="line">			&quot;password&quot;:&quot;your_password&quot;,</span><br><span class="line">			&quot;timeout&quot;:300,</span><br><span class="line">			&quot;method&quot;:&quot;aes-256-cfb&quot;,</span><br><span class="line">			&quot;fast_open&quot;: false</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动shadowsocks<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssserver -c /etc/shadowsocks.json -d start</span><br></pre></td></tr></table></figure></p>
+<h2 id="本机安装Shadowsocks"><a href="#本机安装Shadowsocks" class="headerlink" title="本机安装Shadowsocks"></a>本机安装Shadowsocks</h2><p>我选择的是安装命令行shadowsocks，执行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">apt-get install python-pip</span><br><span class="line">pip install shadowsocks</span><br></pre></td></tr></table></figure></p>
 <p>可能会提示要安装其他一些依赖，按提示安装即可。</p>
-<p>启动shadowsocks：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sslocal -s 11.22.33.44 -p 8388 -k &quot;123456&quot; -l 1080 -t 600 -m aes-256-cfb&quot;&quot;</div></pre></td></tr></table></figure></p>
+<p>启动shadowsocks：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sslocal -s 11.22.33.44 -p 8388 -k &quot;123456&quot; -l 1080 -t 600 -m aes-256-cfb&quot;&quot;</span><br></pre></td></tr></table></figure></p>
 <p>以上IP、端口、密码改下即可。</p>
-<p>图方便可以先创建配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi /home/lewis/shadowsocks.json</div></pre></td></tr></table></figure></p>
-<p>写入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">				&quot;server&quot;:&quot;11.22.33.44&quot;,</div><div class="line">				&quot;server_port&quot;:8388,</div><div class="line">				&quot;local_port&quot;: 1080,</div><div class="line">				&quot;password&quot;:&quot;123456&quot;,</div><div class="line">				&quot;timeout&quot;:600,</div><div class="line">				&quot;method&quot;:&quot;aes-256-cfb&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sslocal -c /home/lewis/shadowsocks.json</div></pre></td></tr></table></figure></p>
+<p>图方便可以先创建配置文件：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi /home/lewis/shadowsocks.json</span><br></pre></td></tr></table></figure></p>
+<p>写入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">				&quot;server&quot;:&quot;11.22.33.44&quot;,</span><br><span class="line">				&quot;server_port&quot;:8388,</span><br><span class="line">				&quot;local_port&quot;: 1080,</span><br><span class="line">				&quot;password&quot;:&quot;123456&quot;,</span><br><span class="line">				&quot;timeout&quot;:600,</span><br><span class="line">				&quot;method&quot;:&quot;aes-256-cfb&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sslocal -c /home/lewis/shadowsocks.json</span><br></pre></td></tr></table></figure></p>
 <p>就可以打开ss了。</p>
 <h2 id="打开系统代理通道"><a href="#打开系统代理通道" class="headerlink" title="打开系统代理通道"></a>打开系统代理通道</h2><p>并不是打开ss就可以用了，还需要设置系统的代理设置。<br>例如我的Ubuntu16.04 LTS系统：<br><img src="http://ofolh8dcq.bkt.clouddn.com/%E6%90%AD%E5%BB%BA%E8%87%AA%E5%B7%B1%E7%9A%84VPN%E6%9C%8D%E5%8A%A1%E5%99%A81.png" alt="搭建自己的VPN服务器1"></p>
 <p>也可以浏览器设置里设置代理。</p>
 <p>完毕后就可以访问墙外的世界啦~</p>
 <h1 id="安装BBR实现加速VPS"><a href="#安装BBR实现加速VPS" class="headerlink" title="安装BBR实现加速VPS"></a>安装BBR实现加速VPS</h1><h2 id="概念-1"><a href="#概念-1" class="headerlink" title="概念"></a>概念</h2><p>BBR拥塞控制算法，由Google开发其目的就是要尽量跑满带宽，并且尽量不要有排队的情况。简单一点 就是高延迟高丢包的tcp环境下的优化算法。</p>
-<h2 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h2><p>首先ssh登录服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ssh root@your_server_ip</div></pre></td></tr></table></figure></p>
-<p>下载及安装linux新内核（vps操作系统为64位ubuntu）<br>新内核已加入了该算法，安装即可享用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.9/linux-image-4.9.0-040900-generic_4.9.0-040900.201612111631_amd64.deb</div><div class="line">dpkg -i linux-image-4.9.0*.deb</div><div class="line">dpkg -l|grep linux-image</div><div class="line">apt-get purge</div></pre></td></tr></table></figure></p>
-<p>更新grub系统引导文件及重启：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">update-grub</div><div class="line">reboot</div></pre></td></tr></table></figure></p>
-<p>配置BBR文件，开启BBR：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf</div><div class="line">echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf</div><div class="line">sysctl –p</div></pre></td></tr></table></figure></p>
-<p>检查是否开启BBR：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">sysctl net.ipv4.tcp_available_congestion_control</div><div class="line">lsmod | grep bbr</div></pre></td></tr></table></figure></p>
+<h2 id="安装方法"><a href="#安装方法" class="headerlink" title="安装方法"></a>安装方法</h2><p>首先ssh登录服务器：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@your_server_ip</span><br></pre></td></tr></table></figure></p>
+<p>下载及安装linux新内核（vps操作系统为64位ubuntu）<br>新内核已加入了该算法，安装即可享用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">wget http://kernel.ubuntu.com/~kernel-ppa/mainline/v4.9/linux-image-4.9.0-040900-generic_4.9.0-040900.201612111631_amd64.deb</span><br><span class="line">dpkg -i linux-image-4.9.0*.deb</span><br><span class="line">dpkg -l|grep linux-image</span><br><span class="line">apt-get purge</span><br></pre></td></tr></table></figure></p>
+<p>更新grub系统引导文件及重启：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">update-grub</span><br><span class="line">reboot</span><br></pre></td></tr></table></figure></p>
+<p>配置BBR文件，开启BBR：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">echo &quot;net.core.default_qdisc=fq&quot; &gt;&gt; /etc/sysctl.conf</span><br><span class="line">echo &quot;net.ipv4.tcp_congestion_control=bbr&quot; &gt;&gt; /etc/sysctl.conf</span><br><span class="line">sysctl –p</span><br></pre></td></tr></table></figure></p>
+<p>检查是否开启BBR：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br><span class="line">lsmod | grep bbr</span><br></pre></td></tr></table></figure></p>
 <hr>
 <p>参考教程：</p>
 <ul>
-<li><a href="http://www.people.virginia.edu/~tq7bw/vpn/" target="_blank" rel="external">Tong’s Guide：建立自己的VPN服务器</a></li>
-<li><a href="https://wiki.vpsmm.com/bbr/" target="_blank" rel="external">ubuntu 安装 bbr 更好的加速你的国外VPS</a></li>
-<li><a href="https://www.zhihu.com/question/53729940" target="_blank" rel="external">什么是tcp bbr？</a></li>
+<li><a href="http://www.people.virginia.edu/~tq7bw/vpn/" target="_blank" rel="noopener">Tong’s Guide：建立自己的VPN服务器</a></li>
+<li><a href="https://wiki.vpsmm.com/bbr/" target="_blank" rel="noopener">ubuntu 安装 bbr 更好的加速你的国外VPS</a></li>
+<li><a href="https://www.zhihu.com/question/53729940" target="_blank" rel="noopener">什么是tcp bbr？</a></li>
 </ul>
 
       
@@ -518,7 +518,7 @@
         <nav class="site-state motion-element">
           <div class="site-state-item site-state-posts">
             <a href="/archives">
-              <span class="site-state-item-count">92</span>
+              <span class="site-state-item-count">93</span>
               <span class="site-state-item-name">posts</span>
             </a>
           </div>
@@ -535,7 +535,7 @@
           
             <div class="site-state-item site-state-tags">
               <a href="/tags">
-                <span class="site-state-item-count">55</span>
+                <span class="site-state-item-count">57</span>
                 <span class="site-state-item-name">tags</span>
               </a>
             </div>
