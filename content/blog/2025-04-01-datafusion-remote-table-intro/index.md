@@ -63,5 +63,5 @@ pub async fn main() -> Result<(), Box<dyn std::error::Error>> {
 4. SQLite
     - Null / Integer / Real / Text / Blob
 
-[datafusion-remote-table]: https://github.com/lewiszlw/datafusion-remote-table
+[datafusion-remote-table]: https://github.com/systemxlabs/datafusion-remote-table
 [DataFusion]: https://github.com/apache/datafusion
