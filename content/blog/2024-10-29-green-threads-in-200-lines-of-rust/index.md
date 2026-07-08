@@ -3,7 +3,7 @@ title = "200 行 Rust 代码实现绿色线程 / 有栈协程"
 date = 2024-10-29
 +++
 
-最近在清华大学 rCore 内核教程中看到这段 [200 行的示例代码](https://github.com/rcore-os/rCore-Tutorial-v3/blob/main/user/src/bin/stackful_coroutine.rs)，觉得很有趣，但为了不跟 rCore 内核绑定，我将其移植到 Linux for RISC-V64 上，并且重构了许多代码，修复了一些问题，增强了其可读性，具体见 [https://github.com/systemxlabs/green-threads-in-200-lines-of-rust](https://github.com/systemxlabs/green-threads-in-200-lines-of-rust)。
+最近在清华大学 rCore 内核教程中看到这段 [200 行的示例代码](https://github.com/rcore-os/rCore-Tutorial-v3/blob/main/user/src/bin/stackful_coroutine.rs)，觉得很有趣，但为了不跟 rCore 内核绑定，我将其移植到 Linux for RISC-V64 上，并且重构了许多代码，修复了一些问题，增强了其可读性，具体见 [https://github.com/lewiszlw/green-threads-in-200-lines-of-rust](https://github.com/lewiszlw/green-threads-in-200-lines-of-rust)。
 
 ## 前置知识：RISC-V 架构和函数调用规约
 RISC-V 是一个模块化的精简指令集架构，这里我们以 RV64I 模块（64 位基本整数指令集）为例
