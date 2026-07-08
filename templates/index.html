@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home">
+  <h1 class="home__title">
+    Build System Softwares For Fun.
+  </h1>
+
+  <h2>
+    Latest projects
+  </h2>
+
+  {% set section = get_section(path="projects/_index.md") %}
+
+  <ul>
+  {% for page in section.pages %}
+    {% if loop.index > 5 %}{% break %}{% endif %}
+    <li><a href="{{ page.path | safe }}">{{ page.title }}</a></li>
+  {% endfor %}
+  </ul>
+
+  <p><a href="/projects">See all projects &rarr;</a></p>
+
+  <h2>
+    Latest posts
+  </h2>
+
+  {% set section = get_section(path="blog/_index.md") %}
+  <ul>
+  {% for page in section.pages %}
+    {% if loop.index > 5 %}{% break %}{% endif %}
+    <li><a href="{{ page.path | safe }}">{{ page.title }}</a></li>
+  {% endfor %}
+  </ul>
+
+
+  <p><a href="/blog">See all posts &rarr;</a></p>
+
+</div>
+
+{% endblock content %}

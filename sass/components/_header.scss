@@ -1,0 +1,42 @@
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    &__logo {
+        font-family: Chancery, cursive, LiSu, sans-serif;
+        font-weight: 800;
+        vertical-align: middle;
+
+        a {
+            color: #34495e;
+            font-size: 40px;
+            text-decoration: none;
+
+            img {
+                height: 35px;
+                display: inline-block;
+            }
+        }
+    }
+
+    &__nav {
+        align-self: flex-start;
+
+        ul {
+            display: inline-block;
+            padding-right: 25px;
+
+            li {
+                display: inline-block;
+                margin-right: 10px;
+
+                a {
+                    color: #34495e;
+                    font-size: 18px;
+                }
+            }
+        }
+    }
+}

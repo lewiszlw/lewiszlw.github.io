@@ -1,0 +1,100 @@
+<mxfile host="Electron" modified="2024-04-26T08:24:53.027Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/24.2.5 Chrome/120.0.6099.109 Electron/28.1.0 Safari/537.36" etag="oZP908UbMimJ5fEhvrga" version="24.2.5" type="device">
+  <diagram name="第 1 页" id="W0GCbvE45VuLdL3a8cRp">
+    <mxGraphModel dx="2074" dy="1196" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-1" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="234" y="370" width="230" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-2" value="Schedulers" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="319" y="370" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-3" value="Flight SQL API" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="164" y="430" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-5" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;" parent="1" vertex="1">
+          <mxGeometry x="586" y="370" width="280" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-6" value="Executors" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="689" y="372" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-8" value="Shared KV" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="286.5" y="260" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-9" value="" style="rounded=1;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;" parent="1" vertex="1">
+          <mxGeometry x="936" y="370" width="80" height="240" as="geometry" />
+        </mxCell>
+        <mxCell id="adY0Wv2Rg5A9FPhc2j1m-10" value="FileSystem or ObjectStore" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="948" y="475" width="60" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-1" value="" style="endArrow=classic;html=1;rounded=0;entryX=0.935;entryY=1.067;entryDx=0;entryDy=0;entryPerimeter=0;" parent="1" target="fyWjurBfLONTMsOJp_2p-2" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="483.5" y="437" as="sourcePoint" />
+            <mxPoint x="603.5" y="437" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-2" value="Launch Tasks" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="475" y="405" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-3" value="" style="endArrow=classic;html=1;rounded=0;exitX=0.939;exitY=0.967;exitDx=0;exitDy=0;exitPerimeter=0;" parent="1" source="fyWjurBfLONTMsOJp_2p-4" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="600" y="560" as="sourcePoint" />
+            <mxPoint x="480" y="560" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-4" value="Task Update" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="480" y="530" width="90" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-7" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="347.5" y="360" as="sourcePoint" />
+            <mxPoint x="347.5" y="330" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-8" value="metadata" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" parent="1" vertex="1">
+          <mxGeometry x="347.5" y="328" width="70" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-9" value="REST API" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="164" y="500" width="90" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-10" value="Distributed Query Planner" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="304" y="410" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-11" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="304" y="464" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-12" value="Execution Graphs" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="319" y="474" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-13" value="Metrics" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="304" y="550" width="120" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-14" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="626" y="420" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-15" value="Query Stages" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="641" y="430" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-16" value="" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="616" y="505" width="230" height="95" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-17" value="Shuffle Read" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="626" y="550" width="95" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-18" value="Shuffle Write" style="rounded=1;whiteSpace=wrap;html=1;" parent="1" vertex="1">
+          <mxGeometry x="736" y="550" width="95" height="40" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-19" value="Datafusion Query Execution" style="text;html=1;align=center;verticalAlign=middle;whiteSpace=wrap;rounded=0;" parent="1" vertex="1">
+          <mxGeometry x="641" y="510" width="175" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="fyWjurBfLONTMsOJp_2p-21" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" parent="1" edge="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="876" y="500" as="sourcePoint" />
+            <mxPoint x="926" y="500" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
