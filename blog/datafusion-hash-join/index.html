@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/site.css" />
+  <title>Linwei Zhang</title>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__logo">
+        <a href="/">
+          <!-- <img src="/assets/favicon.png" alt="Linwei Zhang"> -->
+          Linwei Zhang
+        </a>
+      </div>
+
+      <nav class="header__nav">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/notes">Notes</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="main__content">
+      <div class="container">
+        
+<h1 class="title">
+  DataFusion 查询引擎 Hash Join
+</h1>
+<p class="subtitle"><strong>2025-01-13</strong></p>
+<p>对于含有等值连接条件的 Join，可以采用 Hash Join 方式进行加速计算，它利用了哈希表的查询特性，其本身也可以更好的并行化。</p>
+<h2 id="chang-jing">场景</h2>
+<p>主要用于 On 子句中含有等值连接条件的 Join 运算。例如默认用户配置下：表 <code>t0(a int, b int)</code> 和 <code>t1(c int, d int)</code></p>
+<ol>
+<li><code>select * from t0 join t1 on t0.a = t1.c</code> 有一个 On 条件且是等值条件，走 Hash Join 算子</li>
+<li><code>select * from t0 join t1 on t0.a &gt; t1.c</code> 有一个 On 条件但非等值条件，走 Nested Loop Join 算子</li>
+<li><code>select * from t0 join t1 on t0.a &gt; t1.c and t0.b = t1.d</code> 有多个 On 条件且其中包含等值条件，走 Hash Join 算子</li>
+<li><code>select * from t0 join t1 on t0.a = t1.c or t0.b &gt; t1.d</code> 有多个 On 条件且其中包含等值条件，但是是“或”的关系，走 Nested Loop Join 算子</li>
+</ol>
+<h2 id="zhi-xing-mo-shi">执行模式</h2>
+<p>Hash Join 有两种执行模式：CollectLeft 和 Partitioned</p>
+<ul>
+<li>CollectLeft 模式更加通用，会先将左表数据全部读取出来构建哈希表（被所有线程共享），然后跟右表 join</li>
+<li>Partitioned 模式并行度更高，但要求左右表的 partition 数量相同并且分区方式都是以等值连接条件中的表达式进行哈希分区（例如 <code>on t0.a = t1.c</code>，左表需要按照 <code>t0.a</code> 进行哈希分区，右表需要按照 <code>t1.c</code> 进行哈希分区），它只需将左右表对应 partition 数据进行 join，无需构建一个全局的哈希表
+<img src="https://lewiszlw.github.io/blog/datafusion-hash-join/./datafusion-hash-join-partitioned-stream.drawio.png" alt="" /></li>
+</ul>
+<p><strong>Partitioned 模式下左右表数据的分布</strong>：左右表中具有相同 join keys（等值） 的行一定被分布到左右对应相同的 partition 中（例如左右表中 join key 值为 2 的行均被分布到各自的 1 号 partition 中）。
+<img src="https://lewiszlw.github.io/blog/datafusion-hash-join/./datafusion-hash-join-data-distribution.drawio.png" alt="" /></p>
+<p>执行模式选择策略：</p>
+<ol>
+<li>当用户希望并行度为 1 时，会采用 CollectLeft 模式</li>
+<li>当用户不希望运行时收集统计数据时，默认走 Partitioned 模式</li>
+<li>通过统计数据来选择执行模式，如果左右表数据量至少有一个比较小，则走 CollectLeft 模式，否则走 Partitioned 模式</li>
+</ol>
+<h2 id="you-hua">优化</h2>
+<p>Hash Join 主要参与以下优化</p>
+<ol>
+<li>projection push down：优化器会尝试将 projection 下推到 Hash Join 算子的输入，如果无法下推，会尝试将 projection 嵌入到 Hash Join 算子中
+<img src="https://lewiszlw.github.io/blog/datafusion-hash-join/./datafusion-projection-pushdown-for-hash-join.drawio.png" alt="" /></li>
+<li>enforce distribution
+<ul>
+<li>对于 CollectLeft 模式，在左表上插入 Coalesce Partitions / Sort Preserving Merge 算子，将其所有 partition 合并成 1 个</li>
+<li>对于 Partitioned 模式，在左右表上插入 Repartition 算子，将其分区方式改成按等值连接条件哈希分区</li>
+</ul>
+</li>
+<li>join selection
+<ul>
+<li>优化器会根据 join 两边输入的统计信息，将小表放到左侧，大表放到右侧</li>
+<li>如果左右输入均为无界且增量的（增量的意思是例如 filter 这种接收一批处理一批），则转换为 Symmetric Hash Join</li>
+</ul>
+</li>
+</ol>
+<h2 id="zhi-xing">执行</h2>
+<p>以 Partitioned 模式为例，SQL 为 <code>select * from t0 full join t1 on t0.a = t1.c and t0.b &gt; t1.d</code>，左右表的每个 partition 都会经历如下阶段，以第 0 号 partition 为例</p>
+<h3 id="di-yi-jie-duan-build-jie-duan">第一阶段：build 阶段</h3>
+<p>对左表的 partition0 所有数据构建哈希表，其中 key 为 <code>t0.a</code> 列值的哈希值，value 为行索引（这里会处理哈希冲突情况）。</p>
+<p>例如左表 partition0 数据如下</p>
+<table><thead><tr><th>行索引</th><th>t0.a</th><th>t0.b</th></tr></thead><tbody>
+<tr><td>0</td><td>3</td><td>1</td></tr>
+<tr><td>1</td><td>6</td><td>0</td></tr>
+<tr><td>2</td><td>4</td><td>5</td></tr>
+</tbody></table>
+<h3 id="di-er-jie-duan-probe-jie-duan">第二阶段：probe 阶段</h3>
+<p>probe 阶段不断读取右表 partition0 的数据，与左表 partition0 数据进行 join。</p>
+<p>第一步，从右表读取一批数据，计算这一批数据 <code>t1.c</code> 列值的哈希值</p>
+<p>例如右表这一批数据如下</p>
+<table><thead><tr><th>行索引</th><th>t1.c</th><th>t1.d</th></tr></thead><tbody>
+<tr><td>0</td><td>2</td><td>6</td></tr>
+<tr><td>1</td><td>4</td><td>2</td></tr>
+<tr><td>2</td><td>3</td><td>3</td></tr>
+</tbody></table>
+<p>第二步，使用第一步中计算的哈希值，从 build 阶段构建的左表的哈希表中查找满足等值连接条件 <code>t0.a = t1.c</code> 的行索引，然后根据行索引来比较 <code>t0.a</code> 列与 <code>t1.c</code> 列是否真的相等</p>
+<table><thead><tr><th>左表行索引</th><th>右表行索引</th></tr></thead><tbody>
+<tr><td>0</td><td>2</td></tr>
+<tr><td>2</td><td>1</td></tr>
+</tbody></table>
+<p>第三步，使用非等值连接条件 <code>t0.b &gt; t1.d</code> 进行过滤</p>
+<table><thead><tr><th>左表行索引</th><th>右表行索引</th></tr></thead><tbody>
+<tr><td>2</td><td>1</td></tr>
+</tbody></table>
+<p>第四步，根据 join 类型调整行索引</p>
+<ol>
+<li>如果是 inner join，则不调整</li>
+<li>如果是 left join，在第三阶段输出未匹配的左表数据</li>
+<li>如果是 right join，则追加右表未匹配的行</li>
+<li>如果是 full join，跟 right join 类似，不过还会在第三阶段输出未匹配的左表数据</li>
+</ol>
+<table><thead><tr><th>左表行索引</th><th>右表行索引</th></tr></thead><tbody>
+<tr><td>2</td><td>1</td></tr>
+<tr><td>NULL</td><td>0</td></tr>
+<tr><td>NULL</td><td>2</td></tr>
+</tbody></table>
+<p>第五步，根据行索引结合 projection 输出 join 结果</p>
+<table><thead><tr><th>t0.a</th><th>t0.b</th><th>t1.c</th><th>t0.d</th></tr></thead><tbody>
+<tr><td>4</td><td>5</td><td>4</td><td>2</td></tr>
+<tr><td>NULL</td><td>NULL</td><td>2</td><td>6</td></tr>
+<tr><td>NULL</td><td>NULL</td><td>3</td><td>3</td></tr>
+</tbody></table>
+<h3 id="di-san-jie-duan-shu-chu-zuo-biao-wei-pi-pei-de-xing">第三阶段：输出左表未匹配的行</h3>
+<p>构建行索引（左表第 2 已匹配，还剩第 0 和第 1 行未匹配）</p>
+<table><thead><tr><th>左表行索引</th><th>右表行索引</th></tr></thead><tbody>
+<tr><td>0</td><td>NULL</td></tr>
+<tr><td>1</td><td>NULL</td></tr>
+</tbody></table>
+<p>根据行索引结合 projection 输出 join 结果</p>
+<table><thead><tr><th>t0.a</th><th>t0.b</th><th>t1.c</th><th>t0.d</th></tr></thead><tbody>
+<tr><td>3</td><td>1</td><td>NULL</td><td>NULL</td></tr>
+<tr><td>6</td><td>0</td><td>NULL</td><td>NULL</td></tr>
+</tbody></table>
+<p>所以整个 SQL 的最终执行结果是</p>
+<table><thead><tr><th>t0.a</th><th>t0.b</th><th>t1.c</th><th>t0.d</th></tr></thead><tbody>
+<tr><td>4</td><td>5</td><td>4</td><td>2</td></tr>
+<tr><td>NULL</td><td>NULL</td><td>2</td><td>6</td></tr>
+<tr><td>NULL</td><td>NULL</td><td>3</td><td>3</td></tr>
+<tr><td>3</td><td>1</td><td>NULL</td><td>NULL</td></tr>
+<tr><td>6</td><td>0</td><td>NULL</td><td>NULL</td></tr>
+</tbody></table>
+<h2 id="ha-xi-biao-she-ji">哈希表设计</h2>
+<p>当前 DataFusion 采用的哈希表设计是基于 <code>hashbrown::RawTable</code>（Google <a href="https://abseil.io/blog/20180927-swisstables">SwissTable</a> 的 Rust 实现） 和 <code>Vec&lt;u64&gt;</code>，自己计算哈希值和解决哈希冲突，<code>RawTable</code> 存放无冲突的哈希值到行索引映射，<code>Vec&lt;u64&gt;</code> 存放哈希冲突的映射。哈希表的内存是一次性分配好，后续不会扩容（使用 <code>with_capacity</code> 创建来保证）。</p>
+<p>假设左表的数据共有 10 行，在建立哈希表时，会分配一个容量为 10 的 <code>RawTable</code> 和 <code>Vec&lt;u64&gt;</code>。</p>
+<p>以下是插入过程。由于 0 被用作默认值，所以存放行索引时采用 +1 存储。当遇到哈希冲突时，会将原 <code>RawTable</code> 中的 value 存入到 <code>Vec&lt;u64&gt;</code> 中，放置到行索引指向的地方。</p>
+<p><img src="https://lewiszlw.github.io/blog/datafusion-hash-join/./datafusion-hash-join-hashmap.drawio.png" alt="" /></p>
+<p>在检索时，例如查找 hash 值为 10 的所有行索引</p>
+<ol>
+<li>从 <code>RawTable</code> 中找到 key 为 10 的映射，即 <code>10 -&gt; 5</code></li>
+<li>使用上面拿到的 5（实际行索引为 4）从 <code>Vec&lt;u64&gt;</code> 拿到 <code>3</code></li>
+<li>使用上面拿到的 3（实际行索引为 2）从 <code>Vec&lt;u64&gt;</code> 拿到 <code>1</code></li>
+<li>使用上面拿到的 1（实际行索引为 0）从 <code>Vec&lt;u64&gt;</code> 拿到 <code>0</code></li>
+<li>由于上面拿到的值为 0，停止检索</li>
+<li>最终检索到的结果是 <code>5, 3, 1</code>，因此实际行索引结果是 <code>4, 2, 0</code></li>
+</ol>
+<p><strong>保持输出顺序和输入顺序一致</strong></p>
+<p>以上例子中输入的顺序是 <code>0, 2, 4</code>，而哈希检索结果中的顺序是 <code>4, 2, 0</code>。因此为了保持顺序一致，在构建哈希表时，DataFusion 会对输入数据进行翻转。</p>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <hr>
+      <!-- search icon here https://simpleicons.org/ -->
+      <div class="footer__social">
+        <a href="https://github.com/lewiszlw">
+          <svg aria-labelledby="simpleicons-github-icon" role="img" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title id="simpleicons-github-icon">GitHub icon</title>
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+          </svg>
+        </a>
+        <a href="https://space.bilibili.com/43876861">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Bilibili</title>
+            <path
+              d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z" />
+          </svg>
+        </a>
+        <a href="https://www.zhihu.com/people/tian-qian-zhu-wu-ya">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Zhihu</title>
+            <path
+              d="M5.721 0C2.251 0 0 2.25 0 5.719V18.28C0 21.751 2.252 24 5.721 24h12.56C21.751 24 24 21.75 24 18.281V5.72C24 2.249 21.75 0 18.281 0zm1.964 4.078c-.271.73-.5 1.434-.68 2.11h4.587c.545-.006.445 1.168.445 1.171H9.384a58.104 58.104 0 01-.112 3.797h2.712c.388.023.393 1.251.393 1.266H9.183a9.223 9.223 0 01-.408 2.102l.757-.604c.452.456 1.512 1.712 1.906 2.177.473.681.063 2.081.063 2.081l-2.794-3.382c-.653 2.518-1.845 3.607-1.845 3.607-.523.468-1.58.82-2.64.516 2.218-1.73 3.44-3.917 3.667-6.497H4.491c0-.015.197-1.243.806-1.266h2.71c.024-.32.086-3.254.086-3.797H6.598c-.136.406-.158.447-.268.753-.594 1.095-1.603 1.122-1.907 1.155.906-1.821 1.416-3.6 1.591-4.064.425-1.124 1.671-1.125 1.671-1.125zM13.078 6h6.377v11.33h-2.573l-2.184 1.373-.401-1.373h-1.219zm1.313 1.219v8.86h.623l.263.937 1.455-.938h1.456v-8.86z" />
+          </svg>
+        </a>
+        <a href="https://twitter.com/lewiszlw">
+          <svg aria-labelledby="simpleicons-twitter-icon" role="img" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title id="simpleicons-twitter-icon">Twitter icon</title>
+            <path
+              d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" />
+          </svg>
+        </a>
+        <a href="https://mastodon.world/@lewiszlw">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Mastodon</title>
+            <path
+              d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" />
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UCnvri1tqAjxsp9nGQ63zUNw">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>YouTube</title>
+            <path
+              d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>

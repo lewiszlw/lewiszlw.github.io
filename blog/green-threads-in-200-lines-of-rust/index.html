@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/site.css" />
+  <title>Linwei Zhang</title>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__logo">
+        <a href="/">
+          <!-- <img src="/assets/favicon.png" alt="Linwei Zhang"> -->
+          Linwei Zhang
+        </a>
+      </div>
+
+      <nav class="header__nav">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/notes">Notes</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="main__content">
+      <div class="container">
+        
+<h1 class="title">
+  200 行 Rust 代码实现绿色线程 &#x2F; 有栈协程
+</h1>
+<p class="subtitle"><strong>2024-10-29</strong></p>
+<p>最近在清华大学 rCore 内核教程中看到这段 <a href="https://github.com/rcore-os/rCore-Tutorial-v3/blob/main/user/src/bin/stackful_coroutine.rs">200 行的示例代码</a>，觉得很有趣，但为了不跟 rCore 内核绑定，我将其移植到 Linux for RISC-V64 上，并且重构了许多代码，修复了一些问题，增强了其可读性，具体见 <a href="https://github.com/systemxlabs/green-threads-in-200-lines-of-rust">https://github.com/systemxlabs/green-threads-in-200-lines-of-rust</a>。</p>
+<h2 id="qian-zhi-zhi-shi-risc-v-jia-gou-he-han-shu-diao-yong-gui-yue">前置知识：RISC-V 架构和函数调用规约</h2>
+<p>RISC-V 是一个模块化的精简指令集架构，这里我们以 RV64I 模块（64 位基本整数指令集）为例</p>
+<ol>
+<li>包含基本的整数运算指令（算术/逻辑/移位）、分支和跳转指令、内存交互指令</li>
+<li>提供 32 个整数寄存器（x0-x31），其中 x0 硬连线为 0（恒为 0），这些寄存器有一些别名，如 x1 用于存放函数返回地址，也称 ra 寄存器，x2 用于存放栈指针，也称 sp 寄存器</li>
+<li>指令长度为 32 位，寄存器位宽是 64</li>
+</ol>
+<table><thead><tr><th>寄存器组</th><th>保存者</th><th>功能</th></tr></thead><tbody>
+<tr><td>a0~a7（x10~x17）</td><td>调用者保存</td><td>用来传递输入参数，其中的 a0 和 a1 还用来保存返回值</td></tr>
+<tr><td>t0~t6 (x5~x7, x28~x31)</td><td>调用者保存</td><td>作为临时寄存器使用，在被调函数中可以随意使用无需保存</td></tr>
+<tr><td>s0~s11 (x8~x9, x18~x27)</td><td>被调用者保存</td><td>作为临时寄存器使用，被调函数保存后才能在被调函数中使用，其中 fp (s0) 也可作为栈帧指针寄存器，表示当前栈帧的起始位置</td></tr>
+<tr><td>ra (x1)</td><td>被调用者保存</td><td>存放函数返回地址</td></tr>
+<tr><td>sp (x2)</td><td>被调用者保存</td><td>栈指针寄存器，指向栈顶位置</td></tr>
+<tr><td>zero (x0)</td><td>N/A</td><td>恒为零</td></tr>
+</tbody></table>
+<p>何为调用者保存寄存器和被调用者保存寄存器？</p>
+<ul>
+<li>由于每个 CPU 只有一套寄存器，函数调用前后会导致寄存器的值被覆盖，因此需要将寄存器的值提前保存到栈上，后续从栈上恢复这些寄存器的值，这个过程由函数调用者和被调用者合作完成</li>
+<li>被调用者保存 (Callee-Saved) 寄存器 ：被调用的函数可能会覆盖这些寄存器，需要被调用的函数来保存的寄存器，即由被调用的函数来保证在调用前后，这些寄存器保持不变</li>
+<li>调用者保存 (Caller-Saved) 寄存器 ：被调用的函数可能会覆盖这些寄存器，需要发起调用的函数来保存的寄存器，即由发起调用的函数来保证在调用前后，这些寄存器保持不变</li>
+</ul>
+<p>函数调用是通过压栈和出栈的方式，每个函数执行都有其对应的栈帧
+<img src="call-stack.png" style="width:800px" /></p>
+<p>一个函数可能的栈帧内容
+<img src="stack-frame.png" style="width:800px" />
+它的开头和结尾分别在 sp 和 fp 寄存器所指向的地址。按照地址从高到低分别有以下内容，它们都是通过 sp 加上一个偏移量来访问的：</p>
+<ul>
+<li>ra 寄存器保存子函数返回之后需要跳转的地址</li>
+<li>父亲栈帧的结束地址 fp</li>
+<li>其他被调用者保存寄存器 s1 ~ s11 </li>
+<li>函数所使用到的局部变量</li>
+</ul>
+<p>函数 A 调用函数 B 具体完整过程（抛开编译器优化）：</p>
+<ol>
+<li>函数 A 保存“调用者保存寄存器”到其栈帧内</li>
+<li>函数 A 设置输入参数到 a0-a7 寄存器</li>
+<li>函数 A 跳转到函数 B 入口并设置 ra 寄存器为函数 A 跳转指令的下一条指令地址（pc + 4），这个过程是一条指令完成</li>
+<li>函数 B 向下移动 sp 栈指针来分配其栈帧空间，例如 <code>addi sp, sp, -64</code> 分配 64 字节栈帧</li>
+<li>函数 B 保存 ra 寄存器到其栈帧内，例如 <code>sd  ra, 56(sp)</code></li>
+<li>函数 B 保存“被调用者保存寄存器”到其栈帧内</li>
+<li>函数 B 更新 fp 寄存器为其栈帧顶端地址，例如 <code>addi fp, sp, 64</code></li>
+<li>函数 B 从 a0-a7 寄存器读取输入参数并执行（可能继续调用其他函数）</li>
+<li>函数 B 将返回值保存到 a0-a1 寄存器</li>
+<li>函数 B 从其栈帧内恢复 ra 寄存器，例如 <code>ld  ra, 56(sp)</code></li>
+<li>函数 B 从其栈帧内恢复“被调用者保存寄存器”</li>
+<li>函数 B 向上移动 sp 栈指针来回收其栈帧空间，例如 <code>addi sp, sp, 64</code> 回收 64 字节栈帧</li>
+<li>函数 B 跳转到 ra 寄存器指向的返回地址，例如 <code>jalr x0, 0(ra)</code></li>
+<li>函数 A 从其栈帧内恢复“调用者保存寄存器”</li>
+<li>函数 A 继续向下执行</li>
+</ol>
+<p>更详细介绍可见<a href="https://rcore-os.cn/rCore-Tutorial-Book-v3/chapter1/5support-func-call.html">此文章</a>。</p>
+<p>注：以下线程均指绿色线程。</p>
+<h2 id="ding-yi-yi-ge-xian-cheng">定义一个线程</h2>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">struct </span><span>Thread {
+</span><span>    </span><span style="color:#e45649;">id</span><span>: </span><span style="color:#a626a4;">usize</span><span>,
+</span><span>    </span><span style="color:#e45649;">stack</span><span>: Vec&lt;</span><span style="color:#a626a4;">u8</span><span>&gt;,
+</span><span>    </span><span style="color:#e45649;">ctx</span><span>: ThreadContext,
+</span><span>    </span><span style="color:#e45649;">state</span><span>: State,
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">enum </span><span>State {
+</span><span>    Available,
+</span><span>    Running,
+</span><span>    Ready,
+</span><span>}
+</span><span>
+</span><span>#[</span><span style="color:#e45649;">repr</span><span>(C)]
+</span><span style="color:#a626a4;">pub struct </span><span>ThreadContext {
+</span><span>    </span><span style="color:#e45649;">ra</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">sp</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s0</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s1</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s2</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s3</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s4</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s5</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s6</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s7</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s8</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s9</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s10</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">s11</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>    </span><span style="color:#e45649;">entry</span><span>: </span><span style="color:#a626a4;">u64</span><span>,
+</span><span>}
+</span></code></pre>
+<p>一个线程包含：</p>
+<ol>
+<li>线程 id</li>
+<li>执行状态：Availabe 表示空闲，可分配新任务执行；Running 表示正在执行任务；Ready 表示已分配任务，可以被调度执行，任务可能未开始也可能被中途挂起了</li>
+<li>任务上下文：被调用者保存寄存器，用于恢复挂起的任务继续执行；entry 是任务的入口地址，只在首次被调度时使用</li>
+<li>栈：分配在进程对应的堆区（固定大小、不会扩容）</li>
+</ol>
+<h2 id="ding-yi-xian-cheng-yun-xing-shi">定义线程运行时</h2>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">static mut </span><span style="color:#c18401;">RUNTIME</span><span>: </span><span style="color:#a626a4;">usize = </span><span style="color:#c18401;">0</span><span>;
+</span><span>
+</span><span style="color:#a626a4;">pub struct </span><span>Runtime {
+</span><span>    </span><span style="color:#e45649;">threads</span><span>: Vec&lt;Thread&gt;,
+</span><span>    </span><span style="color:#e45649;">current</span><span>: </span><span style="color:#a626a4;">usize</span><span>,
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">impl </span><span>Runtime {
+</span><span>    </span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">new</span><span>() -&gt; </span><span style="color:#a626a4;">Self </span><span>{
+</span><span>        </span><span style="color:#a626a4;">let</span><span> base_thread_id </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">0</span><span>;
+</span><span>        </span><span style="color:#a626a4;">let</span><span> base_thread </span><span style="color:#a626a4;">= </span><span>Thread::new_with_state(base_thread_id, State::Running);
+</span><span>
+</span><span>        </span><span style="color:#a626a4;">let mut</span><span> threads </span><span style="color:#a626a4;">= </span><span>vec![base_thread];
+</span><span>        </span><span style="color:#a626a4;">let mut</span><span> available_threads </span><span style="color:#a626a4;">= </span><span>(</span><span style="color:#c18401;">1</span><span style="color:#a626a4;">..</span><span style="color:#c18401;">MAX_THREADS </span><span style="color:#a626a4;">+ </span><span style="color:#c18401;">1</span><span>).</span><span style="color:#0184bc;">map</span><span>(|</span><span style="color:#e45649;">i</span><span>| Thread::new(i)).</span><span style="color:#0184bc;">collect</span><span>();
+</span><span>        threads.</span><span style="color:#0184bc;">append</span><span>(</span><span style="color:#a626a4;">&amp;mut</span><span> available_threads);
+</span><span>
+</span><span>        Runtime {
+</span><span>            threads,
+</span><span>            current: base_thread_id,
+</span><span>        }
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">init</span><span>(</span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>) {
+</span><span>        </span><span style="color:#a626a4;">unsafe </span><span>{
+</span><span>            </span><span style="color:#a626a4;">let</span><span> r_ptr: </span><span style="color:#a626a4;">*const</span><span> Runtime </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">self</span><span>;
+</span><span>            </span><span style="color:#c18401;">RUNTIME </span><span style="color:#a626a4;">=</span><span> r_ptr </span><span style="color:#a626a4;">as usize</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>运行时在创建时会预创建若干线程，current 代表正在执行的线程</p>
+<ol>
+<li>一个 base 线程，用于 Runtime 本身的代码执行，此时处于 Runtime 执行流，因此状态为 Running</li>
+<li>若干 user 线程，用于用户任务的代码执行，此时没有绑定任务，因此状态均为 Available</li>
+</ol>
+<p>使用全局变量存储 Runtime 地址，便于后续全局访问 Runtime。</p>
+<h2 id="chuang-jian-yong-hu-ren-wu">创建用户任务</h2>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">impl </span><span>Runtime {
+</span><span>    </span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">spawn</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>, </span><span style="color:#e45649;">f</span><span>: </span><span style="color:#a626a4;">fn</span><span>()) {
+</span><span>        </span><span style="color:#a626a4;">let</span><span> available </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">self
+</span><span>            .threads
+</span><span>            .</span><span style="color:#0184bc;">iter_mut</span><span>()
+</span><span>            .</span><span style="color:#0184bc;">find</span><span>(|</span><span style="color:#e45649;">t</span><span>| t.state </span><span style="color:#a626a4;">== </span><span>State::Available)
+</span><span>            .</span><span style="color:#0184bc;">expect</span><span>(</span><span style="color:#50a14f;">&quot;no available green thread.&quot;</span><span>);
+</span><span>
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;RUNTIME: spawning task on green thread </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, available.id);
+</span><span>        </span><span style="color:#a626a4;">let</span><span> size </span><span style="color:#a626a4;">=</span><span> available.stack.</span><span style="color:#0184bc;">len</span><span>();
+</span><span>        </span><span style="color:#a626a4;">unsafe </span><span>{
+</span><span>            </span><span style="color:#a626a4;">let</span><span> s_ptr </span><span style="color:#a626a4;">=</span><span> available.stack.</span><span style="color:#0184bc;">as_mut_ptr</span><span>().</span><span style="color:#0184bc;">offset</span><span>(size </span><span style="color:#a626a4;">as isize</span><span>);
+</span><span>            </span><span style="color:#a626a4;">let</span><span> s_ptr </span><span style="color:#a626a4;">= </span><span>(s_ptr </span><span style="color:#a626a4;">as usize &amp; !</span><span style="color:#c18401;">7</span><span>) </span><span style="color:#a626a4;">as *mut u8</span><span>;
+</span><span>
+</span><span>            available.ctx.ra </span><span style="color:#a626a4;">=</span><span> task_return </span><span style="color:#a626a4;">as u64</span><span>; </span><span style="color:#a0a1a7;">// task return address
+</span><span>            available.ctx.sp </span><span style="color:#a626a4;">=</span><span> s_ptr </span><span style="color:#a626a4;">as u64</span><span>; </span><span style="color:#a0a1a7;">// stack pointer
+</span><span>            available.ctx.entry </span><span style="color:#a626a4;">=</span><span> f </span><span style="color:#a626a4;">as u64</span><span>; </span><span style="color:#a0a1a7;">// task entry address
+</span><span>        }
+</span><span>        available.state </span><span style="color:#a626a4;">= </span><span>State::Ready;
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">t_return</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>) {
+</span><span>        </span><span style="color:#e45649;">self</span><span>.threads[</span><span style="color:#e45649;">self</span><span>.current].state </span><span style="color:#a626a4;">= </span><span>State::Available;
+</span><span>        </span><span style="color:#e45649;">self</span><span>.</span><span style="color:#0184bc;">t_schedule</span><span>();
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">task_return</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">unsafe </span><span>{
+</span><span>        </span><span style="color:#a626a4;">let</span><span> rt_ptr </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">RUNTIME </span><span style="color:#a626a4;">as *mut</span><span> Runtime;
+</span><span>        (</span><span style="color:#a626a4;">*</span><span>rt_ptr).</span><span style="color:#0184bc;">t_return</span><span>();
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>用户任务是一个无参数的函数，创建任务就是将函数跑在线程上。</p>
+<p>创建过程：</p>
+<ol>
+<li>首先找到一个空闲的线程，然后初始化其栈顶指针为其所属栈空间 <code>Vec&lt;u8&gt;</code> 的最高地址，并确保 8 字节对齐（RISC-V64 要求 ld/sd 访存指令的数据地址是 8 字节对齐）</li>
+<li>设定任务入口地址为函数 <code>f</code></li>
+<li>设定任务返回地址为 <code>task_return</code> 函数，当任务执行完毕时，会跳转到 <code>task_return</code> 地址执行，然后调用 <code>Runtime::t_return()</code> 来标记当前线程空闲，并调度/切换到下一个 ready 的线程继续执行</li>
+</ol>
+<h2 id="diao-du-xian-cheng">调度线程</h2>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">impl </span><span>Runtime {
+</span><span>    </span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">run</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>) {
+</span><span>        </span><span style="color:#a626a4;">while </span><span style="color:#e45649;">self</span><span>.</span><span style="color:#0184bc;">t_yield</span><span>() {}
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;All tasks finished!&quot;</span><span>);
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">t_yield</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">bool </span><span>{
+</span><span>        </span><span style="color:#e45649;">self</span><span>.threads[</span><span style="color:#e45649;">self</span><span>.current].state </span><span style="color:#a626a4;">= </span><span>State::Ready;
+</span><span>        </span><span style="color:#e45649;">self</span><span>.</span><span style="color:#0184bc;">t_schedule</span><span>()
+</span><span>    }
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">t_schedule</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>) -&gt; </span><span style="color:#a626a4;">bool </span><span>{
+</span><span>        </span><span style="color:#a626a4;">let</span><span> thread_count </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">self</span><span>.threads.</span><span style="color:#0184bc;">len</span><span>();
+</span><span>
+</span><span>        </span><span style="color:#a626a4;">let mut</span><span> pos </span><span style="color:#a626a4;">= </span><span>(</span><span style="color:#e45649;">self</span><span>.current </span><span style="color:#a626a4;">+ </span><span style="color:#c18401;">1</span><span>) </span><span style="color:#a626a4;">%</span><span> thread_count;
+</span><span>        </span><span style="color:#a626a4;">while </span><span style="color:#e45649;">self</span><span>.threads[pos].state </span><span style="color:#a626a4;">!= </span><span>State::Ready {
+</span><span>            pos </span><span style="color:#a626a4;">= </span><span>(pos </span><span style="color:#a626a4;">+ </span><span style="color:#c18401;">1</span><span>) </span><span style="color:#a626a4;">%</span><span> thread_count;
+</span><span>            </span><span style="color:#a626a4;">if</span><span> pos </span><span style="color:#a626a4;">== </span><span style="color:#e45649;">self</span><span>.current {
+</span><span>                </span><span style="color:#a626a4;">return </span><span style="color:#c18401;">false</span><span>;
+</span><span>            }
+</span><span>        }
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;RUNTIME: schedule next thread </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;"> to be run&quot;</span><span>, pos);
+</span><span>
+</span><span>        </span><span style="color:#e45649;">self</span><span>.threads[pos].state </span><span style="color:#a626a4;">= </span><span>State::Running;
+</span><span>        </span><span style="color:#a626a4;">let</span><span> old_pos </span><span style="color:#a626a4;">= </span><span style="color:#e45649;">self</span><span>.current;
+</span><span>        </span><span style="color:#e45649;">self</span><span>.current </span><span style="color:#a626a4;">=</span><span> pos;
+</span><span>        </span><span style="color:#a626a4;">unsafe </span><span>{
+</span><span>            </span><span style="color:#0184bc;">switch</span><span>(</span><span style="color:#a626a4;">&amp;mut </span><span style="color:#e45649;">self</span><span>.threads[old_pos].ctx, </span><span style="color:#a626a4;">&amp;</span><span style="color:#e45649;">self</span><span>.threads[pos].ctx);
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#c18401;">true
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">pub fn </span><span style="color:#0184bc;">r</span><span style="color:#a626a4;">#</span><span style="background-color:#e06c75;color:#fafafa;">yield</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">unsafe </span><span>{
+</span><span>        </span><span style="color:#a626a4;">let</span><span> rt_ptr </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">RUNTIME </span><span style="color:#a626a4;">as *mut</span><span> Runtime;
+</span><span>        (</span><span style="color:#a626a4;">*</span><span>rt_ptr).</span><span style="color:#0184bc;">t_yield</span><span>();
+</span><span>    };
+</span><span>}
+</span></code></pre>
+<ol>
+<li><code>t_schedule</code> 方法：用于寻找下一个 ready 的线程并从当前线程切换过去</li>
+<li><code>t_yield</code> 方法：用于挂起当前线程，并调用 <code>t_schedule</code> 方法切到下一个 ready 的线程</li>
+<li><code>run</code> 方法：启动 Runtime，不断循环调用 <code>t_yield</code> 来挂起自身（base 线程），然后切换到下一个 ready 的 user 线程，直至用户任务均执行完毕</li>
+<li><code>r#yield</code> 函数：用户任务代码使用此函数挂起所在线程</li>
+</ol>
+<h2 id="qie-huan-xian-cheng">切换线程</h2>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span>#[</span><span style="color:#e45649;">naked</span><span>]
+</span><span>#[</span><span style="color:#e45649;">no_mangle</span><span>]
+</span><span style="color:#a626a4;">unsafe extern </span><span style="color:#50a14f;">&quot;C&quot; </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">switch</span><span>(</span><span style="color:#e45649;">old</span><span>: </span><span style="color:#a626a4;">*mut</span><span> ThreadContext, </span><span style="color:#e45649;">new</span><span>: </span><span style="color:#a626a4;">*const</span><span> ThreadContext) {
+</span><span>    naked_asm!(
+</span><span>        </span><span style="color:#50a14f;">&quot;
+</span><span style="color:#50a14f;">        sd ra, 0*8(a0)
+</span><span style="color:#50a14f;">        sd sp, 1*8(a0)
+</span><span style="color:#50a14f;">        sd s0, 2*8(a0)
+</span><span style="color:#50a14f;">        sd s1, 3*8(a0)
+</span><span style="color:#50a14f;">        sd s2, 4*8(a0)
+</span><span style="color:#50a14f;">        sd s3, 5*8(a0)
+</span><span style="color:#50a14f;">        sd s4, 6*8(a0)
+</span><span style="color:#50a14f;">        sd s5, 7*8(a0)
+</span><span style="color:#50a14f;">        sd s6, 8*8(a0)
+</span><span style="color:#50a14f;">        sd s7, 9*8(a0)
+</span><span style="color:#50a14f;">        sd s8, 10*8(a0)
+</span><span style="color:#50a14f;">        sd s9, 11*8(a0)
+</span><span style="color:#50a14f;">        sd s10, 12*8(a0)
+</span><span style="color:#50a14f;">        sd s11, 13*8(a0)
+</span><span style="color:#50a14f;">        sd ra, 14*8(a0)
+</span><span style="color:#50a14f;">
+</span><span style="color:#50a14f;">        ld ra, 0*8(a1)
+</span><span style="color:#50a14f;">        ld sp, 1*8(a1)
+</span><span style="color:#50a14f;">        ld s0, 2*8(a1)
+</span><span style="color:#50a14f;">        ld s1, 3*8(a1)
+</span><span style="color:#50a14f;">        ld s2, 4*8(a1)
+</span><span style="color:#50a14f;">        ld s3, 5*8(a1)
+</span><span style="color:#50a14f;">        ld s4, 6*8(a1)
+</span><span style="color:#50a14f;">        ld s5, 7*8(a1)
+</span><span style="color:#50a14f;">        ld s6, 8*8(a1)
+</span><span style="color:#50a14f;">        ld s7, 9*8(a1)
+</span><span style="color:#50a14f;">        ld s8, 10*8(a1)
+</span><span style="color:#50a14f;">        ld s9, 11*8(a1)
+</span><span style="color:#50a14f;">        ld s10, 12*8(a1)
+</span><span style="color:#50a14f;">        ld s11, 13*8(a1)
+</span><span style="color:#50a14f;">        ld t0, 14*8(a1)
+</span><span style="color:#50a14f;">
+</span><span style="color:#50a14f;">        jr t0
+</span><span style="color:#50a14f;">    &quot;
+</span><span>    );
+</span><span>}
+</span></code></pre>
+<p>由于需要精确操作寄存器，使用内联汇编实现</p>
+<ol>
+<li>函数的两个入参保存在 a0 和 a1 寄存器</li>
+<li>使用裸函数：无需编译器在开头生成保存寄存器的汇编（Prologue）和在结尾生成恢复寄存器的汇编（Epilogue）（也可以使用 <code>global_asm!</code> 宏实现，参见仓库代码）</li>
+</ol>
+<p>在第一次执行 switch 函数时，从 base 线程切换到 user 线程</p>
+<ol>
+<li>保存 Runtime 执行流上下文到 base 线程对应的 ThreadContext 中（后续才能切换回 base 线程继续向下执行 Runtime 代码）</li>
+<li>加载首个任务执行上下文，<code>ld t0, 14*8(a1)</code> 加载用户任务入口地址（ThreadContext 中 entry 值），所以可以跳转到任务开头向下执行</li>
+</ol>
+<p>在 switch 函数从某个 user 线程第一次切换出去时</p>
+<ol>
+<li>保存当前 user 线程上下文到对应的 ThreadContext 中，此时 ThreadContext 中的任务入口地址 entry 会被实际的返回地址覆盖（这样后续切换回来不会导致又从头开始执行任务）</li>
+<li>恢复下一个线程上下文并继续执行</li>
+</ol>
+<h2 id="yong-hu-dai-ma-ce-shi">用户代码测试</h2>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">const </span><span style="color:#c18401;">MAX_THREADS</span><span>: </span><span style="color:#a626a4;">usize = </span><span style="color:#c18401;">4</span><span>;
+</span><span style="color:#a626a4;">static </span><span style="color:#c18401;">FINISHED_TASK_COUNT</span><span>: AtomicUsize </span><span style="color:#a626a4;">= </span><span>AtomicUsize::new(</span><span style="color:#c18401;">0</span><span>);
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let mut</span><span> runtime </span><span style="color:#a626a4;">= </span><span>Runtime::new();
+</span><span>    runtime.</span><span style="color:#0184bc;">init</span><span>();
+</span><span>    runtime.</span><span style="color:#0184bc;">spawn</span><span>(|| {
+</span><span>        </span><span style="color:#0184bc;">test_task</span><span>(</span><span style="color:#c18401;">1</span><span>);
+</span><span>    });
+</span><span>    runtime.</span><span style="color:#0184bc;">spawn</span><span>(|| {
+</span><span>        </span><span style="color:#0184bc;">test_task</span><span>(</span><span style="color:#c18401;">2</span><span>);
+</span><span>    });
+</span><span>    runtime.</span><span style="color:#0184bc;">spawn</span><span>(|| {
+</span><span>        </span><span style="color:#0184bc;">test_task</span><span>(</span><span style="color:#c18401;">3</span><span>);
+</span><span>    });
+</span><span>    runtime.</span><span style="color:#0184bc;">run</span><span>();
+</span><span>    assert_eq!(</span><span style="color:#c18401;">FINISHED_TASK_COUNT</span><span>.</span><span style="color:#0184bc;">load</span><span>(Ordering::SeqCst), </span><span style="color:#c18401;">3</span><span>);
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">test_task</span><span>(</span><span style="color:#e45649;">task_id</span><span>: </span><span style="color:#a626a4;">usize</span><span>) {
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;TASK </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;"> STARTING&quot;</span><span>, task_id);
+</span><span>    </span><span style="color:#a626a4;">for</span><span> i </span><span style="color:#a626a4;">in </span><span style="color:#c18401;">0</span><span style="color:#a626a4;">..</span><span style="color:#c18401;">4 </span><span style="color:#a626a4;">*</span><span> task_id {
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;task: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;"> counter: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, task_id, i);
+</span><span>        r</span><span style="color:#a626a4;">#</span><span style="background-color:#e06c75;color:#fafafa;">yield</span><span>();
+</span><span>    }
+</span><span>    </span><span style="color:#c18401;">FINISHED_TASK_COUNT</span><span>.</span><span style="color:#0184bc;">fetch_add</span><span>(</span><span style="color:#c18401;">1</span><span>, Ordering::SeqCst);
+</span><span>    println!(</span><span style="color:#50a14f;">&quot;TASK </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;"> FINISHED&quot;</span><span>, task_id);
+</span><span>}
+</span></code></pre>
+<ul>
+<li>在 Runtime 运行之前，有 1 个 Running 状态的 base 线程、3 个 Ready 状态的 user 线程和 1 个 Available 状态的 user 线程</li>
+<li>base 线程会在 Running 和 Ready 状态之间不断切换</li>
+<li>3 个 user 线程会在 Running 和 Ready 状态之间不断切换，当任务执行完毕后，变成 Available 状态</li>
+<li>1 个 user 线程始终保持在 Available 状态</li>
+</ul>
+<p>输出</p>
+<pre style="background-color:#fafafa;color:#383a42;"><code><span>RUNTIME: spawning task on green thread 1
+</span><span>RUNTIME: spawning task on green thread 2
+</span><span>RUNTIME: spawning task on green thread 3
+</span><span>RUNTIME: schedule next thread 1 to be run
+</span><span>TASK 1 STARTING
+</span><span>task: 1 counter: 0
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>TASK 2 STARTING
+</span><span>task: 2 counter: 0
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>TASK 3 STARTING
+</span><span>task: 3 counter: 0
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 1 to be run
+</span><span>task: 1 counter: 1
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>task: 2 counter: 1
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 1
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 1 to be run
+</span><span>task: 1 counter: 2
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>task: 2 counter: 2
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 2
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 1 to be run
+</span><span>task: 1 counter: 3
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>task: 2 counter: 3
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 3
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 1 to be run
+</span><span>TASK 1 FINISHED
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>task: 2 counter: 4
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 4
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>task: 2 counter: 5
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 5
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>task: 2 counter: 6
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 6
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>task: 2 counter: 7
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 7
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 2 to be run
+</span><span>TASK 2 FINISHED
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 8
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 9
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 10
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>task: 3 counter: 11
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>RUNTIME: schedule next thread 3 to be run
+</span><span>TASK 3 FINISHED
+</span><span>RUNTIME: schedule next thread 0 to be run
+</span><span>All tasks finished!
+</span></code></pre>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <hr>
+      <!-- search icon here https://simpleicons.org/ -->
+      <div class="footer__social">
+        <a href="https://github.com/lewiszlw">
+          <svg aria-labelledby="simpleicons-github-icon" role="img" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title id="simpleicons-github-icon">GitHub icon</title>
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+          </svg>
+        </a>
+        <a href="https://space.bilibili.com/43876861">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Bilibili</title>
+            <path
+              d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z" />
+          </svg>
+        </a>
+        <a href="https://www.zhihu.com/people/tian-qian-zhu-wu-ya">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Zhihu</title>
+            <path
+              d="M5.721 0C2.251 0 0 2.25 0 5.719V18.28C0 21.751 2.252 24 5.721 24h12.56C21.751 24 24 21.75 24 18.281V5.72C24 2.249 21.75 0 18.281 0zm1.964 4.078c-.271.73-.5 1.434-.68 2.11h4.587c.545-.006.445 1.168.445 1.171H9.384a58.104 58.104 0 01-.112 3.797h2.712c.388.023.393 1.251.393 1.266H9.183a9.223 9.223 0 01-.408 2.102l.757-.604c.452.456 1.512 1.712 1.906 2.177.473.681.063 2.081.063 2.081l-2.794-3.382c-.653 2.518-1.845 3.607-1.845 3.607-.523.468-1.58.82-2.64.516 2.218-1.73 3.44-3.917 3.667-6.497H4.491c0-.015.197-1.243.806-1.266h2.71c.024-.32.086-3.254.086-3.797H6.598c-.136.406-.158.447-.268.753-.594 1.095-1.603 1.122-1.907 1.155.906-1.821 1.416-3.6 1.591-4.064.425-1.124 1.671-1.125 1.671-1.125zM13.078 6h6.377v11.33h-2.573l-2.184 1.373-.401-1.373h-1.219zm1.313 1.219v8.86h.623l.263.937 1.455-.938h1.456v-8.86z" />
+          </svg>
+        </a>
+        <a href="https://twitter.com/lewiszlw">
+          <svg aria-labelledby="simpleicons-twitter-icon" role="img" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title id="simpleicons-twitter-icon">Twitter icon</title>
+            <path
+              d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" />
+          </svg>
+        </a>
+        <a href="https://mastodon.world/@lewiszlw">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Mastodon</title>
+            <path
+              d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" />
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UCnvri1tqAjxsp9nGQ63zUNw">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>YouTube</title>
+            <path
+              d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>

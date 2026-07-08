@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="icon" type="image/png" href="/assets/favicon.png">
+  <link rel="stylesheet" href="/site.css" />
+  <title>Linwei Zhang</title>
+</head>
+
+<body>
+  <div class="container">
+    <header class="header">
+      <div class="header__logo">
+        <a href="/">
+          <!-- <img src="/assets/favicon.png" alt="Linwei Zhang"> -->
+          Linwei Zhang
+        </a>
+      </div>
+
+      <nav class="header__nav">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/blog">Blog</a></li>
+          <li><a href="/notes">Notes</a></li>
+        </ul>
+      </nav>
+    </header>
+    <main class="main__content">
+      <div class="container">
+        
+<h1 class="title">
+  Rust 异步运行时 smol 剖析
+</h1>
+<p class="subtitle"><strong>2024-12-09</strong></p>
+<p><a href="https://github.com/smol-rs/smol">smol</a> 是一个小型且快速的 Rust 异步运行时，它由许多小型的 crate 组成（比如 polling / async-io / async-executor 等），每个 crate 相对独立，非常适合学习 Rust 异步运行时是如何一步步构建的。</p>
+<h2 id="crates-gai-lan">crates 概览</h2>
+<p><img src="https://lewiszlw.github.io/blog/smol-async-runtime/./smol-crates-overview.drawio.png" alt="" /></p>
+<p>核心基础库</p>
+<ul>
+<li><a href="https://github.com/smol-rs/polling">polling</a> 提供一个在 epoll / kqueue / iocp 等之上统一的 IO 多路复用的接口</li>
+<li><a href="https://github.com/smol-rs/async-io">async-io</a> 实现 reactor 和 driver 底层机制并对外提供 <code>Async</code> 和 <code>Timer</code> 两个工具来实现异步 IO 和定时器</li>
+<li><a href="https://github.com/smol-rs/blocking">blocking</a> 提供用于在异步环境中隔离同步 IO 操作的线程池</li>
+<li><a href="https://github.com/smol-rs/async-task">async-task</a> 提供异步任务的抽象封装，便于构建自己的 executor</li>
+</ul>
+<p>面向用户的上层库</p>
+<ul>
+<li><a href="https://github.com/smol-rs/async-net">async-net</a> 基于 async-io 的 Async 工具对标准库 <code>std::net</code> 的封装</li>
+<li><a href="https://github.com/smol-rs/async-process">async-process</a> 基于 async-io（Unix-like 系统）和 blocking（Windows 系统）对标准库 <code>std::process</code> 的封装</li>
+<li><a href="https://github.com/smol-rs/async-fs">async-fs</a> 基于 blocking 对标准库 <code>std::fs</code> 的封装</li>
+<li><a href="https://github.com/smol-rs/async-executor">async-executor</a> 提供单线程和多线程两种 executor</li>
+</ul>
+<p>工具库</p>
+<ul>
+<li><a href="https://github.com/smol-rs/async-channel">async-channel</a> 提供异步的多生产者多消费者队列</li>
+<li><a href="https://github.com/smol-rs/async-lock">async-lock</a> 提供异步环境的同步原语，如互斥锁、读写锁等等</li>
+</ul>
+<p>本文主要学习 polling / async-io / async-task / async-executor 库，理解最重要的 IO 多路复用 / reactor / driver / task / executor 等概念。</p>
+<h2 id="polling">polling</h2>
+<p>polling 对 epoll / kqueue / iocp 等各平台的 IO 多路复用机制进行了一个统一的抽象，方便跨平台使用。</p>
+<p>它提供了一个 <code>Poller</code> 结构体，封装了各平台的 IO 多路复用机制（例如 Linux 下则包含 <a href="https://man7.org/linux/man-pages/man2/epoll_create.2.html">epoll_create1</a> 返回的文件描述符），并主要提供了三个方法</p>
+<ol>
+<li>增删改感兴趣的 IO 事件（参考 <a href="https://man7.org/linux/man-pages/man2/epoll_ctl.2.html">epoll_ctl</a>）</li>
+<li>阻塞等待新的 IO 事件（参考 <a href="https://man7.org/linux/man-pages/man2/epoll_wait.2.html">epoll_wait</a>）</li>
+<li>唤醒正在阻塞等待中的自身</li>
+</ol>
+<p>以 Linux 下 epoll 为例分析其细节，</p>
+<ol>
+<li>创建 Poller 时，调用 <a href="https://man7.org/linux/man-pages/man2/epoll_create.2.html">epoll_create1</a> 创建一个新的 epoll 实例并保存到 Poller 中，同时往 epoll 列表中注册两个 IO 源
+<ul>
+<li>调用 <a href="https://man7.org/linux/man-pages/man2/eventfd.2.html">eventfd</a> 创建用于通知（唤醒）的对象 notifier</li>
+<li>调用 <a href="https://man7.org/linux/man-pages/man2/timerfd_create.2.html">timerfd_create</a> 创建的定时器</li>
+</ul>
+</li>
+<li>增删改感兴趣的 IO 事件时，传入其所属的文件描述符（例如 socket），关联数据（当返回 IO 事件时携带），以及一些标志位（比如只监听可读或可写事件）</li>
+<li>阻塞等待新的 IO 事件时，可传入超时时间，当有新的 IO 事件（一个或多个） / 中断 / 超时，结束阻塞返回。这里并没有使用 <a href="https://man7.org/linux/man-pages/man2/epoll_wait.2.html">epoll_wait</a> 本身的超时机制，而是使用更为精确的定时器，在调用 <a href="https://man7.org/linux/man-pages/man2/epoll_wait.2.html">epoll_wait</a> 前会通过 <a href="https://man7.org/linux/man-pages/man2/timerfd_settime.2.html">timerfd_settime</a> 设置定时器超时时间，当超时时间到达时，会在 timer 文件描述符上产生一个新的 IO 事件来结束阻塞</li>
+<li>唤醒正在阻塞等待中的自身时，通过调用 <a href="https://man7.org/linux/man-pages/man2/write.2.html">write</a> 往 notifier 文件描述符上写入数据来触发一个新的 IO 事件来结束阻塞</li>
+</ol>
+<p>具体例子</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a0a1a7;">// 创建一个 socket
+</span><span style="color:#a626a4;">let</span><span> socket </span><span style="color:#a626a4;">= </span><span>TcpListener::bind(</span><span style="color:#50a14f;">&quot;127.0.0.1:8000&quot;</span><span>)</span><span style="color:#a626a4;">?</span><span>;
+</span><span>socket.</span><span style="color:#0184bc;">set_nonblocking</span><span>(</span><span style="color:#c18401;">true</span><span>)</span><span style="color:#a626a4;">?</span><span>;
+</span><span>
+</span><span style="color:#a0a1a7;">// 指定 socket 标识符（epoll 返回新的 IO 事件时会携带）
+</span><span style="color:#a626a4;">let</span><span> key </span><span style="color:#a626a4;">= </span><span style="color:#c18401;">7</span><span>;
+</span><span>
+</span><span style="color:#a0a1a7;">// 创建一个 epoll 实例，并执行初始化工作（注册 notifier 和 timer 到 epoll 列表中）
+</span><span style="color:#a626a4;">let</span><span> poller </span><span style="color:#a626a4;">= </span><span>Poller::new()</span><span style="color:#a626a4;">?</span><span>;
+</span><span>
+</span><span style="color:#a0a1a7;">// 将 socket 添加到 epoll 队列中，监听其可读事件
+</span><span style="color:#a626a4;">unsafe </span><span>{
+</span><span>    poller.</span><span style="color:#0184bc;">add</span><span>(</span><span style="color:#a626a4;">&amp;</span><span>socket, Event::readable(key))</span><span style="color:#a626a4;">?</span><span>;
+</span><span>}
+</span><span>
+</span><span style="color:#a626a4;">let mut</span><span> events </span><span style="color:#a626a4;">= </span><span>Events::new();
+</span><span style="color:#a626a4;">loop </span><span>{
+</span><span>    events.</span><span style="color:#0184bc;">clear</span><span>();
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">// 阻塞等待新的 IO 事件（这里并未传入超时时间）
+</span><span>    poller.</span><span style="color:#0184bc;">wait</span><span>(</span><span style="color:#a626a4;">&amp;mut</span><span> events, None)</span><span style="color:#a626a4;">?</span><span>;
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">for</span><span> ev </span><span style="color:#a626a4;">in</span><span> events.</span><span style="color:#0184bc;">iter</span><span>() {
+</span><span>        </span><span style="color:#a0a1a7;">// 如果发现 socket 可读事件，则执行下一步操作
+</span><span>        </span><span style="color:#a626a4;">if</span><span> ev.key </span><span style="color:#a626a4;">==</span><span> key {
+</span><span>            socket.</span><span style="color:#0184bc;">accept</span><span>()</span><span style="color:#a626a4;">?</span><span>;
+</span><span>            </span><span style="color:#a0a1a7;">// 继续监听 socket 可读事件
+</span><span>            poller.</span><span style="color:#0184bc;">modify</span><span>(</span><span style="color:#a626a4;">&amp;</span><span>socket, Event::readable(key))</span><span style="color:#a626a4;">?</span><span>;
+</span><span>        }
+</span><span>    }
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// 在 socket drop 前必须要将其从 epoll 列表中移除
+</span><span>poller.</span><span style="color:#0184bc;">delete</span><span>(</span><span style="color:#a626a4;">&amp;</span><span>socket)</span><span style="color:#a626a4;">?</span><span>;
+</span></code></pre>
+<h2 id="async-io">async-io</h2>
+<p>async-io 提供了一个全局唯一的 Reactor 实例来支持对定时器 Timer 和 IO 对象的事件监听，它利用了 polling 提供的 IO 多路复用抽象。Reactor 并不会主动去轮询监听新事件，而是需要一个 Driver 来进行驱动，Driver 实际上就是一个独立的 OS 线程，它会一直循环不断的驱动 Reactor。</p>
+<p>在 Reactor 之上提供了两个面向用户的工具：</p>
+<ul>
+<li>Async：用于构建异步 IO 的适配器，用户使用它来包装同步 IO 类型（如 <code>std::net::TcpStream</code>），然后提供异步的 IO 读写能力</li>
+<li>Timer: 用户可以创建一个 Timer 来周期性的发出事件，Timer 实现了 <code>Future</code> 和 <code>Stream</code> trait，用户可以对它进行 <code>poll</code> 或 <code>poll_next</code></li>
+</ul>
+<p><strong>Reactor</strong></p>
+<p>Reactor 提供了 <code>insert_io</code> / <code>remove_io</code> / <code>insert_timer</code> / <code>remove_timer</code> 方法来向 Reactor （取消）注册 IO 对象或者定时器，对于 IO 对象，会（取消）注册到底层 OS 的 IO 多路复用机制上（如 epoll）。</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a0a1a7;">/// IO 源
+</span><span>#[</span><span style="color:#e45649;">derive</span><span>(Debug)]
+</span><span style="color:#a626a4;">pub</span><span>(</span><span style="color:#a626a4;">crate</span><span>) </span><span style="color:#a626a4;">struct </span><span>Source {
+</span><span>    </span><span style="color:#a0a1a7;">/// IO 文件描述符
+</span><span>    </span><span style="color:#e45649;">registration</span><span>: Registration,
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">/// IO 源的 ID，注册到 epoll 时携带，用它来区分 IO 事件来自哪个 IO 源
+</span><span>    </span><span style="color:#e45649;">key</span><span>: </span><span style="color:#a626a4;">usize</span><span>,
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">/// IO 源的读端和写端的状态，和监听它的 wakers
+</span><span>    </span><span style="color:#e45649;">state</span><span>: Mutex&lt;[Direction; </span><span style="color:#c18401;">2</span><span>]&gt;,
+</span><span>}
+</span></code></pre>
+<p>Reactor 将 IO 源封装为一个 <code>Source</code> 结构，上层持有 <code>Source</code> 可以进行 poll，如果 IO 源 ready 则返回 <code>Poll::Ready</code>，否则 Reactor 会保存 waker 并返回 <code>Poll::Pending</code>。一个 IO 源可以被多个 wakers 来监听。</p>
+<p>Reactor 的核心是 <code>fn react(&amp;mut self, timeout: Option&lt;Duration&gt;) -&gt; io::Result&lt;()&gt;</code> 方法，它会阻塞线程直到有新的 IO / timer 事件（如果传入了超时时间则可能超时返回），当收到新的事件后，通过 poll 传递下来的 waker 来进行唤醒。它通过 Mutex 被限制为只能有一个线程来执行，无法并发执行。</p>
+<p>Reactor 通过 tick 机制来保证 IO 事件是否是“新鲜的”，在每轮 <code>react</code> 方法执行期间，tick 值都会自增 1。</p>
+<p><strong>Driver</strong></p>
+<p>因为 epoll 的模型就是需要用户去轮询，它不会主动推送 IO 事件，所以我们需要 Driver 来驱动。Driver 是一个单独的 OS 线程，在 Reactor 初始化时一并创建。它不断循环的去尝试获取 Reactor 锁并执行其 <code>react</code> 方法，然后 <code>react</code> 方法会阻塞 Driver 线程直至有新的 timer / IO 事件产生。</p>
+<p><strong>Async</strong></p>
+<p>Async 的原理是通过异步机制监控 IO 源是否 ready，对其进行 poll 的结果是 IO 源是否可读或可写，而不是读取或写入数据到 IO 源。所以当我们需要执行同步 IO 操作时，先让 Async 监控 IO 源是否 ready，当 IO 源 ready 了再执行同步 IO 操作，这时就不会发生 IO 阻塞线程了。</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span>async </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">my_server</span><span>() -&gt; std::io::Result&lt;()&gt; {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> listener </span><span style="color:#a626a4;">= </span><span>Async::new(std::net::TcpListener::bind(</span><span style="color:#50a14f;">&quot;127.0.0.1:8080&quot;</span><span>)</span><span style="color:#a626a4;">?</span><span>)</span><span style="color:#a626a4;">?</span><span>;
+</span><span>    </span><span style="color:#a626a4;">loop </span><span>{
+</span><span>        </span><span style="color:#a626a4;">let </span><span>(_stream, addr) </span><span style="color:#a626a4;">=</span><span> listener.</span><span style="color:#0184bc;">read_with</span><span>(|</span><span style="color:#e45649;">io</span><span>: </span><span style="color:#a626a4;">&amp;</span><span>std::net::TcpListener| io.</span><span style="color:#0184bc;">accept</span><span>()).await</span><span style="color:#a626a4;">?</span><span>;
+</span><span>        println!(</span><span style="color:#50a14f;">&quot;Accepted connection from: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>, addr);
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>以上示例创建了一个同步的 <code>std::net::TcpListener</code> 并用 Async 包装起来，然后就可以异步地监听新连接。其过程是</p>
+<ol>
+<li><code>std::net::TcpListener</code> 实现了 <code>AsFd</code> trait，Async 获取其 IO 文件描述符</li>
+<li>通过 <a href="https://man7.org/linux/man-pages/man2/fcntl.2.html">fcntl</a> 系统调用将其设置为非阻塞 IO</li>
+<li>然后 IO 对象注册到 Reactor 中，获取其 <code>Source</code> 引用</li>
+<li>在 Async 被 poll 时，会通过其内部持有的 <code>Source</code> 来执行 poll，此时 IO 源未 ready，则 Reactor 会保存其 waker，返回 <code>Poll::Pending</code></li>
+<li>等到有新的 IO 事件时，Reactor 再通过 waker 通知</li>
+<li>Async 被再次 poll，此时 IO 源 ready，返回 <code>Poll::Ready(Ok(()))</code></li>
+<li>然后再执行 <code>std::net::TcpListener::accept</code> 同步方法，此时执行 accept 不会阻塞，而是会立刻返回</li>
+</ol>
+<h2 id="async-task">async-task</h2>
+<p>async-task 提供了异步任务的抽象封装，异步任务 RawTask 包含 future 以及 future 运行时所需的内容，基于 RawTask 对外提供了两个安全的封装 Runnable 和 Task。Runnable 主要给上层 Executor 使用，Executor 可以使用 Runnable 触发一次调度或者执行一次 poll。Task 主要面向用户使用，用户可以 await Task，也可以取消 Task 或者让 Task 后台运行。</p>
+<p><img src="https://lewiszlw.github.io/blog/smol-async-runtime/./async-task-layout.drawio.png" alt="" /></p>
+<p>以上是 RawTask 的内存布局，包含：</p>
+<ul>
+<li><code>state</code>: 任务状态</li>
+<li><code>awaiter</code>: 用户 poll Task 时注册的 waker</li>
+<li><code>vtable</code>: 指向一个静态变量，包含各种函数指针
+<ul>
+<li><code>schedule</code>: 实际会调用 custom_schedule</li>
+<li><code>drop_future</code>: 析构 future</li>
+<li><code>get_output</code>: 读取 future 结果</li>
+<li><code>drop_ref</code>: 减少任务引用计数，当引用计数归零时，调用 destroy 销毁任务</li>
+<li><code>destroy</code>: 清理任务的资源和内存</li>
+<li><code>run</code>: 执行异步任务</li>
+<li><code>clone_waker</code>: 克隆一个新的 waker</li>
+</ul>
+</li>
+<li><code>metadata</code>: Executor 传入的自定义数据</li>
+<li><code>custom_schedule</code>: Executor 传入的调度方法，RawTask 使用它来向 Executor 触发一次调度</li>
+<li><code>future</code> / <code>output</code>: 一块 union 区域，存放 future 或者其结果 output</li>
+</ul>
+<p>其中 <code>clone_waker</code>、<code>wake</code>、<code>wake_by_ref</code> 和 <code>drop_waker</code> 组成了标准库 <a href="https://doc.rust-lang.org/std/task/struct.RawWakerVTable.html">RawWakerVTable</a> 的四个方法。</p>
+<p>RawTask 内包含一套引用计数机制，Runnable、Task 和 Waker 都持有对 RawTask 的引用，当引用计数归零时，就会执行 <code>destroy</code> 方法清理 RawTask 资源和内存。</p>
+<p>任务主要有以下状态：</p>
+<ol>
+<li><code>scheduled</code>: 即将被调度执行</li>
+<li><code>running</code>: 正在执行 poll</li>
+<li><code>completed</code>: 任务完成（output 还没被读取）</li>
+<li><code>closed</code>: 任务关闭（任务被取消或者 output 已被读取）</li>
+</ol>
+<p><strong>创建异步任务</strong></p>
+<p>创建异步任务 <code>fn spawn&lt;F, S&gt;(future: F, schedule: S) -&gt; (Runnable, Task&lt;F::Output&gt;)</code> 需要传入 future 和 custom_schedule 方法，任务初始状态为 <code>scheduled</code>，返回 Runnable 和 Task。</p>
+<p><strong>Runnable</strong></p>
+<ul>
+<li><code>schedule</code> 方法：用于让 Executor 调度该任务，此方法仅调用 <code>custom_schedule</code> 方法，无其他行为</li>
+<li><code>run</code> 方法：实际调用 <code>RawTask::run</code> 方法，用于让 Executor 对任务执行 poll 操作，如果任务执行完毕，则将状态改为 <code>completed</code>。如果任务是 <code>closed</code> 状态，会执行资源清理动作</li>
+</ul>
+<p><strong>Task</strong></p>
+<ul>
+<li><code>poll_task</code> 方法：如果任务未完成，则注册 waker 并返回 <code>Poll::Pending</code>；如果任务完成了，则读取 output 并将任务置为 <code>closed</code> 状态</li>
+<li><code>cancel</code> 方法：通过将任务置为 <code>closed</code> 状态，会重新发起一次调度，在执行任务过程中进行后续资源清理动作</li>
+<li><code>detach</code> 方法：通过 <code>mem::forget</code> 来不 drop Task，将任务置于后台运行，运行结束后直接将任务置为 <code>closed</code> 状态</li>
+</ul>
+<p><strong>Waker</strong>: 异步任务内部管理的用于传递给 Reactor 的 waker，当 IO 源 ready 时唤醒异步任务并触发一次调度，一个异步任务可以有多个 IO 源，所以也会有多个 waker</p>
+<ul>
+<li><code>clone_waker</code>: 调用 <code>RawWaker::clone_waker</code> 克隆一个新的 waker</li>
+<li><code>wake</code>: 通过将任务设置为 <code>scheduled</code> 状态并触发一次调度，清理 waker 关联资源</li>
+<li><code>wake_by_ref</code>: 通过将任务设置为 <code>scheduled</code> 状态并触发一次调度</li>
+<li><code>drop_waker</code>: 减少任务引用计数</li>
+</ul>
+<p><strong>Awaiter</strong>：用户 await Task （如通过 block_on）时传入的 waker，当异步任务完成时唤醒用户再次 poll 获取 future 结果，一个异步任务对应至多一个 Awaiter（当任务后台运行时则没有）</p>
+<h2 id="async-executor">async-executor</h2>
+<p>async-executor 提供了两个简单的 executor 用于执行用户异步任务。</p>
+<ul>
+<li>Executor：实现了 Send + Sync，支持多线程，spawn 方法限制 future 需要实现 Send</li>
+<li>LocalExecutor：对 Executor 的包装，未实现 Send + Sync，限定单线程，spawn 方法不需要 future 实现 Send</li>
+</ul>
+<p>核心数据结构为</p>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">struct </span><span>State {
+</span><span>    </span><span style="color:#a0a1a7;">/// 全局队列
+</span><span>    </span><span style="color:#e45649;">queue</span><span>: ConcurrentQueue&lt;Runnable&gt;,
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">/// 本地队列
+</span><span>    </span><span style="color:#e45649;">local_queues</span><span>: RwLock&lt;Vec&lt;Arc&lt;ConcurrentQueue&lt;Runnable&gt;&gt;&gt;&gt;,
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">/// 是否已通知 sleeper（不重复通知）
+</span><span>    </span><span style="color:#e45649;">notified</span><span>: AtomicBool,
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">/// 等待全局队列新增任务（全局队列为空）
+</span><span>    </span><span style="color:#e45649;">sleepers</span><span>: Mutex&lt;Sleepers&gt;,
+</span><span>
+</span><span>    </span><span style="color:#a0a1a7;">/// 当前活跃任务（通过持有 Waker 保持任务引用计数不归零）
+</span><span>    </span><span style="color:#e45649;">active</span><span>: Mutex&lt;Slab&lt;Waker&gt;&gt;,
+</span><span>}
+</span></code></pre>
+<ul>
+<li>调度任务（custom_schedule）：通过将任务加入到全局队列中，并通知 sleeper。</li>
+<li>执行任务：从队列获取一个任务，调用 <code>Runnable::run</code> 方法对 future 执行一次 poll。</li>
+</ul>
+<p>有两种驱动 executor 的方法：</p>
+<ol>
+<li>tick：从全局队列选取一个任务来执行 poll，当全局队列无任务时，注册一个 sleeper 等待</li>
+<li>run：传入一个 future，运行该 future 直至完成，在运行该 future 同时会运行所属本地队列的其他任务，如果本地队列为空会从全局队列窃取任务，如果全局队列为空会从其他本地队列窃取任务，如果都没有则注册一个 sleeper 等待</li>
+</ol>
+<h2 id="shi-xian-yi-ge-duo-xian-cheng-yi-bu-yun-xing-shi">实现一个多线程异步运行时</h2>
+<pre data-lang="rust" style="background-color:#fafafa;color:#383a42;" class="language-rust "><code class="language-rust" data-lang="rust"><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> ex </span><span style="color:#a626a4;">= </span><span>Executor::new();
+</span><span>
+</span><span>    thread::scope(|</span><span style="color:#e45649;">scope</span><span>| {
+</span><span>        </span><span style="color:#a626a4;">for _ in </span><span style="color:#c18401;">0</span><span style="color:#a626a4;">..</span><span style="color:#c18401;">5 </span><span>{
+</span><span>            scope.</span><span style="color:#0184bc;">spawn</span><span>(|| </span><span style="color:#0184bc;">block_on</span><span>(ex.</span><span style="color:#0184bc;">run</span><span>(core::future::pending::&lt;()&gt;())));
+</span><span>        }
+</span><span>
+</span><span>        </span><span style="color:#0184bc;">block_on</span><span>(async {
+</span><span>            </span><span style="color:#a626a4;">let</span><span> listener </span><span style="color:#a626a4;">= </span><span>TcpListener::bind(</span><span style="color:#50a14f;">&quot;127.0.0.1:8080&quot;</span><span>).await.</span><span style="color:#0184bc;">unwrap</span><span>();
+</span><span>            </span><span style="color:#a626a4;">loop </span><span>{
+</span><span>                </span><span style="color:#a626a4;">let </span><span>(stream, addr) </span><span style="color:#a626a4;">=</span><span> listener.</span><span style="color:#0184bc;">accept</span><span>().await.</span><span style="color:#0184bc;">unwrap</span><span>();
+</span><span>                </span><span style="color:#a626a4;">let</span><span> task </span><span style="color:#a626a4;">=</span><span> ex.</span><span style="color:#0184bc;">spawn</span><span>(</span><span style="color:#0184bc;">handle_new_connection</span><span>(stream, addr));
+</span><span>                task.</span><span style="color:#0184bc;">detach</span><span>();
+</span><span>            }
+</span><span>        })
+</span><span>    })
+</span><span>}
+</span><span>
+</span><span>async </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">handle_new_connection</span><span>(</span><span style="color:#e45649;">_stream</span><span>: TcpStream, </span><span style="color:#e45649;">addr</span><span>: SocketAddr) {
+</span><span>    Timer::after(Duration::from_secs(</span><span style="color:#c18401;">10</span><span>)).await;
+</span><span>    println!(
+</span><span>        </span><span style="color:#50a14f;">&quot;[</span><span style="color:#c18401;">{:?}</span><span style="color:#50a14f;">] Handle connection from: </span><span style="color:#c18401;">{}</span><span style="color:#50a14f;">&quot;</span><span>,
+</span><span>        thread::current().</span><span style="color:#0184bc;">id</span><span>(),
+</span><span>        addr
+</span><span>    );
+</span><span>}
+</span><span>
+</span><span style="color:#a0a1a7;">// 类似于 tokio 以下代码
+</span><span>#[</span><span style="color:#e45649;">tokio</span><span>::</span><span style="color:#e45649;">main</span><span>]
+</span><span>async </span><span style="color:#a626a4;">fn </span><span style="color:#0184bc;">main</span><span>() {
+</span><span>    </span><span style="color:#a626a4;">let</span><span> listener </span><span style="color:#a626a4;">= </span><span>TcpListener::bind(</span><span style="color:#50a14f;">&quot;127.0.0.1:8080&quot;</span><span>).await.</span><span style="color:#0184bc;">unwrap</span><span>();
+</span><span>
+</span><span>    </span><span style="color:#a626a4;">loop </span><span>{
+</span><span>        </span><span style="color:#a626a4;">let </span><span>(stream, addr) </span><span style="color:#a626a4;">=</span><span> listener.</span><span style="color:#0184bc;">accept</span><span>().await.</span><span style="color:#0184bc;">unwrap</span><span>();
+</span><span>        tokio::spawn(</span><span style="color:#0184bc;">handle_new_connection</span><span>(stream, addr));
+</span><span>    }
+</span><span>}
+</span></code></pre>
+<p>由于 Executor 非 static 生命周期，因此采用 Scoped threads 实现多线程，主线程负责监听端口获取新连接，并创建一个后台任务处理，子线程负责从本地队列（会从全局队列或其他本地队列窃取任务）读取任务进行执行。</p>
+
+
+      </div>
+    </main>
+    <footer class="footer">
+      <hr>
+      <!-- search icon here https://simpleicons.org/ -->
+      <div class="footer__social">
+        <a href="https://github.com/lewiszlw">
+          <svg aria-labelledby="simpleicons-github-icon" role="img" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title id="simpleicons-github-icon">GitHub icon</title>
+            <path
+              d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+          </svg>
+        </a>
+        <a href="https://space.bilibili.com/43876861">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Bilibili</title>
+            <path
+              d="M17.813 4.653h.854c1.51.054 2.769.578 3.773 1.574 1.004.995 1.524 2.249 1.56 3.76v7.36c-.036 1.51-.556 2.769-1.56 3.773s-2.262 1.524-3.773 1.56H5.333c-1.51-.036-2.769-.556-3.773-1.56S.036 18.858 0 17.347v-7.36c.036-1.511.556-2.765 1.56-3.76 1.004-.996 2.262-1.52 3.773-1.574h.774l-1.174-1.12a1.234 1.234 0 0 1-.373-.906c0-.356.124-.658.373-.907l.027-.027c.267-.249.573-.373.92-.373.347 0 .653.124.92.373L9.653 4.44c.071.071.134.142.187.213h4.267a.836.836 0 0 1 .16-.213l2.853-2.747c.267-.249.573-.373.92-.373.347 0 .662.151.929.4.267.249.391.551.391.907 0 .355-.124.657-.373.906zM5.333 7.24c-.746.018-1.373.276-1.88.773-.506.498-.769 1.13-.786 1.894v7.52c.017.764.28 1.395.786 1.893.507.498 1.134.756 1.88.773h13.334c.746-.017 1.373-.275 1.88-.773.506-.498.769-1.129.786-1.893v-7.52c-.017-.765-.28-1.396-.786-1.894-.507-.497-1.134-.755-1.88-.773zM8 11.107c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c0-.373.129-.689.386-.947.258-.257.574-.386.947-.386zm8 0c.373 0 .684.124.933.373.25.249.383.569.4.96v1.173c-.017.391-.15.711-.4.96-.249.25-.56.374-.933.374s-.684-.125-.933-.374c-.25-.249-.383-.569-.4-.96V12.44c.017-.391.15-.711.4-.96.249-.249.56-.373.933-.373Z" />
+          </svg>
+        </a>
+        <a href="https://www.zhihu.com/people/tian-qian-zhu-wu-ya">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Zhihu</title>
+            <path
+              d="M5.721 0C2.251 0 0 2.25 0 5.719V18.28C0 21.751 2.252 24 5.721 24h12.56C21.751 24 24 21.75 24 18.281V5.72C24 2.249 21.75 0 18.281 0zm1.964 4.078c-.271.73-.5 1.434-.68 2.11h4.587c.545-.006.445 1.168.445 1.171H9.384a58.104 58.104 0 01-.112 3.797h2.712c.388.023.393 1.251.393 1.266H9.183a9.223 9.223 0 01-.408 2.102l.757-.604c.452.456 1.512 1.712 1.906 2.177.473.681.063 2.081.063 2.081l-2.794-3.382c-.653 2.518-1.845 3.607-1.845 3.607-.523.468-1.58.82-2.64.516 2.218-1.73 3.44-3.917 3.667-6.497H4.491c0-.015.197-1.243.806-1.266h2.71c.024-.32.086-3.254.086-3.797H6.598c-.136.406-.158.447-.268.753-.594 1.095-1.603 1.122-1.907 1.155.906-1.821 1.416-3.6 1.591-4.064.425-1.124 1.671-1.125 1.671-1.125zM13.078 6h6.377v11.33h-2.573l-2.184 1.373-.401-1.373h-1.219zm1.313 1.219v8.86h.623l.263.937 1.455-.938h1.456v-8.86z" />
+          </svg>
+        </a>
+        <a href="https://twitter.com/lewiszlw">
+          <svg aria-labelledby="simpleicons-twitter-icon" role="img" viewBox="0 0 24 24"
+            xmlns="http://www.w3.org/2000/svg">
+            <title id="simpleicons-twitter-icon">Twitter icon</title>
+            <path
+              d="M23.954 4.569c-.885.389-1.83.654-2.825.775 1.014-.611 1.794-1.574 2.163-2.723-.951.555-2.005.959-3.127 1.184-.896-.959-2.173-1.559-3.591-1.559-2.717 0-4.92 2.203-4.92 4.917 0 .39.045.765.127 1.124C7.691 8.094 4.066 6.13 1.64 3.161c-.427.722-.666 1.561-.666 2.475 0 1.71.87 3.213 2.188 4.096-.807-.026-1.566-.248-2.228-.616v.061c0 2.385 1.693 4.374 3.946 4.827-.413.111-.849.171-1.296.171-.314 0-.615-.03-.916-.086.631 1.953 2.445 3.377 4.604 3.417-1.68 1.319-3.809 2.105-6.102 2.105-.39 0-.779-.023-1.17-.067 2.189 1.394 4.768 2.209 7.557 2.209 9.054 0 13.999-7.496 13.999-13.986 0-.209 0-.42-.015-.63.961-.689 1.8-1.56 2.46-2.548l-.047-.02z" />
+          </svg>
+        </a>
+        <a href="https://mastodon.world/@lewiszlw">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>Mastodon</title>
+            <path
+              d="M23.268 5.313c-.35-2.578-2.617-4.61-5.304-5.004C17.51.242 15.792 0 11.813 0h-.03c-3.98 0-4.835.242-5.288.309C3.882.692 1.496 2.518.917 5.127.64 6.412.61 7.837.661 9.143c.074 1.874.088 3.745.26 5.611.118 1.24.325 2.47.62 3.68.55 2.237 2.777 4.098 4.96 4.857 2.336.792 4.849.923 7.256.38.265-.061.527-.132.786-.213.585-.184 1.27-.39 1.774-.753a.057.057 0 0 0 .023-.043v-1.809a.052.052 0 0 0-.02-.041.053.053 0 0 0-.046-.01 20.282 20.282 0 0 1-4.709.545c-2.73 0-3.463-1.284-3.674-1.818a5.593 5.593 0 0 1-.319-1.433.053.053 0 0 1 .066-.054c1.517.363 3.072.546 4.632.546.376 0 .75 0 1.125-.01 1.57-.044 3.224-.124 4.768-.422.038-.008.077-.015.11-.024 2.435-.464 4.753-1.92 4.989-5.604.008-.145.03-1.52.03-1.67.002-.512.167-3.63-.024-5.545zm-3.748 9.195h-2.561V8.29c0-1.309-.55-1.976-1.67-1.976-1.23 0-1.846.79-1.846 2.35v3.403h-2.546V8.663c0-1.56-.617-2.35-1.848-2.35-1.112 0-1.668.668-1.67 1.977v6.218H4.822V8.102c0-1.31.337-2.35 1.011-3.12.696-.77 1.608-1.164 2.74-1.164 1.311 0 2.302.5 2.962 1.498l.638 1.06.638-1.06c.66-.999 1.65-1.498 2.96-1.498 1.13 0 2.043.395 2.74 1.164.675.77 1.012 1.81 1.012 3.12z" />
+          </svg>
+        </a>
+        <a href="https://www.youtube.com/channel/UCnvri1tqAjxsp9nGQ63zUNw">
+          <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <title>YouTube</title>
+            <path
+              d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z" />
+          </svg>
+        </a>
+      </div>
+    </footer>
+  </div>
+</body>
+
+</html>
