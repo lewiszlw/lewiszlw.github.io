@@ -15,7 +15,5 @@ jobs:
         env:
           # Target branch
           PAGES_BRANCH: gh-pages
-          # Provide personal access token
-          TOKEN: ${{ secrets.ZOLA_TOKEN }}
-          # Or if publishing to the same repo, use the automatic token
-          #TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # Use the automatic token for same-repo publishing
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
