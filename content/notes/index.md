@@ -18,3 +18,6 @@ template = "notes.html"
 - 《编码：隐匿在计算机软硬件背后的语言》 / Code: The Hidden Language of Computer Hardware and Software
 - 《天下一知》
 - 《计算机网络：自顶向下方法》 / Computer Networking: A Top-Down Approach
+- 《置身事内：中国政府与经济发展》
+- 《深度学习入门：基于Python的理论与实现》
+- 《深度学习进阶：自然语言处理》
