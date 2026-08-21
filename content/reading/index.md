@@ -1,6 +1,6 @@
 +++
-title = "Notes"
-template = "notes.html"
+title = "Reading"
+template = "reading.html"
 +++
 
 ## Papers I have read
