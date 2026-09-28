@@ -11,13 +11,14 @@ template = "reading.html"
 - [MapReduce: Simplified Data Processing on Large Clusters](https://static.googleusercontent.com/media/research.google.com/zh-CN//archive/mapreduce-osdi04.pdf)
 
 ## Books I have read
-- 《操作系统导论》 / Operating Systems: Three Easy Pieces
+- 《操作系统导论》 / Operating Systems: Three Easy Pieces / Remzi H. Arpaci-Dusseau、Andrea C. Arpaci-Dusseau 著
 - [rCore Tutorial Book](https://github.com/rcore-os/rCore-Tutorial-Book-v3)
-- 《深入理解计算机系统》 / Computer Systems: A Programmer's Perspective
-- 《数据密集型应用系统设计》 / Designing Data-Intensive Applications
-- 《编码：隐匿在计算机软硬件背后的语言》 / Code: The Hidden Language of Computer Hardware and Software
-- 《天下一知》
-- 《计算机网络：自顶向下方法》 / Computer Networking: A Top-Down Approach
-- 《置身事内：中国政府与经济发展》
-- 《深度学习入门：基于Python的理论与实现》
-- 《深度学习进阶：自然语言处理》
+- 《深入理解计算机系统》 / Computer Systems: A Programmer's Perspective / Randal E. Bryant、David O'Hallaron 著
+- 《数据密集型应用系统设计》 / Designing Data-Intensive Applications / Martin Kleppmann 著
+- 《编码：隐匿在计算机软硬件背后的语言》 / Code: The Hidden Language of Computer Hardware and Software / Charles Petzold 著
+- 《天下一知》 / 严伯钧 著
+- 《计算机网络：自顶向下方法》 / Computer Networking: A Top-Down Approach / James F. Kurose、Keith W. Ross 著
+- 《置身事内：中国政府与经济发展》 / 兰小欢 著
+- 《深度学习入门：基于Python的理论与实现》 / 斋藤康毅 著
+- 《深度学习进阶：自然语言处理》 / 斋藤康毅 著
+- 《从零构建大模型》 / 塞巴斯蒂安·拉施卡 著
